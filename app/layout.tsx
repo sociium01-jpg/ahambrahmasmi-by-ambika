@@ -1,5 +1,11 @@
 import type { Metadata } from "next";
-import { DM_Serif_Display, Outfit } from "next/font/google";
+import {
+  DM_Serif_Display,
+  Outfit,
+  Playfair_Display,
+  Cormorant_Garamond,
+  Inter,
+} from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
@@ -17,6 +23,29 @@ const outfit = Outfit({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600"],
   variable: "--font-sans",
+  display: "swap",
+});
+
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  style: ["normal", "italic"],
+  variable: "--font-playfair",
+  display: "swap",
+});
+
+const cormorant = Cormorant_Garamond({
+  subsets: ["latin"],
+  weight: ["500"],
+  style: ["italic"],
+  variable: "--font-cormorant",
+  display: "swap",
+});
+
+const inter = Inter({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-inter",
   display: "swap",
 });
 
@@ -64,7 +93,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${dmSerif.variable} ${outfit.variable}`}>
+    <html
+      lang="en"
+      className={`${dmSerif.variable} ${outfit.variable} ${playfair.variable} ${cormorant.variable} ${inter.variable}`}
+    >
       <body className="min-h-screen flex flex-col bg-cream text-ink font-sans antialiased">
         <Navbar />
         <div className="flex-1">{children}</div>

@@ -9,8 +9,12 @@
   --color-ink: #2B1B1B;
   --color-maroon: #8E1B25;
   --color-maroon-dark: #6B111A;
+  --color-wine: #5E0F17;
+  --color-plum-deep: #4A141B;
+  --color-plum-night: #1E0A0D;
   --color-gold: #E7B85A;
   --color-gold-text: #9A7020;
+  --color-badge: #F1DDB0;
   --color-body: #5A4540;
   --color-muted: #7A625A;
   --color-line: #E6D3C3;
@@ -30,7 +34,8 @@ body {
   margin: 0;
   background-color: var(--color-cream);
   color: var(--color-ink);
-  font-family: var(--font-sans), "Outfit", system-ui, -apple-system, sans-serif;
+  font-family: var(--font-sans), "Outfit", "Inter", system-ui, -apple-system,
+    sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -43,6 +48,47 @@ textarea:focus-visible,
 select:focus-visible {
   outline: 2px solid var(--color-maroon);
   outline-offset: 2px;
+}
+
+/* Translucent / Glass Card System with Safari -webkit-backdrop-filter and non-backdrop fallback */
+.glass-card-surface {
+  background-color: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
+}
+
+@supports ((backdrop-filter: blur(18px)) or (-webkit-backdrop-filter: blur(18px))) {
+  .glass-card-surface {
+    background-color: rgba(255, 255, 255, 0.55);
+    -webkit-backdrop-filter: blur(18px);
+    backdrop-filter: blur(18px);
+  }
+}
+
+.glass-pill-surface {
+  background-color: rgba(43, 27, 27, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+@supports ((backdrop-filter: blur(12px)) or (-webkit-backdrop-filter: blur(12px))) {
+  .glass-pill-surface {
+    background-color: rgba(255, 255, 255, 0.05);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+  }
+}
+
+.glass-tile-surface {
+  background-color: rgba(43, 27, 27, 0.78);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+@supports ((backdrop-filter: blur(12px)) or (-webkit-backdrop-filter: blur(12px))) {
+  .glass-tile-surface {
+    background-color: rgba(255, 255, 255, 0.05);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+  }
 }
 
 /* Subtle section entry fade-up (respects prefers-reduced-motion) */

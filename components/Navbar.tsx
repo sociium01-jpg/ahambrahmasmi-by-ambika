@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Logo } from "@/components/ui/Logo";
@@ -9,29 +9,41 @@ import { getWhatsAppUrl } from "@/lib/site";
 
 const NAV_LINKS = [
   { href: "/", label: "Home" },
-  { href: "/about", label: "About me" },
-  { href: "/course", label: "Courses" },
-  { href: "/investment", label: "Investment" },
+  { href: "/about", label: "About" },
+  { href: "/coaching", label: "1:1 Coaching" },
   { href: "/reviews", label: "Reviews" },
+  { href: "#contact", label: "Contact" },
   { href: "/space", label: "Seeker login" },
 ];
 
 export function Navbar() {
   const pathname = usePathname();
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const closeBtnRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     setDrawerOpen(false);
   }, [pathname]);
 
   useEffect(() => {
-    if (drawerOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
+    if (!drawerOpen) {
       document.body.style.overflow = "";
+      return;
     }
+
+    document.body.style.overflow = "hidden";
+    closeBtnRef.current?.focus();
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setDrawerOpen(false);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
     return () => {
       document.body.style.overflow = "";
+      window.removeEventListener("keydown", handleKeyDown);
     };
   }, [drawerOpen]);
 
@@ -39,13 +51,18 @@ export function Navbar() {
     return null;
   }
 
+  const isCoachingPage = pathname?.startsWith("/coaching");
   const whatsappHref = getWhatsAppUrl(
     "Hi Ambika, I visited Ahambrahmasmi and have a question before booking."
   );
 
   return (
     <>
-      <header className="w-full bg-cream">
+      <header
+        className={`w-full ${
+          isCoachingPage ? "bg-white border-b border-divider" : "bg-cream"
+        }`}
+      >
         <nav
           aria-label="Primary navigation"
           className="mx-auto flex h-[68px] lg:h-[96px] w-full max-w-[1440px] items-center justify-between px-[16px] lg:px-[80px] box-border"
@@ -53,12 +70,27 @@ export function Navbar() {
           <Logo variant="nav" href="/" />
 
           {/* Desktop Links */}
-          <div className="hidden lg:flex items-center gap-[36px] text-[15px]">
+          <div className="hidden lg:flex items-center gap-[32px] text-[15px]">
             {NAV_LINKS.map((link) => {
               const isActive =
                 link.href === "/"
                   ? pathname === "/"
+                  : link.href.startsWith("#")
+                  ? false
                   : pathname?.startsWith(link.href);
+
+              if (link.href.startsWith("#")) {
+                return (
+                  <a
+                    key={link.href}
+                    href={link.href}
+                    className="min-h-[44px] inline-flex items-center text-ink hover:text-maroon no-underline transition-colors"
+                  >
+                    {link.label}
+                  </a>
+                );
+              }
+
               return (
                 <Link
                   key={link.href}
@@ -91,7 +123,7 @@ export function Navbar() {
               href="/book"
               className="inline-flex min-h-[48px] items-center justify-center rounded-full bg-maroon px-[26px] py-[14px] text-[15px] font-medium text-white no-underline hover:bg-maroon-dark transition-colors"
             >
-              Book your path
+              Book now
             </Link>
           </div>
 
@@ -130,6 +162,7 @@ export function Navbar() {
           <div className="flex h-[44px] items-center justify-between">
             <Logo variant="nav" href="/" />
             <button
+              ref={closeBtnRef}
               type="button"
               aria-label="Close menu"
               onClick={() => setDrawerOpen(false)}
@@ -158,7 +191,23 @@ export function Navbar() {
               const isActive =
                 link.href === "/"
                   ? pathname === "/"
+                  : link.href.startsWith("#")
+                  ? false
                   : pathname?.startsWith(link.href);
+
+              if (link.href.startsWith("#")) {
+                return (
+                  <a
+                    key={link.href}
+                    href={link.href}
+                    onClick={() => setDrawerOpen(false)}
+                    className="flex min-h-[52px] items-center border-b border-divider font-serif text-[28px] text-ink no-underline"
+                  >
+                    {link.label}
+                  </a>
+                );
+              }
+
               return (
                 <Link
                   key={link.href}
@@ -180,7 +229,7 @@ export function Navbar() {
               onClick={() => setDrawerOpen(false)}
               className="flex min-h-[54px] w-full items-center justify-center rounded-full bg-maroon px-[24px] py-[16px] text-center text-[16px] font-medium text-white no-underline hover:bg-maroon-dark"
             >
-              Book your path
+              Book now
             </Link>
             <a
               href={whatsappHref}
