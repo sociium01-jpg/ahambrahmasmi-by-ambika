@@ -1,5 +1,5 @@
-export const WHATSAPP_NUMBER: string = "91XXXXXXXXXX";
-export const EMAIL: string = "[email]";
+export const WHATSAPP_NUMBER: string = "919003819484";
+export const EMAIL: string = "Ahambrahmasmi.by.ambika@gmail.com";
 export const LIVE_EMAIL_FALLBACK: string = "Ahambrahmasmi.by.ambika@gmail.com";
 export const INSTAGRAM: string = "https://instagram.com/ahambrahmasmi.by.Ambika";
 export const INSTAGRAM_HANDLE: string = "@ahambrahmasmi.by.Ambika";
