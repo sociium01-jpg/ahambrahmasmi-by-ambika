@@ -348,7 +348,7 @@ export default async function CoachingPage() {
             priceNote="Sessions 4 and 5 · Follows Course 1"
             bestFor="Best for returning Course 1 seekers ready to master daily emotional tools."
             items={[
-              "Phase 4: Meditation routine, pivoting, hourly breathwork & gratitude journal",
+              "Phase 4: Meditation routine, pivoting, hourly breathwork & gratitude journal (1.5 hrs)",
               "Creating the feeling with words, visualisation & Book of Positive Aspects",
               "Asking questions to the Universe and receiving your own answers",
               "Phase 5: Belief self-analysis, full course recap & Vision Board (1 hr)",

@@ -69,9 +69,9 @@ const COURSE_2_PHASES: PhaseItem[] = [
     id: "phase-4",
     badge: "04",
     title: "Phase 4 · Tools for mind management",
-    duration: "1 hr session + 1 week practice",
+    duration: "1.5 hr session + 1 week practice",
     paragraphs: [
-      "You’ll take around a week to experiment and observe whatever you’ve learnt and also to analyse what changes you have created in your life by introducing a meditation routine. We’ll discuss your experiences over the next 1 hr session. You’ll learn a few more tools which will help you further gain more Clarity and a better connection with your Higher-Self. You’ll try and experiment with the added tools that next week.",
+      "You’ll take around a week to experiment and observe whatever you’ve learnt and also to analyse what changes you have created in your life by introducing a meditation routine. We’ll discuss your experiences over the next 1.5 hr session. You’ll learn a few more tools which will help you further gain more Clarity and a better connection with your Higher-Self. You’ll try and experiment with the added tools that next week.",
       "Tools: Pivoting, breathwork every one hour, creating the feeling with words & visualisation, asking questions to the Universe and getting answers whenever in doubt, gratitude journal, book of positive aspects, etc.",
     ],
     tools: [
