@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Book your path — mobile</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&amp;family=Outfit:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;font-family:'Outfit',sans-serif;background:#FBF5EE;color:#2B1B1B}
+a{color:#8E1B25}a:hover{color:#6B111A}
+input,textarea{font-family:'Outfit',sans-serif}
+</style>
+</helmet>
+<div style="position: relative; width: 390px; height: 844px; box-sizing: border-box; background: #FBF5EE; display: flex; flex-direction: column; font-family: 'Outfit', sans-serif; color: #2B1B1B; overflow: hidden;">
+
+<header style="padding: 14px 16px 12px; display: flex; flex-direction: column; gap: 14px; background: #FBF5EE; border-bottom: 1px solid #F0E4D8;">
+<div style="display: flex; align-items: center; justify-content: space-between;">
+<sc-if value="{{canBack}}" hint-placeholder-val="{{ false }}">
+<button type="button" onClick="{{back}}" aria-label="Back" style="width: 44px; height: 44px; border-radius: 50%; border: 1.5px solid #E6D3C3; background: #FFFFFF; display: flex; align-items: center; justify-content: center; color: #2B1B1B; cursor: pointer;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg></button>
+</sc-if>
+<sc-if value="{{noBack}}" hint-placeholder-val="{{ true }}">
+<a href="/" aria-label="Close and return home" style="width: 44px; height: 44px; border-radius: 50%; border: 1.5px solid #E6D3C3; background: #FFFFFF; display: flex; align-items: center; justify-content: center; color: #2B1B1B;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></a>
+</sc-if>
+<span style="display: flex; align-items: center; gap: 8px;"><img src="/images/logo.png" alt="" style="width: 32px; height: 32px; border-radius: 50%; background: #FFFFFF;"><span style="font-family: 'DM Serif Display', serif; font-size: 18px;">Book your path</span></span>
+<a href="#" aria-label="Ask on WhatsApp" style="width: 44px; height: 44px; border-radius: 50%; overflow: hidden; border: 2px solid #E7B85A; box-sizing: border-box;"><img src="/images/ambika.png" alt="Ambika" style="width: 100%; height: 100%; object-fit: cover;"></a>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px;">
+<div style="display: flex; gap: 6px;">
+<sc-for list="{{bars}}" as="b" hint-placeholder-count="3">
+<span style="{{b.style}}"></span>
+</sc-for>
+</div>
+<span style="font-size: 12px; color: #7A625A;">{{stepLabel}}</span>
+</div>
+</header>
+
+<main style="flex-grow: 1; padding: 20px 16px; display: flex; flex-direction: column; gap: 16px; overflow: hidden;">
+
+<sc-if value="{{isStep1}}" hint-placeholder-val="{{ true }}">
+<div style="display: flex; flex-direction: column; gap: 14px;">
+<h1 style="margin: 0; font-family: 'DM Serif Display', serif; font-weight: 400; font-size: 32px; line-height: 1.1;">Which path calls you?</h1>
+<p style="margin: 0; font-size: 14px; color: #7A625A;">You can start with Course 1 and add Course 2 later.</p>
+<sc-for list="{{options}}" as="o" hint-placeholder-count="3">
+<button type="button" onClick="{{o.pick}}" style="{{o.cardStyle}}">
+<span style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+<span style="display: flex; gap: 12px; align-items: center;"><span style="{{o.radioStyle}}"></span><span style="font-family: 'DM Serif Display', serif; font-size: 20px; color: #2B1B1B; text-align: left;">{{o.name}}</span></span>
+<span style="font-family: 'DM Serif Display', serif; font-size: 22px; color: #2B1B1B;">{{o.priceLabel}}</span>
+</span>
+<span style="font-size: 13px; line-height: 1.5; color: #7A625A; text-align: left; padding-left: 34px;">{{o.desc}}</span>
+<sc-if value="{{o.best}}" hint-placeholder-val="{{ false }}"><span style="margin-left: 34px; background: #E7B85A; color: #2B1B1B; font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 999px;">Save ₹1,000 · includes WhatsApp support</span></sc-if>
+</button>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{isStep2}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; gap: 14px;">
+<h1 style="margin: 0; font-family: 'DM Serif Display', serif; font-weight: 400; font-size: 32px; line-height: 1.1;">A little about you</h1>
+<p style="margin: 0; font-size: 14px; color: #7A625A;">Ambika will message you on WhatsApp to fix your first call.</p>
+<label style="display: flex; flex-direction: column; gap: 6px; font-size: 13px; font-weight: 500;">Full name<input type="text" placeholder="Your name" autocomplete="name" style="height: 50px; border: 1px solid #E6D3C3; border-radius: 12px; padding: 0 14px; font-size: 16px; background: #FFFFFF;"></label>
+<label style="display: flex; flex-direction: column; gap: 6px; font-size: 13px; font-weight: 500;">WhatsApp number<input type="tel" placeholder="+91" autocomplete="tel" style="height: 50px; border: 1px solid #E6D3C3; border-radius: 12px; padding: 0 14px; font-size: 16px; background: #FFFFFF;"></label>
+<label style="display: flex; flex-direction: column; gap: 6px; font-size: 13px; font-weight: 500;">Email<input type="email" placeholder="you@example.com" autocomplete="email" style="height: 50px; border: 1px solid #E6D3C3; border-radius: 12px; padding: 0 14px; font-size: 16px; background: #FFFFFF;"></label>
+<div style="display: flex; flex-direction: column; gap: 8px;">
+<span style="font-size: 13px; font-weight: 500;">Best time for calls (IST)</span>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px;">
+<sc-for list="{{slots}}" as="t" hint-placeholder-count="3">
+<button type="button" onClick="{{t.pick}}" style="{{t.style}}">{{t.label}}</button>
+</sc-for>
+</div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{isStep3}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; gap: 14px;">
+<h1 style="margin: 0; font-family: 'DM Serif Display', serif; font-weight: 400; font-size: 32px; line-height: 1.1;">Review &amp; pay</h1>
+<div style="background: #FFFFFF; border-radius: 20px; padding: 20px; display: flex; flex-direction: column; gap: 14px;">
+<div style="display: flex; justify-content: space-between; font-size: 15px; font-weight: 500;"><span>{{chosen.name}}</span><span>{{chosen.priceLabel}}</span></div>
+<div style="display: flex; justify-content: space-between; font-size: 14px; color: #7A625A; gap: 12px;"><span>Includes</span><span style="text-align: right;">{{chosen.includes}}</span></div>
+<div style="display: flex; justify-content: space-between; font-size: 14px; color: #7A625A;"><span>Call time</span><span>{{slotLabel}}</span></div>
+<div style="border-top: 1px solid #F0E4D8; padding-top: 14px; display: flex; justify-content: space-between; align-items: baseline;"><span style="font-weight: 600;">Total</span><span style="font-family: 'DM Serif Display', serif; font-size: 32px;">{{chosen.priceLabel}}</span></div>
+</div>
+<span style="font-size: 13px; font-weight: 500;">Pay with</span>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px;">
+<sc-for list="{{pays}}" as="p" hint-placeholder-count="3">
+<button type="button" onClick="{{p.pick}}" style="{{p.style}}">{{p.label}}</button>
+</sc-for>
+</div>
+<div style="display: flex; gap: 10px; align-items: center; font-size: 13px; color: #7A625A;">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8E1B25" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"></rect><path d="M8 10V7a4 4 0 0 1 8 0v3"></path></svg>
+Secure checkout via [payment gateway]
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{isDone}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; gap: 18px; align-items: center; text-align: center; padding-top: 40px;">
+<span style="width: 84px; height: 84px; border-radius: 50%; background: #E7B85A; display: flex; align-items: center; justify-content: center;"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#2B1B1B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg></span>
+<h1 style="margin: 0; font-family: 'DM Serif Display', serif; font-weight: 400; font-size: 36px; line-height: 1.08;">You’re on the path.</h1>
+<p style="margin: 0; font-size: 15px; line-height: 1.65; color: #5A4540;">Ambika will message you on WhatsApp with the link to <em>The Secret</em> and a time for your first call.</p>
+<div style="width: 100%; background: #FFFFFF; border-radius: 20px; padding: 16px; display: flex; align-items: center; gap: 12px; text-align: left; box-sizing: border-box;">
+<img src="/images/ambika.png" alt="Ambika" style="width: 48px; height: 48px; border-radius: 50%; object-fit: cover;">
+<span style="display: flex; flex-direction: column; gap: 2px;"><span style="font-weight: 600; font-size: 15px;">Next: your first call</span><span style="font-size: 13px; color: #7A625A;">{{chosen.name}} · {{slotLabel}}</span></span>
+</div>
+</div>
+</sc-if>
+</main>
+
+<footer style="padding: 12px 16px 24px; background: #FFFFFF; border-top: 1px solid #F0E4D8; display: flex; align-items: center; justify-content: space-between; gap: 12px;">
+<sc-if value="{{notDone}}" hint-placeholder-val="{{ true }}">
+<span style="display: flex; flex-direction: column;"><span style="font-size: 12px; color: #7A625A;">{{chosen.name}}</span><span style="font-family: 'DM Serif Display', serif; font-size: 24px;">{{chosen.priceLabel}}</span></span>
+</sc-if>
+<button type="button" onClick="{{primary}}" style="{{primaryStyle}}">{{primaryLabel}}</button>
+</footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+constructor(props) {
+super(props);
+this.state = { step: 1, choice: 'whole', slot: 'evening', pay: 'upi' };
+}
+renderVals() {
+var self = this;
+var st = this.state;
+var opts = [
+{ id: 'whole', name: 'The whole path', desc: 'Introduction + Tools · all five phases', priceLabel: '₹12,500', best: true, includes: 'Phases 1–5, support, videos, booklet' },
+{ id: 'intro', name: 'Introduction to LOA', desc: 'Course 1 · Phases 1, 2, 3A, 3B', priceLabel: '₹8,500', best: false, includes: 'Phases 1, 2, 3A, 3B' },
+{ id: 'tools', name: 'Emotional Mastery', desc: 'Course 2 · Phases 4 and 5', priceLabel: '₹5,000', best: false, includes: 'Phases 4 and 5' }
+];
+var chosen = opts.filter(function (o) { return o.id === st.choice; })[0];
+var options = opts.map(function (o) {
+var on = o.id === st.choice;
+return Object.assign({}, o, {
+pick: function () { self.setState({ choice: o.id }); },
+cardStyle: 'display: flex; flex-direction: column; align-items: flex-start; gap: 6px; width: 100%; padding: 18px 16px; border-radius: 18px; cursor: pointer; font-family: inherit; background: #FFFFFF; border: ' + (on ? '2px solid #8E1B25' : '2px solid #F0E4D8') + ';',
+radioStyle: 'width: 22px; height: 22px; border-radius: 50%; flex-shrink: 0; box-sizing: border-box; border: ' + (on ? '7px solid #8E1B25' : '2px solid #C9B3A5') + ';'
+});
+});
+var chip = function (on) { return 'height: 46px; border-radius: 12px; font-size: 14px; cursor: pointer; font-family: inherit; ' + (on ? 'background: #8E1B25; color: #FFFFFF; border: 1.5px solid #8E1B25;' : 'background: #FFFFFF; color: #2B1B1B; border: 1.5px solid #E6D3C3;'); };
+var slotDefs = [{ id: 'morning', label: 'Morning' }, { id: 'afternoon', label: 'Afternoon' }, { id: 'evening', label: 'Evening' }];
+var slots = slotDefs.map(function (t) { return { label: t.label, style: chip(t.id === st.slot), pick: function () { self.setState({ slot: t.id }); } }; });
+var payDefs = [{ id: 'upi', label: 'UPI' }, { id: 'card', label: 'Card' }, { id: 'net', label: 'Netbanking' }];
+var pays = payDefs.map(function (p) { return { label: p.label, style: chip(p.id === st.pay), pick: function () { self.setState({ pay: p.id }); } }; });
+var bars = [1, 2, 3].map(function (n) { return { style: 'flex-grow: 1; height: 5px; border-radius: 999px; background: ' + (st.step >= n ? '#8E1B25' : '#E6D3C3') + ';' }; });
+var labels = ['Step 1 of 3 · Choose your path', 'Step 2 of 3 · Your details', 'Step 3 of 3 · Review & pay', 'Booked'];
+var slotLabel = slotDefs.filter(function (t) { return t.id === st.slot; })[0].label + ' (IST)';
+var done = st.step === 4;
+var primaryLabel = st.step === 1 ? 'Continue' : st.step === 2 ? 'Review & pay' : st.step === 3 ? 'Pay ' + chosen.priceLabel : 'Open my seeker’s space';
+return {
+bars: bars, stepLabel: labels[st.step - 1], options: options, slots: slots, pays: pays, chosen: chosen, slotLabel: slotLabel,
+isStep1: st.step === 1, isStep2: st.step === 2, isStep3: st.step === 3, isDone: done, notDone: !done,
+canBack: st.step === 2 || st.step === 3, noBack: !(st.step === 2 || st.step === 3),
+primaryLabel: primaryLabel,
+primaryStyle: 'background: #8E1B25; color: #FFFFFF; border: none; height: 54px; padding: 0 26px; border-radius: 999px; font-size: 16px; font-weight: 500; cursor: pointer; font-family: inherit; ' + (done ? 'flex-grow: 1;' : ''),
+primary: function () { self.setState({ step: done ? 1 : st.step + 1 }); },
+back: function () { self.setState({ step: Math.max(1, st.step - 1) }); }
+};
+}
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Book your path — Ahambrahmasmi</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&amp;family=Outfit:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;font-family:'Jost',sans-serif;background:#FBF5EE;color:#2B1B1B}
+a{color:#8E1B25}a:hover{color:#6B111A}
+input,textarea{font-family:'Jost',sans-serif}
+</style>
+</helmet>
+<div style="width: 1280px; height: 880px; box-sizing: border-box; background: #FBF5EE; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); font-family: 'Outfit', sans-serif; color: #2B1B1B;">
+
+<aside style="grid-column: span 4; background: #8E1B25; color: #FBF5EE; padding: 56px 48px; display: flex; flex-direction: column; gap: 40px;">
+<div style="display: flex; align-items: center; gap: 14px;">
+<img src="/images/logo.png" alt="Ahambrahmasmi logo" style="width: 52px; height: 52px; border-radius: 50%; background: #FFFFFF;">
+<div style="display: flex; flex-direction: column; gap: 4px;">
+<span style="font-family: 'DM Serif Display', serif; font-size: 26px;">Ahambrahmasmi</span>
+<span style="font-size: 12px; letter-spacing: 3px; text-transform: uppercase; color: #E7B85A;">Book your path</span>
+</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 22px;">
+<sc-for list="{{steps}}" as="s" hint-placeholder-count="3">
+<div style="display: flex; gap: 16px; align-items: center;">
+<span style="{{s.dotStyle}}">{{s.n}}</span>
+<span style="{{s.labelStyle}}">{{s.label}}</span>
+</div>
+</sc-for>
+</div>
+<div style="flex-grow: 1;"></div>
+<div style="border-top: 1px solid #A8414A; padding-top: 24px; display: flex; flex-direction: column; gap: 8px;">
+<span style="font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: #E7B85A;">Your selection</span>
+<span style="font-family: 'DM Serif Display', serif; font-size: 26px;">{{chosen.name}}</span>
+<span style="font-family: 'DM Serif Display', serif; font-size: 40px; font-weight: 600;">{{chosen.priceLabel}}</span>
+</div>
+<div style="display: flex; align-items: center; gap: 14px;">
+<img src="/images/ambika.png" alt="Ambika" style="width: 56px; height: 56px; border-radius: 50%; object-fit: cover; border: 2px solid #E7B85A;">
+<span style="font-size: 14px; line-height: 1.5; color: #F1D9D3;">Questions first?<br><a href="#" style="color: #E7B85A;">Ask Ambika on WhatsApp</a></span>
+</div>
+</aside>
+
+<main style="grid-column: span 8; padding: 56px 72px; display: flex; flex-direction: column; gap: 28px;">
+
+<sc-if value="{{isStep1}}" hint-placeholder-val="{{ true }}">
+<div style="display: flex; flex-direction: column; gap: 28px;">
+<div style="display: flex; flex-direction: column; gap: 8px;">
+<h1 style="margin: 0; font-family: 'DM Serif Display', serif; font-size: 48px; font-weight: 500;">Which path calls you?</h1>
+<p style="margin: 0; font-size: 16px; color: #7A625A;">You can start with Course 1 and add Course 2 later.</p>
+</div>
+<div style="display: flex; flex-direction: column; gap: 14px;">
+<sc-for list="{{options}}" as="o" hint-placeholder-count="3">
+<button type="button" onClick="{{o.pick}}" style="{{o.cardStyle}}">
+<span style="{{o.radioStyle}}"></span>
+<span style="display: flex; flex-direction: column; gap: 4px; flex-grow: 1; text-align: left;">
+<span style="display: flex; gap: 10px; align-items: center;"><span style="font-family: 'DM Serif Display', serif; font-size: 26px; font-weight: 600; color: #2B1B1B;">{{o.name}}</span><sc-if value="{{o.best}}" hint-placeholder-val="{{ false }}"><span style="background: #E7B85A; color: #2B1B1B; font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 999px;">Save ₹1,000</span></sc-if></span>
+<span style="font-size: 15px; color: #7A625A;">{{o.desc}}</span>
+</span>
+<span style="font-family: 'DM Serif Display', serif; font-size: 34px; font-weight: 600; color: #2B1B1B;">{{o.priceLabel}}</span>
+</button>
+</sc-for>
+</div>
+<button type="button" onClick="{{next}}" style="align-self: flex-end; background: #8E1B25; color: #FFFFFF; border: none; padding: 18px 36px; border-radius: 999px; font-size: 16px; font-weight: 500; cursor: pointer; font-family: 'Outfit', sans-serif;">Continue →</button>
+</div>
+</sc-if>
+
+<sc-if value="{{isStep2}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; gap: 24px;">
+<div style="display: flex; flex-direction: column; gap: 8px;">
+<h1 style="margin: 0; font-family: 'DM Serif Display', serif; font-size: 48px; font-weight: 500;">A little about you</h1>
+<p style="margin: 0; font-size: 16px; color: #7A625A;">Ambika will reach you on WhatsApp to fix your first call.</p>
+</div>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px;">
+<label style="display: flex; flex-direction: column; gap: 8px; font-size: 14px; font-weight: 500;">Full name<input type="text" placeholder="Your name" style="height: 52px; border: 1px solid #E6D3C3; border-radius: 12px; padding: 0 16px; font-size: 16px; background: #FFFFFF;"></label>
+<label style="display: flex; flex-direction: column; gap: 8px; font-size: 14px; font-weight: 500;">WhatsApp number<input type="tel" placeholder="+91" style="height: 52px; border: 1px solid #E6D3C3; border-radius: 12px; padding: 0 16px; font-size: 16px; background: #FFFFFF;"></label>
+<label style="grid-column: span 2; display: flex; flex-direction: column; gap: 8px; font-size: 14px; font-weight: 500;">Email<input type="email" placeholder="you@example.com" style="height: 52px; border: 1px solid #E6D3C3; border-radius: 12px; padding: 0 16px; font-size: 16px; background: #FFFFFF;"></label>
+</div>
+<div style="display: flex; flex-direction: column; gap: 10px;">
+<span style="font-size: 14px; font-weight: 500;">Best time for calls (IST)</span>
+<div style="display: flex; gap: 10px;">
+<sc-for list="{{slots}}" as="t" hint-placeholder-count="3">
+<button type="button" onClick="{{t.pick}}" style="{{t.style}}">{{t.label}}</button>
+</sc-for>
+</div>
+</div>
+<label style="display: flex; flex-direction: column; gap: 8px; font-size: 14px; font-weight: 500;">What are you seeking right now? <span style="font-weight: 400; color: #7A625A;">(optional)</span><textarea rows="3" placeholder="Share as much or as little as you like" style="border: 1px solid #E6D3C3; border-radius: 12px; padding: 14px 16px; font-size: 16px; background: #FFFFFF; resize: none;"></textarea></label>
+<div style="display: flex; justify-content: space-between; align-items: center;">
+<button type="button" onClick="{{back}}" style="background: none; border: none; color: #8E1B25; font-size: 16px; cursor: pointer; font-family: 'Outfit', sans-serif; padding: 12px 0;">← Back</button>
+<button type="button" onClick="{{next}}" style="background: #8E1B25; color: #FFFFFF; border: none; padding: 18px 36px; border-radius: 999px; font-size: 16px; font-weight: 500; cursor: pointer; font-family: 'Outfit', sans-serif;">Review &amp; pay →</button>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{isStep3}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; gap: 24px;">
+<h1 style="margin: 0; font-family: 'DM Serif Display', serif; font-size: 48px; font-weight: 500;">Review &amp; pay</h1>
+<div style="background: #FFFFFF; border-radius: 20px; padding: 28px 32px; display: flex; flex-direction: column; gap: 16px;">
+<div style="display: flex; justify-content: space-between; font-size: 16px;"><span>{{chosen.name}}</span><span>{{chosen.priceLabel}}</span></div>
+<div style="display: flex; justify-content: space-between; font-size: 15px; color: #7A625A;"><span>Preferred call time</span><span>{{slotLabel}}</span></div>
+<div style="display: flex; justify-content: space-between; font-size: 15px; color: #7A625A;"><span>Includes</span><span>{{chosen.includes}}</span></div>
+<div style="border-top: 1px solid #F0E4D8; padding-top: 16px; display: flex; justify-content: space-between; align-items: baseline;"><span style="font-weight: 600;">Total</span><span style="font-family: 'DM Serif Display', serif; font-size: 40px; font-weight: 600;">{{chosen.priceLabel}}</span></div>
+</div>
+<div style="display: flex; gap: 12px; align-items: center; font-size: 14px; color: #7A625A;">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8E1B25" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"></rect><path d="M8 10V7a4 4 0 0 1 8 0v3"></path></svg>
+UPI, cards and net banking · secure checkout via [payment gateway]
+</div>
+<div style="display: flex; justify-content: space-between; align-items: center;">
+<button type="button" onClick="{{back}}" style="background: none; border: none; color: #8E1B25; font-size: 16px; cursor: pointer; font-family: 'Outfit', sans-serif; padding: 12px 0;">← Back</button>
+<button type="button" onClick="{{next}}" style="background: #8E1B25; color: #FFFFFF; border: none; padding: 18px 36px; border-radius: 999px; font-size: 16px; font-weight: 500; cursor: pointer; font-family: 'Outfit', sans-serif;">Pay {{chosen.priceLabel}}</button>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{isDone}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; gap: 24px; align-items: flex-start; padding-top: 60px;">
+<span style="width: 72px; height: 72px; border-radius: 50%; background: #E7B85A; display: flex; align-items: center; justify-content: center;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#2B1B1B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg></span>
+<h1 style="margin: 0; font-family: 'DM Serif Display', serif; font-size: 56px; font-weight: 500; line-height: 1.05;">You’re on the path.</h1>
+<p style="margin: 0; font-size: 18px; line-height: 1.7; color: #5A4540; max-width: 560px;">Ambika will message you on WhatsApp with the link to <em>The Secret</em> and a time for your first call. Your seeker’s space is ready with your first videos.</p>
+<div style="display: flex; gap: 14px;">
+<a href="#" style="text-decoration: none; background: #8E1B25; color: #FFFFFF; padding: 16px 28px; border-radius: 999px; font-weight: 500;">Open my seeker’s space</a>
+<button type="button" onClick="{{restart}}" style="background: none; border: 1.5px solid #8E1B25; color: #8E1B25; padding: 15px 26px; border-radius: 999px; font-size: 16px; cursor: pointer; font-family: 'Outfit', sans-serif;">Start over</button>
+</div>
+</div>
+</sc-if>
+
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":880}}'>
+class Component extends DCLogic {
+constructor(props) {
+super(props);
+this.state = { step: 1, choice: 'whole', slot: 'evening' };
+}
+renderVals() {
+var self = this;
+var st = this.state;
+var opts = [
+{ id: 'whole', name: 'The whole path', desc: 'Introduction + Tools · all phases · WhatsApp support for the month', priceLabel: '₹12,500', best: true, includes: 'Phases 1–5, support, videos, booklet' },
+{ id: 'intro', name: 'Introduction to LOA', desc: 'Course 1 · Phases 1, 2, 3A, 3B', priceLabel: '₹8,500', best: false, includes: 'Phases 1, 2, 3A, 3B' },
+{ id: 'tools', name: 'Tools for Emotional Mastery', desc: 'Course 2 · Phases 4 and 5', priceLabel: '₹5,000', best: false, includes: 'Phases 4 and 5' }
+];
+var chosen = opts.filter(function (o) { return o.id === st.choice; })[0];
+var options = opts.map(function (o) {
+var on = o.id === st.choice;
+return Object.assign({}, o, {
+pick: function () { self.setState({ choice: o.id }); },
+cardStyle: 'display: flex; align-items: center; gap: 20px; width: 100%; padding: 24px 28px; border-radius: 20px; cursor: pointer; font-family: inherit; background: #FFFFFF; border: ' + (on ? '2px solid #8E1B25' : '2px solid #F0E4D8') + ';',
+radioStyle: 'width: 22px; height: 22px; border-radius: 50%; flex-shrink: 0; box-sizing: border-box; border: ' + (on ? '7px solid #8E1B25' : '2px solid #C9B3A5') + ';'
+});
+});
+var slotDefs = [{ id: 'morning', label: 'Morning' }, { id: 'afternoon', label: 'Afternoon' }, { id: 'evening', label: 'Evening' }];
+var slots = slotDefs.map(function (t) {
+var on = t.id === st.slot;
+return { label: t.label, pick: function () { self.setState({ slot: t.id }); },
+style: 'padding: 12px 22px; border-radius: 999px; font-size: 15px; cursor: pointer; font-family: inherit; ' + (on ? 'background: #8E1B25; color: #FFFFFF; border: 1.5px solid #8E1B25;' : 'background: #FFFFFF; color: #2B1B1B; border: 1.5px solid #E6D3C3;') };
+});
+var labels = ['Choose your path', 'Your details', 'Review & pay'];
+var steps = labels.map(function (l, i) {
+var n = i + 1; var done = st.step > n; var cur = st.step === n;
+return { n: done ? '✓' : String(n), label: l,
+dotStyle: 'width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 600; flex-shrink: 0; ' + (cur ? 'background: #E7B85A; color: #2B1B1B;' : done ? 'background: #FBF5EE; color: #8E1B25;' : 'border: 1.5px solid #C9868D; color: #F1D9D3;'),
+labelStyle: 'font-size: 16px; ' + (cur ? 'color: #FFFFFF; font-weight: 500;' : 'color: #F1D9D3;') };
+});
+var slotLabel = slotDefs.filter(function (t) { return t.id === st.slot; })[0].label + ' (IST)';
+return {
+steps: steps, options: options, slots: slots, chosen: chosen, slotLabel: slotLabel,
+isStep1: st.step === 1, isStep2: st.step === 2, isStep3: st.step === 3, isDone: st.step === 4,
+next: function () { self.setState({ step: Math.min(4, st.step + 1) }); },
+back: function () { self.setState({ step: Math.max(1, st.step - 1) }); },
+restart: function () { self.setState({ step: 1 }); }
+};
+}
+}
+</script>
+</body>
+</html>

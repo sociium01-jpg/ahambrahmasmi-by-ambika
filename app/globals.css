@@ -1,0 +1,82 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-cream: #FBF5EE;
+  --color-sand: #F3E3D3;
+  --color-white: #FFFFFF;
+  --color-ink: #2B1B1B;
+  --color-maroon: #8E1B25;
+  --color-maroon-dark: #6B111A;
+  --color-gold: #E7B85A;
+  --color-gold-text: #9A7020;
+  --color-body: #5A4540;
+  --color-muted: #7A625A;
+  --color-line: #E6D3C3;
+  --color-divider: #F0E4D8;
+  --color-night: #1C1010;
+  --quote-overlay-desktop: rgba(43, 27, 27, 0.42);
+  --quote-overlay-mobile: rgba(43, 27, 27, 0.45);
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: var(--color-cream);
+  color: var(--color-ink);
+}
+
+body {
+  margin: 0;
+  background-color: var(--color-cream);
+  color: var(--color-ink);
+  font-family: var(--font-sans), "Outfit", system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Focus ring accessibility */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--color-maroon);
+  outline-offset: 2px;
+}
+
+/* Subtle section entry fade-up (respects prefers-reduced-motion) */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-up {
+  animation: fadeUp 0.65s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .animate-fade-up {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* Hide scrollbar for mobile horizontal swipe containers while preserving scroll */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
