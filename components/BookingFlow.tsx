@@ -6,11 +6,11 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Script from "next/script";
 import { Logo } from "@/components/ui/Logo";
+import { GuidelinesModal } from "@/components/GuidelinesModal";
 import {
   CALL_TIME_SLOTS,
   COURSES,
   COURSE_SESSIONS_LIST,
-  IMPORTANT_TO_READ,
   CallTimeId,
   CourseId,
   getWhatsAppUrl,
@@ -451,36 +451,21 @@ export function BookingFlow() {
                 </div>
               </div>
 
-              {/* Important to Read Box */}
-              <div className="rounded-[20px] bg-lavender-soft border border-lavender-border p-[24px] flex flex-col gap-[12px]">
-                <div className="flex items-center justify-between">
-                  <h2 className="m-0 font-playfair text-[22px] font-medium text-maroon">
-                    Important to read
-                  </h2>
-                  <span className="text-[12px] font-medium uppercase tracking-[0.16em] text-lavender-deep">
-                    5-Week Programme Guidelines
+              {/* Guidelines Bar + Continue Action */}
+              <div className="rounded-[20px] bg-lavender-soft border border-lavender-border p-[22px] flex flex-wrap items-center justify-between gap-[16px]">
+                <div className="flex flex-col gap-[4px]">
+                  <span className="font-playfair text-[20px] font-medium text-maroon">
+                    Programme Guidelines · Important to read
+                  </span>
+                  <span className="font-cormorant text-[18px] text-body">
+                    5-week one-to-one programme · Please review the guidelines
+                    before continuing.
                   </span>
                 </div>
-                <p className="m-0 font-cormorant text-[19px] leading-[1.45] text-ink">
-                  {IMPORTANT_TO_READ.intro}
-                </p>
-                <ul className="m-0 flex flex-col gap-[8px] pl-0 list-none">
-                  {IMPORTANT_TO_READ.bullets.map((b) => (
-                    <li
-                      key={b}
-                      className="flex items-start gap-[10px] font-cormorant text-[18px] leading-[1.4] text-body"
-                    >
-                      <span
-                        aria-hidden="true"
-                        className="mt-[8px] h-[5px] w-[5px] shrink-0 rounded-full bg-maroon"
-                      />
-                      <span>{b}</span>
-                    </li>
-                  ))}
-                </ul>
-                <p className="m-0 pt-[4px] font-cormorant text-[18px] italic text-lavender-deep">
-                  {IMPORTANT_TO_READ.closing}
-                </p>
+                <GuidelinesModal
+                  buttonLabel="Guidelines · Important to read"
+                  variant="pill"
+                />
               </div>
 
               <button
@@ -1007,31 +992,20 @@ export function BookingFlow() {
                 </div>
               </div>
 
-              {/* Important to Read Card */}
-              <div className="rounded-[18px] bg-lavender-soft border border-lavender-border p-[18px] flex flex-col gap-[10px]">
-                <h2 className="m-0 font-playfair text-[20px] font-medium text-maroon">
-                  Important to read
-                </h2>
-                <p className="m-0 font-cormorant text-[17px] leading-[1.45] text-ink">
-                  {IMPORTANT_TO_READ.intro}
-                </p>
-                <ul className="m-0 flex flex-col gap-[8px] pl-0 list-none">
-                  {IMPORTANT_TO_READ.bullets.map((b) => (
-                    <li
-                      key={b}
-                      className="flex items-start gap-[8px] font-cormorant text-[16px] leading-[1.4] text-body"
-                    >
-                      <span
-                        aria-hidden="true"
-                        className="mt-[7px] h-[5px] w-[5px] shrink-0 rounded-full bg-maroon"
-                      />
-                      <span>{b}</span>
-                    </li>
-                  ))}
-                </ul>
-                <p className="m-0 pt-[2px] font-cormorant text-[16px] italic text-lavender-deep">
-                  {IMPORTANT_TO_READ.closing}
-                </p>
+              {/* Guidelines Button Card */}
+              <div className="rounded-[18px] bg-lavender-soft border border-lavender-border p-[18px] flex flex-col sm:flex-row sm:items-center justify-between gap-[12px]">
+                <div className="flex flex-col gap-[2px]">
+                  <span className="font-playfair text-[19px] font-medium text-maroon">
+                    Programme Guidelines
+                  </span>
+                  <span className="font-cormorant text-[17px] text-body">
+                    Tap to read the 5-week programme guidelines clearly.
+                  </span>
+                </div>
+                <GuidelinesModal
+                  buttonLabel="Guidelines · Important to read"
+                  variant="pill"
+                />
               </div>
             </div>
           )}

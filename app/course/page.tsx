@@ -6,6 +6,7 @@ import { Eyebrow } from "@/components/ui/Eyebrow";
 import { AnimatedLogo } from "@/components/ui/AnimatedLogo";
 import { CoursePhases, PhaseItem } from "@/components/CoursePhases";
 import { InvestmentAndGuidelines } from "@/components/InvestmentAndGuidelines";
+import { GuidelinesModal } from "@/components/GuidelinesModal";
 import { COURSES } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -161,19 +162,22 @@ export default function CoursePage() {
               The 5-Week 1-to-1 Coaching Journey
             </h2>
           </div>
-          <div className="flex flex-col lg:items-end">
-            <span className="font-serif text-[32px] lg:text-[38px] text-maroon shrink-0">
-              {COURSES.whole.priceRsLabel}
-            </span>
-            <span className="font-cormorant text-[18px] italic text-maroon">
-              (only Introductory Price)
-            </span>
+          <div className="flex flex-wrap items-center lg:flex-col lg:items-end gap-[12px]">
+            <div className="flex flex-col lg:items-end">
+              <span className="font-serif text-[32px] lg:text-[38px] text-maroon shrink-0">
+                {COURSES.whole.priceRsLabel}
+              </span>
+              <span className="font-cormorant text-[18px] italic text-maroon">
+                (only Introductory Price)
+              </span>
+            </div>
+            <GuidelinesModal buttonLabel="Guidelines" variant="inline" />
           </div>
         </div>
 
         <CoursePhases phases={UNIFIED_COURSE_SESSIONS} variant="sand" />
 
-        <div className="mt-[28px] rounded-[20px] bg-lavender border border-lavender-border p-[20px] sm:p-[28px] flex flex-col sm:flex-row sm:items-center justify-between gap-[16px]">
+        <div className="mt-[28px] rounded-[20px] bg-lavender border border-lavender-border p-[20px] sm:p-[28px] flex flex-col lg:flex-row lg:items-center justify-between gap-[16px]">
           <div className="flex flex-col gap-[4px]">
             <span className="font-playfair text-[20px] font-medium text-maroon">
               Includes 1 Month of Personal Support
@@ -183,12 +187,18 @@ export default function CoursePage() {
               meditations &amp; your practice booklet.
             </span>
           </div>
-          <Link
-            href="/book"
-            className="btn-3d-maroon animate-gold-shimmer shrink-0 inline-flex min-h-[52px] items-center justify-center rounded-full px-[28px] py-[14px] text-[15px] font-semibold text-white no-underline"
-          >
-            Book the 5-Week Course · ₹15,000
-          </Link>
+          <div className="flex flex-wrap items-center gap-[12px] shrink-0">
+            <GuidelinesModal
+              buttonLabel="Guidelines · Important to read"
+              variant="pill"
+            />
+            <Link
+              href="/book"
+              className="btn-3d-maroon animate-gold-shimmer shrink-0 inline-flex min-h-[52px] items-center justify-center rounded-full px-[28px] py-[14px] text-[15px] font-semibold text-white no-underline"
+            >
+              Book the 5-Week Course · ₹15,000
+            </Link>
+          </div>
         </div>
       </section>
 

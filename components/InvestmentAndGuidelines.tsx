@@ -2,10 +2,10 @@ import React from "react";
 import Link from "next/link";
 import { AnimatedLogo } from "@/components/ui/AnimatedLogo";
 import { WhatsAppIcon } from "@/components/ui/WhatsAppIcon";
+import { GuidelinesModal } from "@/components/GuidelinesModal";
 import {
   COURSE_SESSIONS_LIST,
   FURTHER_SESSIONS,
-  IMPORTANT_TO_READ,
   getWhatsAppUrl,
 } from "@/lib/site";
 
@@ -23,9 +23,9 @@ export function InvestmentAndGuidelines({
   );
 
   return (
-    <div className="mx-auto w-full max-w-[960px] flex flex-col gap-[32px] lg:gap-[48px]">
+    <div className="mx-auto w-full max-w-[960px] flex flex-col">
       {/* ============================================================
-          CARD 1 — PAGE 1 OF PDF: INVESTMENT (THE COURSE + FEE + FURTHER SESSIONS)
+          INVESTMENT CARD (THE COURSE + FEE + FURTHER SESSIONS + GUIDELINES MODAL BUTTON)
           ============================================================ */}
       <section
         aria-labelledby="investment-heading"
@@ -67,11 +67,17 @@ export function InvestmentAndGuidelines({
           </p>
         </div>
 
-        {/* Warm Golden Beige Box: "The course" */}
+        {/* Warm Golden Beige Box: "The course" + Guidelines Button */}
         <div className="mt-[28px] sm:mt-[36px] beige-card-surface rounded-[18px] sm:rounded-[22px] p-[22px] sm:p-[32px] lg:p-[36px]">
-          <h3 className="m-0 font-playfair text-[24px] sm:text-[28px] font-medium text-maroon">
-            The course
-          </h3>
+          <div className="flex flex-wrap items-center justify-between gap-[12px]">
+            <h3 className="m-0 font-playfair text-[24px] sm:text-[28px] font-medium text-maroon">
+              The course
+            </h3>
+            <GuidelinesModal
+              buttonLabel="Guidelines"
+              variant="inline"
+            />
+          </div>
 
           <ul className="m-0 mt-[16px] flex flex-col gap-[10px] sm:gap-[12px] pl-0 list-none">
             {COURSE_SESSIONS_LIST.map((item) => (
@@ -87,6 +93,17 @@ export function InvestmentAndGuidelines({
               </li>
             ))}
           </ul>
+
+          <div className="mt-[20px] flex flex-wrap items-center justify-between gap-[12px] border-t border-beige-border/80 pt-[16px]">
+            <span className="font-cormorant text-[18px] sm:text-[19px] italic text-body">
+              5-week one-to-one programme · Please read the programme guidelines
+              before enrolling.
+            </span>
+            <GuidelinesModal
+              buttonLabel="Guidelines · Important to read"
+              variant="pill"
+            />
+          </div>
         </div>
 
         {/* Soft Lavender Box: "Fee" */}
@@ -164,72 +181,6 @@ export function InvestmentAndGuidelines({
               <span>Arrange a follow-up session on WhatsApp</span>
             </a>
           </div>
-        </div>
-
-        <p className="m-0 mt-[28px] text-center font-cormorant text-[19px] italic text-muted">
-          Aham Brahmasmi · by Ambika
-        </p>
-      </section>
-
-      {/* ============================================================
-          CARD 2 — PAGE 2 OF PDF: IMPORTANT TO READ
-          ============================================================ */}
-      <section
-        id="important-to-read"
-        aria-labelledby="important-heading"
-        className="sacred-double-frame rounded-[24px] lg:rounded-[32px] px-[20px] py-[32px] sm:px-[44px] sm:py-[48px] lg:px-[64px] lg:py-[56px] animate-fade-up"
-      >
-        <div className="flex flex-col items-center text-center">
-          {showLogoHeader && (
-            <div className="mb-[10px] flex h-[64px] w-[64px] items-center justify-center overflow-hidden rounded-full border border-lavender-border bg-white shadow-sm">
-              <AnimatedLogo variant="circle" size={60} />
-            </div>
-          )}
-
-          <p className="m-0 font-cursive text-[28px] sm:text-[32px] leading-[1.15] text-lavender-deep">
-            A journey of self discovery
-          </p>
-
-          <span className="mt-[12px] font-inter text-[11px] sm:text-[12px] font-semibold uppercase tracking-[0.22em] text-lavender-deep">
-            {IMPORTANT_TO_READ.eyebrow}
-          </span>
-
-          <h2
-            id="important-heading"
-            className="m-0 mt-[4px] font-playfair text-[34px] sm:text-[44px] lg:text-[50px] font-medium leading-[1.1] text-maroon"
-          >
-            {IMPORTANT_TO_READ.title}
-          </h2>
-
-          <div
-            aria-hidden="true"
-            className="mt-[12px] h-[1.5px] w-[220px] sm:w-[280px] bg-[#C8B87A]"
-          />
-        </div>
-
-        <div className="mx-auto mt-[24px] sm:mt-[32px] max-w-[760px] flex flex-col gap-[20px]">
-          <p className="m-0 font-cormorant text-[21px] sm:text-[24px] leading-[1.55] text-ink">
-            {IMPORTANT_TO_READ.intro}
-          </p>
-
-          <ul className="m-0 flex flex-col gap-[14px] sm:gap-[16px] rounded-[20px] bg-lavender-soft/80 border border-lavender-border/80 p-[20px] sm:p-[28px] pl-[20px] sm:pl-[28px] list-none">
-            {IMPORTANT_TO_READ.bullets.map((bullet) => (
-              <li
-                key={bullet}
-                className="flex items-start gap-[14px] font-cormorant text-[19px] sm:text-[22px] leading-[1.5] text-ink"
-              >
-                <span
-                  aria-hidden="true"
-                  className="mt-[10px] h-[6px] w-[6px] shrink-0 rounded-full bg-maroon"
-                />
-                <span>{bullet}</span>
-              </li>
-            ))}
-          </ul>
-
-          <p className="m-0 pt-[6px] font-cormorant text-[20px] sm:text-[23px] italic leading-[1.55] text-lavender-deep">
-            {IMPORTANT_TO_READ.closing}
-          </p>
         </div>
 
         <p className="m-0 mt-[28px] text-center font-cormorant text-[19px] italic text-muted">
