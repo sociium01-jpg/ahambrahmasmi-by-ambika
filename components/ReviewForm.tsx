@@ -2,17 +2,10 @@
 
 import React, { useState } from "react";
 
-const COURSE_OPTIONS = [
-  "The whole path",
-  "Introduction to LOA",
-  "Tools for Emotional Mastery",
-] as const;
+const COURSE_VALUE = "The whole path" as const;
 
 export function ReviewForm() {
   const [name, setName] = useState("");
-  const [course, setCourse] = useState<(typeof COURSE_OPTIONS)[number]>(
-    "The whole path"
-  );
   const [writtenReview, setWrittenReview] = useState("");
   const [videoUrl, setVideoUrl] = useState("");
   const [photoName, setPhotoName] = useState<string | null>(null);
@@ -63,7 +56,7 @@ export function ReviewForm() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name: name.trim(),
-          course,
+          course: COURSE_VALUE,
           written_review: writtenReview.trim(),
           photo_url: photoDataUrl || photoName || null,
           video_url: videoUrl.trim() || videoFileName || null,
@@ -88,7 +81,7 @@ export function ReviewForm() {
 
   if (submitted) {
     return (
-      <div className="flex flex-col items-start gap-[14px] rounded-[24px] bg-sand p-[28px] lg:p-[36px]">
+      <div className="flex flex-col items-start gap-[14px] rounded-[24px] bg-lavender border border-lavender-border p-[28px] lg:p-[36px]">
         <span className="flex h-[52px] w-[52px] items-center justify-center rounded-full bg-gold text-ink">
           <svg
             width="24"
@@ -133,7 +126,7 @@ export function ReviewForm() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex flex-col gap-[20px] rounded-[28px] bg-white p-[24px] sm:p-[36px] lg:p-[48px] border border-divider"
+      className="flex flex-col gap-[20px] rounded-[28px] bg-lavender-soft/80 p-[24px] sm:p-[36px] lg:p-[48px] border border-lavender-border shadow-soft"
     >
       {/* Hidden Honeypot Field for Spam Protection */}
       <div
@@ -164,26 +157,19 @@ export function ReviewForm() {
             placeholder="Your name"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="h-[52px] rounded-[12px] border border-line bg-white px-[16px] text-[16px] font-normal text-ink"
+            className="h-[52px] rounded-[12px] border border-lavender-border bg-white px-[16px] text-[16px] font-normal text-ink"
           />
         </label>
 
-        <label className="flex flex-col gap-[8px] text-[14px] font-medium text-ink">
-          <span>Which course did you take?</span>
-          <select
-            value={course}
-            onChange={(e) =>
-              setCourse(e.target.value as (typeof COURSE_OPTIONS)[number])
-            }
-            className="h-[52px] rounded-[12px] border border-line bg-white px-[16px] text-[16px] font-normal text-ink"
-          >
-            {COURSE_OPTIONS.map((opt) => (
-              <option key={opt} value={opt}>
-                {opt}
-              </option>
-            ))}
-          </select>
-        </label>
+        <div className="flex flex-col gap-[8px] text-[14px] font-medium text-ink">
+          <span>Programme</span>
+          <div className="flex h-[52px] items-center justify-between rounded-[12px] border border-beige-border bg-beige-card px-[16px] text-[15px] font-medium text-ink">
+            <span>The 5-Week 1-to-1 Course</span>
+            <span className="text-[12px] uppercase tracking-[1.2px] text-maroon">
+              1 to 1 · LOA
+            </span>
+          </div>
+        </div>
       </div>
 
       <label className="flex flex-col gap-[8px] text-[14px] font-medium text-ink">
@@ -195,7 +181,7 @@ export function ReviewForm() {
           placeholder="What shifted or opened up for you on this journey?"
           value={writtenReview}
           onChange={(e) => setWrittenReview(e.target.value)}
-          className="resize-y rounded-[12px] border border-line bg-white px-[16px] py-[14px] text-[16px] font-normal text-ink"
+          className="resize-y rounded-[12px] border border-lavender-border bg-white px-[16px] py-[14px] text-[16px] font-normal text-ink"
         />
       </label>
 
@@ -209,7 +195,7 @@ export function ReviewForm() {
             type="file"
             accept="image/*"
             onChange={handlePhotoChange}
-            className="flex min-h-[52px] w-full items-center rounded-[12px] border border-line bg-cream/50 px-[14px] py-[10px] text-[14px] font-normal text-body file:mr-[12px] file:rounded-full file:border-0 file:bg-sand file:px-[14px] file:py-[6px] file:text-[13px] file:font-medium file:text-ink"
+            className="flex min-h-[52px] w-full items-center rounded-[12px] border border-lavender-border bg-white px-[14px] py-[10px] text-[14px] font-normal text-body file:mr-[12px] file:rounded-full file:border-0 file:bg-beige-card file:px-[14px] file:py-[6px] file:text-[13px] file:font-medium file:text-ink"
           />
         </label>
 
@@ -223,7 +209,7 @@ export function ReviewForm() {
             placeholder="https://youtube.com/... or https://instagram.com/..."
             value={videoUrl}
             onChange={(e) => setVideoUrl(e.target.value)}
-            className="h-[52px] rounded-[12px] border border-line bg-white px-[16px] text-[16px] font-normal text-ink"
+            className="h-[52px] rounded-[12px] border border-lavender-border bg-white px-[16px] text-[16px] font-normal text-ink"
           />
         </label>
       </div>
@@ -237,7 +223,7 @@ export function ReviewForm() {
           type="file"
           accept="video/*"
           onChange={handleVideoFileChange}
-          className="flex min-h-[52px] w-full items-center rounded-[12px] border border-line bg-cream/50 px-[14px] py-[10px] text-[14px] font-normal text-body file:mr-[12px] file:rounded-full file:border-0 file:bg-sand file:px-[14px] file:py-[6px] file:text-[13px] file:font-medium file:text-ink"
+          className="flex min-h-[52px] w-full items-center rounded-[12px] border border-lavender-border bg-white px-[14px] py-[10px] text-[14px] font-normal text-body file:mr-[12px] file:rounded-full file:border-0 file:bg-beige-card file:px-[14px] file:py-[6px] file:text-[13px] file:font-medium file:text-ink"
         />
       </label>
 
@@ -247,14 +233,14 @@ export function ReviewForm() {
         </p>
       )}
 
-      <div className="flex items-center justify-between gap-[16px] pt-[4px]">
+      <div className="flex flex-wrap items-center justify-between gap-[16px] pt-[4px]">
         <span className="text-[13px] text-muted">
           Reviews are published after Ambika’s approval.
         </span>
         <button
           type="submit"
           disabled={submitting}
-          className="min-h-[52px] rounded-full bg-maroon px-[32px] py-[16px] font-sans text-[16px] font-medium text-white hover:bg-maroon-dark cursor-pointer transition-colors disabled:opacity-60"
+          className="btn-3d-maroon min-h-[52px] rounded-full bg-maroon px-[32px] py-[16px] font-sans text-[16px] font-medium text-white hover:bg-maroon-dark cursor-pointer transition-colors disabled:opacity-60"
         >
           {submitting ? "Sending…" : "Submit review"}
         </button>

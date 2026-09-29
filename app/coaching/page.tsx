@@ -2,41 +2,36 @@ import React from "react";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import {
-  GlassCard,
-  GlassPill,
-  GlassTile,
-  PriceCard,
-} from "@/components/ui/Glass";
+import { GlassCard, GlassPill } from "@/components/ui/Glass";
 import { CoachingFaq } from "@/components/CoachingFaq";
-import { WhatsAppIcon } from "@/components/ui/WhatsAppIcon";
+import { InvestmentAndGuidelines } from "@/components/InvestmentAndGuidelines";
 import { getWhatsAppUrl } from "@/lib/site";
 import { getApprovedReviews } from "@/lib/supabase";
 
 export const metadata: Metadata = {
   title: "1:1 Law of Attraction Coaching",
   description:
-    "Intimate 1-to-1 Law of Attraction coaching with Ambika Mohan. Creating Faith in the Law and Tools for Emotional Mastery.",
+    "Intimate 5-week 1-to-1 Law of Attraction coaching with Ambika Mohan. One path. Paid in full. One to one. Rs. 15,000/- (only Introductory Price).",
 };
 
 const PILLARS = [
   {
     num: "01",
-    phase: "Phases 1 & 2 · Live + DIY",
+    phase: "Sessions 1 & 2 · Videos + 1 hr Live",
     title: "Watch, Meet & Observe",
-    desc: "You begin by watching The Secret and a few short preparation videos. On our first video call we run a live Law of Attraction experiment together, followed by a week of DIY faith-building tasks in your own life.",
+    desc: "You begin Session 1 by watching The Secret and curated preparation videos. In Session 2 (1 hr 1-to-1 coaching) we run a live Law of Attraction experiment together, followed by a week of DIY faith-building tasks in your own life.",
   },
   {
     num: "02",
-    phase: "Phases 3A & 3B · 1.5 hrs each",
+    phase: "Phases 3A & 3B · 2 hrs each",
     title: "The Instrument & Creation",
-    desc: "Meet the physical body you live in and your Emotional Guidance System — how what the body feels is already guiding you back to Who-You-Truly-Are. Then learn the 5-step creative process and the nuances of energy.",
+    desc: "Over two 2-hour 1-to-1 coaching sessions, meet the physical body you live in and your Emotional Guidance System — then master the 5-step creative process and the subtle energy nuances of manifestation.",
   },
   {
     num: "03",
-    phase: "Phases 4 & 5 · Emotional Mastery",
-    title: "Mind Tools, Beliefs & Vision",
-    desc: "Build a daily stillness routine and practice pivoting, hourly breathwork, visualisation, your gratitude journal, and Book of Positive Aspects — culminating in belief self-analysis and your Vision Board.",
+    phase: "Session 4 (2 hrs) & Session 5 (1 hr)",
+    title: "Tools, Beliefs & Vision Board",
+    desc: "Practise meditation, pivoting, hourly breathwork, visualisation, gratitude journal, and Book of Positive Aspects in Session 4 (2 hrs) — culminating in belief self-analysis, affirmations, and your Vision Board in Session 5 (1 hr).",
   },
 ];
 
@@ -45,31 +40,37 @@ const SIX_OUTCOMES = [
     num: "01",
     title: "Conscious Day-to-Day Creation",
     text: "An in-depth understanding of how YOU create your day-to-day life experience.",
+    tone: "beige",
   },
   {
     num: "02",
     title: "How Thoughts Become Things",
     text: "An understanding of the Nature of Reality / Thought, and how Thoughts become Things.",
+    tone: "lavender",
   },
   {
     num: "03",
     title: "Connection with Your Higher-Self",
     text: "Learning to connect with your Higher-Self / Inner Being / Universe — resulting in a happier, clearer version of you.",
+    tone: "beige",
   },
   {
     num: "04",
     title: "Practical Alignment Blueprint",
     text: "A blueprint to creating a more fulfilling life experience, with practical tools and techniques of alignment with your Higher-Self.",
+    tone: "lavender",
   },
   {
     num: "05",
     title: "Zest for Life & Clarity",
     text: "A greater zest for Life, and more Clarity in general.",
+    tone: "beige",
   },
   {
     num: "06",
     title: "Peace Inside Contrast",
     text: "A certain peace that comes with understanding this system of Life — putting things into perspective even in moments of Contrast. Contrast is part of the creative process.",
+    tone: "lavender",
   },
 ];
 
@@ -81,11 +82,8 @@ export default async function CoachingPage() {
   const firstWritten = approvedReviews.find((r) => r.written_review);
   const secondWritten = approvedReviews.filter((r) => r.written_review)[1];
 
-  const whatsappFurtherUrl = getWhatsAppUrl(
-    "Hi Ambika, I'd love to ask about scheduling a further 1-to-1 session."
-  );
   const whatsappGeneralUrl = getWhatsAppUrl(
-    "Hi Ambika, I'm exploring your 1:1 Law of Attraction Coaching page and have a question."
+    "Hi Ambika, I'm exploring your 5-week 1:1 Law of Attraction Coaching programme and have a question."
   );
 
   return (
@@ -106,26 +104,27 @@ export default async function CoachingPage() {
           className="absolute inset-0"
           style={{
             background:
-              "linear-gradient(180deg, rgba(30,10,13,0.58) 0%, rgba(30,10,13,0.76) 100%)",
+              "linear-gradient(180deg, rgba(46,32,26,0.56) 0%, rgba(38,24,32,0.78) 100%)",
           }}
         />
 
-        <div className="relative z-10 mx-auto flex max-w-[860px] flex-col items-center gap-[20px] lg:gap-[26px] text-white">
-          <GlassPill>WORK WITH ME</GlassPill>
+        <div className="relative z-10 mx-auto flex max-w-[860px] flex-col items-center gap-[18px] lg:gap-[24px] text-white">
+          <GlassPill>1 TO 1 · LOA COACHING</GlassPill>
 
-          <h1 className="m-0 font-playfair text-[44px] sm:text-[56px] lg:text-[76px] font-normal leading-[1.05]">
-            1:1 Law of Attraction{" "}
-            <em className="italic text-gold">Coaching</em>
-          </h1>
-
-          <p className="m-0 font-cormorant text-[30px] lg:text-[38px] font-medium italic leading-[1.2] text-badge">
+          <p className="m-0 font-cursive text-[36px] sm:text-[46px] lg:text-[54px] leading-[1.1] text-[#E9D8F4]">
             A journey of self discovery
           </p>
 
-          <p className="m-0 max-w-[620px] font-inter text-[15px] lg:text-[18px] font-light leading-[1.7] text-white/90">
-            An intimate, one-to-one coaching programme with Ambika Mohan —
-            taught personally on live video calls, never in a group or
-            pre-recorded course.
+          <h1 className="m-0 font-playfair text-[40px] sm:text-[54px] lg:text-[72px] font-normal leading-[1.06]">
+            One Path. Paid in Full.{" "}
+            <em className="italic text-gold">One to One.</em>
+          </h1>
+
+          <p className="m-0 max-w-[640px] font-inter text-[15px] lg:text-[18px] font-light leading-[1.7] text-white/90">
+            A complete 5-week one-to-one coaching programme with Ambika Mohan —
+            from building unshakeable faith in the Law of Attraction to daily
+            emotional mastery, belief alignment, and a full month of WhatsApp
+            support.
           </p>
 
           <div
@@ -133,16 +132,16 @@ export default async function CoachingPage() {
             className="mt-[8px] flex w-full sm:w-auto flex-col sm:flex-row items-center justify-center gap-[14px]"
           >
             <Link
-              href="/book?course=whole"
-              className="inline-flex min-h-[52px] w-full sm:w-auto items-center justify-center rounded-full bg-maroon px-[34px] py-[16px] font-inter text-[13px] font-semibold uppercase tracking-[0.2em] text-white no-underline hover:bg-maroon-dark transition-colors"
+              href="/book"
+              className="btn-3d-maroon animate-gold-shimmer inline-flex min-h-[54px] w-full sm:w-auto items-center justify-center rounded-full px-[34px] py-[16px] font-inter text-[13px] font-semibold uppercase tracking-[0.18em] text-white no-underline"
             >
-              Book my spot · ₹12,500
+              Book the 5-Week Course · ₹15,000
             </Link>
             <a
-              href="#whole-path"
-              className="inline-flex min-h-[52px] w-full sm:w-auto items-center justify-center rounded-full border border-white/40 bg-white/10 px-[30px] py-[16px] font-inter text-[13px] font-semibold uppercase tracking-[0.2em] text-white no-underline hover:bg-white hover:text-ink transition-colors"
+              href="#programme-investment"
+              className="inline-flex min-h-[54px] w-full sm:w-auto items-center justify-center rounded-full border border-white/40 bg-white/10 px-[30px] py-[16px] font-inter text-[13px] font-semibold uppercase tracking-[0.18em] text-white no-underline hover:bg-white hover:text-ink transition-colors"
             >
-              Choose your journey
+              View Course &amp; Fee
             </a>
           </div>
         </div>
@@ -151,14 +150,16 @@ export default async function CoachingPage() {
       {/* ============================================================
           SECTION 2 — "WORDS DON'T TEACH" SPLIT SECTION
           ============================================================ */}
-      <section className="px-[16px] lg:px-[80px] pt-[64px] lg:pt-[120px] grid grid-cols-1 lg:grid-cols-12 items-center gap-[40px] lg:gap-[64px] animate-fade-up">
-        <div className="lg:col-span-6 flex flex-col gap-[20px]">
-          <span className="font-inter text-[11px] lg:text-[12px] font-bold uppercase tracking-[0.22em] text-gold-text">
-            THE PHILOSOPHY
+      <section className="px-[16px] lg:px-[80px] pt-[64px] lg:pt-[110px] grid grid-cols-1 lg:grid-cols-12 items-center gap-[40px] lg:gap-[64px] animate-fade-up">
+        <div className="lg:col-span-6 flex flex-col gap-[18px]">
+          <span className="font-cursive text-[30px] sm:text-[36px] leading-none text-lavender-deep">
+            The Philosophy
           </span>
-          <h2 className="m-0 font-playfair text-[34px] lg:text-[52px] font-normal leading-[1.08] text-ink">
+          <h2 className="m-0 font-playfair text-[34px] lg:text-[50px] font-normal leading-[1.08] text-ink">
             Words don’t teach.{" "}
-            <em className="italic text-maroon">Only your life experience will.</em>
+            <em className="italic text-maroon">
+              Only your life experience will.
+            </em>
           </h2>
           <div className="flex flex-col gap-[16px] font-inter text-[15px] lg:text-[17px] font-light leading-[1.75] text-body">
             <p className="m-0">
@@ -170,23 +171,23 @@ export default async function CoachingPage() {
             </p>
             <p className="m-0">
               I’ve created a good, old-fashioned 1-to-1 Coaching Program to
-              teach the basic principles of Law of Attraction to seekers so that
-              I have a much more personal connection with the ones who are
-              seeking this information. It gives me so much more satisfaction to
-              share what I know in this intimate way than through an online
-              video course or a group seminar.
+              teach the principles of the Law of Attraction to seekers so that I
+              have a much more personal connection with the ones who are seeking
+              this information. It gives me so much more satisfaction to share
+              what I know in this intimate way than through an online video
+              course or a group seminar.
             </p>
             <p className="m-0">
               People tell you to “have faith!” — but they don’t teach you{" "}
               <em className="font-playfair italic text-maroon">how!</em> Every
-              call is followed by a week of DIY observation and experiments in
-              your own life, because faith is what Creates.
+              session is followed by a week of DIY observation and experiments
+              in your own life, because faith is what Creates.
             </p>
           </div>
         </div>
 
         <div className="lg:col-span-6 relative">
-          <div className="relative h-[320px] lg:h-[500px] w-full overflow-hidden rounded-[26px] lg:rounded-[32px]">
+          <div className="relative h-[320px] lg:h-[500px] w-full overflow-hidden rounded-[26px] lg:rounded-[32px] border border-beige-border">
             <Image
               src="/images/about-rock.jpg"
               alt="A woman meditating on a rock by a misty river"
@@ -202,7 +203,7 @@ export default async function CoachingPage() {
             height={200}
             className="hidden sm:block absolute -right-[12px] top-[36px] h-[180px] w-[136px] rounded-[70px] border-[6px] border-cream object-cover shadow-floating"
           />
-          <div className="mt-[16px] lg:mt-0 lg:absolute lg:left-[28px] lg:-bottom-[28px] lg:max-w-[440px] rounded-[22px] bg-white p-[24px] shadow-floating">
+          <div className="mt-[16px] lg:mt-0 lg:absolute lg:left-[28px] lg:-bottom-[28px] lg:max-w-[440px] rounded-[22px] bg-lavender border border-lavender-border p-[24px] shadow-floating">
             <p className="m-0 font-cormorant text-[22px] lg:text-[25px] italic leading-[1.35] text-ink">
               “You’ll start by watching the movie,{" "}
               <span className="text-maroon">The Secret</span> — followed by a
@@ -213,51 +214,50 @@ export default async function CoachingPage() {
       </section>
 
       {/* ============================================================
-          SECTION 3 — "CREATING FAITH IN THE LAW" (3 GlassCards on Blob Sand BG)
+          SECTION 3 — "CREATING FAITH IN THE LAW" (3 GlassCards on Beige/Lavender Blob BG)
           ============================================================ */}
-      <section className="relative isolate mx-[12px] lg:mx-[40px] mt-[64px] lg:mt-[140px] overflow-hidden rounded-[28px] lg:rounded-[36px] bg-sand px-[16px] py-[56px] lg:px-[64px] lg:py-[100px] animate-fade-up">
-        {/* Two Big Blurred Colour Blobs Behind GlassCards */}
+      <section className="relative isolate mx-[12px] lg:mx-[40px] mt-[64px] lg:mt-[130px] overflow-hidden rounded-[28px] lg:rounded-[36px] bg-sand/80 border border-beige-border px-[16px] py-[56px] lg:px-[64px] lg:py-[96px] animate-fade-up">
+        {/* Soft Blurred Golden Beige + Lavender Blobs Behind GlassCards */}
         <div
           aria-hidden="true"
           style={{
-            background: "rgba(231, 184, 90, 0.45)",
+            background: "rgba(231, 184, 90, 0.42)",
             filter: "blur(90px)",
           }}
-          className="pointer-events-none absolute -top-[60px] left-[8%] -z-10 h-[360px] w-[360px] lg:h-[460px] lg:w-[460px] rounded-full"
+          className="pointer-events-none absolute -top-[60px] left-[6%] -z-10 h-[340px] w-[340px] lg:h-[440px] lg:w-[440px] rounded-full"
         />
         <div
           aria-hidden="true"
           style={{
-            background: "rgba(142, 27, 37, 0.22)",
-            filter: "blur(100px)",
+            background: "rgba(182, 152, 206, 0.45)",
+            filter: "blur(95px)",
           }}
-          className="pointer-events-none absolute -bottom-[80px] right-[8%] -z-10 h-[380px] w-[380px] lg:h-[500px] lg:w-[500px] rounded-full"
+          className="pointer-events-none absolute -bottom-[70px] right-[6%] -z-10 h-[360px] w-[360px] lg:h-[480px] lg:w-[480px] rounded-full"
         />
 
-        <div className="mx-auto max-w-[720px] flex flex-col items-start lg:items-center text-left lg:text-center gap-[12px] mb-[36px] lg:mb-[56px]">
-          <span className="font-inter text-[11px] lg:text-[12px] font-bold uppercase tracking-[0.22em] text-gold-text">
-            HOW THE CURRICULUM UNFOLDS
+        <div className="mx-auto max-w-[720px] flex flex-col items-start lg:items-center text-left lg:text-center gap-[10px] mb-[36px] lg:mb-[52px]">
+          <span className="font-cursive text-[32px] sm:text-[38px] leading-none text-lavender-deep">
+            How the 5 weeks unfold
           </span>
-          <h2 className="m-0 font-playfair text-[32px] lg:text-[52px] font-normal leading-[1.1] text-ink">
-            Creating <em className="italic text-maroon">Faith</em> in the Law
+          <h2 className="m-0 font-playfair text-[32px] lg:text-[50px] font-normal leading-[1.1] text-ink">
+            Creating <em className="italic text-maroon">Faith</em> &amp;
+            Emotional Mastery
           </h2>
           <p className="m-0 font-inter text-[15px] lg:text-[17px] font-light leading-[1.65] text-body">
-            Five progressive phases across two courses — combining 1-to-1 calls,
-            live experiments, stillness, and weekly observation pages.
+            Six intimate sessions across 5 weeks — combining 1-to-1 video calls,
+            live experiments, stillness, mind management tools, and weekly
+            observation.
           </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-[20px] lg:gap-[28px]">
           {PILLARS.map((pillar) => (
-            <GlassCard
-              key={pillar.num}
-              className="flex flex-col gap-[16px]"
-            >
-              <div className="flex items-center gap-[14px] lg:flex-col lg:items-start lg:gap-[16px]">
+            <GlassCard key={pillar.num} className="flex flex-col gap-[16px]">
+              <div className="flex items-center gap-[14px] lg:flex-col lg:items-start lg:gap-[14px]">
                 <span className="flex h-[48px] w-[48px] shrink-0 items-center justify-center rounded-full bg-maroon font-playfair text-[20px] text-gold">
                   {pillar.num}
                 </span>
-                <span className="font-inter text-[11px] font-bold uppercase tracking-[0.2em] text-gold-text">
+                <span className="font-inter text-[11px] font-bold uppercase tracking-[0.18em] text-lavender-deep">
                   {pillar.phase}
                 </span>
               </div>
@@ -273,192 +273,43 @@ export default async function CoachingPage() {
       </section>
 
       {/* ============================================================
-          SECTION 4 — "CHOOSE YOUR JOURNEY" (3 PriceCards: dark · featured · dark)
-          Mobile order: Whole Path (featured) FIRST, then Intro, then Tools
+          SECTION 4 — UNIFIED INVESTMENT & IMPORTANT TO READ (PDF PAGES 1 & 2)
           ============================================================ */}
-      <section className="px-[16px] lg:px-[80px] pt-[64px] lg:pt-[120px] animate-fade-up">
-        <div className="mx-auto max-w-[720px] flex flex-col items-start lg:items-center text-left lg:text-center gap-[12px] mb-[36px] lg:mb-[56px]">
-          <span className="font-inter text-[11px] lg:text-[12px] font-bold uppercase tracking-[0.22em] text-gold-text">
-            INVESTMENT · FEES IN INR
-          </span>
-          <h2 className="m-0 font-playfair text-[34px] lg:text-[54px] font-normal leading-[1.08] text-ink">
-            Choose Your <em className="italic text-maroon">Journey</em>
-          </h2>
-          <p className="m-0 font-inter text-[15px] lg:text-[17px] font-light leading-[1.65] text-body">
-            Walk the whole path together and save ₹1,000, or begin with Course 1
-            and add Course 2 whenever you are ready.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-[24px] lg:gap-[28px] items-stretch">
-          {/* Card 1 on Desktop / Card 2 on Mobile: Introduction to LOA */}
-          <PriceCard
-            id="introduction"
-            variant="dark"
-            eyebrow="COURSE 1"
-            badgeText="Phases 1–3B"
-            title="Introduction to LOA"
-            subtitle="Creating Faith in the Law"
-            priceLabel="₹8,500"
-            priceNote="Sessions 1, 2, 3A and 3B"
-            bestFor="Best for seekers ready to experience direct, personal proof of the Law."
-            items={[
-              "Session 1: Watch The Secret + preparation videos & live experiment call",
-              "Session 2: A week of DIY faith-building experiments (1 hr review)",
-              "Phase 3A: The instrument — your body & Emotional Guidance System (1.5 hrs)",
-              "Phase 3B: Creation — the 5-step creative process & energy nuances (1.5 hrs)",
-            ]}
-            ctaLabel="Book Course 1"
-            ctaHref="/book?course=intro"
-            className="order-2 lg:order-1"
-          />
-
-          {/* Card 2 on Desktop / Card 1 on Mobile: The Whole Path (Featured) */}
-          <PriceCard
-            id="whole-path"
-            variant="featured"
-            eyebrow="COMPLETE PROGRAMME"
-            badgeText="Best value"
-            title="The Whole Path"
-            subtitle="Introduction to LOA + Tools for Emotional Mastery"
-            priceLabel="₹12,500"
-            struckPriceLabel="₹25,000"
-            priceNote="Introductory fee · Save ₹1,000 vs. booking separately (₹13,500)"
-            bestFor="Best for seekers committed to complete alignment, daily tools, and 1-month support."
-            items={[
-              "Every 1-to-1 session of Course 1 (Phases 1, 2, 3A, 3B) + Course 2 (Phases 4 & 5)",
-              "Direct WhatsApp support with Ambika for the full month",
-              "Curated preparation videos, guided meditations & practice booklet",
-              "Belief self-analysis, daily alignment blueprint & Vision Board",
-            ]}
-            ctaLabel="Book my spot · ₹12,500"
-            ctaHref="/book?course=whole"
-            className="order-1 lg:order-2"
-          />
-
-          {/* Card 3 on Desktop & Mobile: Tools for Emotional Mastery */}
-          <PriceCard
-            id="tools"
-            variant="dark"
-            eyebrow="COURSE 2"
-            badgeText="Phases 4–5"
-            title="Tools for Emotional Mastery"
-            subtitle="Practical Mind & Belief Alignment"
-            priceLabel="₹5,000"
-            priceNote="Sessions 4 and 5 · Follows Course 1"
-            bestFor="Best for returning Course 1 seekers ready to master daily emotional tools."
-            items={[
-              "Phase 4: Meditation routine, pivoting, hourly breathwork & gratitude journal (1.5 hrs)",
-              "Creating the feeling with words, visualisation & Book of Positive Aspects",
-              "Asking questions to the Universe and receiving your own answers",
-              "Phase 5: Belief self-analysis, full course recap & Vision Board (1 hr)",
-            ]}
-            ctaLabel="Book Course 2"
-            ctaHref="/book?course=tools"
-            className="order-3"
-          />
-        </div>
-      </section>
+      <div
+        id="programme-investment"
+        className="px-[12px] sm:px-[24px] lg:px-[80px] pt-[64px] lg:pt-[110px]"
+      >
+        <InvestmentAndGuidelines showLogoHeader={true} />
+      </div>
 
       {/* ============================================================
-          SECTION 5 — "FURTHER SESSIONS" DARK BLOCK WITH GLASSTILES
-          Mobile: image above text
+          SECTION 5 — 6 OUTCOMES GRID (Warm Beige & Soft Lavender Alternating Cards)
           ============================================================ */}
-      <section className="mx-[12px] lg:mx-[80px] mt-[64px] lg:mt-[100px] overflow-hidden rounded-[28px] lg:rounded-[36px] bg-plum-night p-[24px] sm:p-[40px] lg:p-[64px] text-cream animate-fade-up">
-        <div className="grid grid-cols-1 lg:grid-cols-12 items-center gap-[28px] lg:gap-[48px]">
-          {/* Image first on mobile, right column on desktop */}
-          <div className="lg:col-span-5 lg:order-2 relative h-[240px] sm:h-[300px] lg:h-[360px] w-full overflow-hidden rounded-[22px] lg:rounded-[26px]">
-            <Image
-              src="/images/sessions-call.jpg"
-              alt="A woman smiling on a video call at home"
-              fill
-              sizes="(max-width: 1024px) 100vw, 480px"
-              className="h-full w-full object-cover"
-            />
-          </div>
-
-          <div className="lg:col-span-7 lg:order-1 flex flex-col gap-[20px]">
-            <span className="font-inter text-[11px] font-bold uppercase tracking-[0.22em] text-gold">
-              AFTER THE COURSE
-            </span>
-            <h2 className="m-0 font-playfair text-[32px] lg:text-[46px] font-normal leading-[1.1] text-white">
-              Further <em className="italic text-gold">Sessions</em>
-            </h2>
-            <p className="m-0 font-inter text-[15px] lg:text-[17px] font-light leading-[1.7] text-white/85">
-              Already walked the path? Come back for a one-hour or 30-minute
-              1-to-1 session whenever you want clarity or guidance through a
-              new moment of Contrast. Arranged directly with Ambika on WhatsApp.
-            </p>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-[16px] pt-[4px]">
-              <GlassTile className="flex flex-col gap-[6px]">
-                <span className="font-inter text-[12px] uppercase tracking-[0.18em] text-gold">
-                  DEEP DIVE SESSION
-                </span>
-                <div className="flex items-baseline justify-between">
-                  <span className="font-playfair text-[32px] text-white">
-                    ₹2,000
-                  </span>
-                  <span className="font-inter text-[14px] text-white/70">
-                    / 1 hour
-                  </span>
-                </div>
-              </GlassTile>
-
-              <GlassTile className="flex flex-col gap-[6px]">
-                <span className="font-inter text-[12px] uppercase tracking-[0.18em] text-gold">
-                  ALIGNMENT CHECK-IN
-                </span>
-                <div className="flex items-baseline justify-between">
-                  <span className="font-playfair text-[32px] text-white">
-                    ₹1,000
-                  </span>
-                  <span className="font-inter text-[14px] text-white/70">
-                    / 30 minutes
-                  </span>
-                </div>
-              </GlassTile>
-            </div>
-
-            <div className="pt-[6px]">
-              <a
-                href={whatsappFurtherUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex min-h-[50px] w-full sm:w-auto items-center justify-center gap-[10px] rounded-full border border-gold bg-gold/10 px-[28px] py-[14px] font-inter text-[13px] font-semibold uppercase tracking-[0.2em] text-gold no-underline hover:bg-gold hover:text-ink transition-colors"
-              >
-                <WhatsAppIcon size={18} />
-                <span>Ask on WhatsApp</span>
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ============================================================
-          SECTION 6 — 6 OUTCOMES GRID (Numbered list on mobile, 3x2 grid on desktop)
-          ============================================================ */}
-      <section className="px-[16px] lg:px-[80px] pt-[64px] lg:pt-[120px] animate-fade-up">
-        <div className="mx-auto max-w-[760px] flex flex-col items-start lg:items-center text-left lg:text-center gap-[12px] mb-[36px] lg:mb-[56px]">
-          <span className="font-inter text-[11px] lg:text-[12px] font-bold uppercase tracking-[0.22em] text-gold-text">
-            INTENTION WITH SEEKERS
+      <section className="px-[16px] lg:px-[80px] pt-[64px] lg:pt-[110px] animate-fade-up">
+        <div className="mx-auto max-w-[760px] flex flex-col items-start lg:items-center text-left lg:text-center gap-[10px] mb-[36px] lg:mb-[52px]">
+          <span className="font-cursive text-[32px] sm:text-[38px] leading-none text-lavender-deep">
+            My intention with every seeker
           </span>
-          <h2 className="m-0 font-playfair text-[32px] lg:text-[52px] font-normal leading-[1.1] text-ink">
+          <h2 className="m-0 font-playfair text-[32px] lg:text-[50px] font-normal leading-[1.1] text-ink">
             What I Wish to <em className="italic text-maroon">Accomplish</em>{" "}
             Through What I Teach
           </h2>
         </div>
 
-        <ol className="m-0 p-0 list-none grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[20px] lg:gap-[28px]">
+        <ol className="m-0 p-0 list-none grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[20px] lg:gap-[26px]">
           {SIX_OUTCOMES.map((item) => (
             <li
               key={item.num}
-              className="flex flex-col gap-[12px] rounded-[24px] bg-white p-[24px] lg:p-[32px] border border-divider shadow-mobile-stat"
+              className={`flex flex-col gap-[12px] rounded-[24px] p-[24px] lg:p-[32px] shadow-mobile-stat ${
+                item.tone === "lavender"
+                  ? "bg-lavender border border-lavender-border"
+                  : "bg-beige-card/70 border border-beige-border"
+              }`}
             >
-              <span className="font-playfair text-[36px] leading-none text-maroon">
+              <span className="font-playfair text-[34px] leading-none text-maroon">
                 {item.num}
               </span>
-              <h3 className="m-0 font-playfair text-[21px] lg:text-[23px] font-normal text-ink">
+              <h3 className="m-0 font-playfair text-[21px] lg:text-[23px] font-medium text-ink">
                 {item.title}
               </h3>
               <p className="m-0 font-inter text-[15px] font-light leading-[1.65] text-body">
@@ -470,9 +321,9 @@ export default async function CoachingPage() {
       </section>
 
       {/* ============================================================
-          SECTION 7 — ABOUT YOUR COACH (Centred portrait on mobile)
+          SECTION 6 — ABOUT YOUR COACH
           ============================================================ */}
-      <section className="mx-[12px] lg:mx-[80px] mt-[64px] lg:mt-[120px] rounded-[28px] lg:rounded-[36px] bg-sand p-[24px] sm:p-[40px] lg:p-[72px] animate-fade-up">
+      <section className="mx-[12px] lg:mx-[80px] mt-[64px] lg:mt-[110px] rounded-[28px] lg:rounded-[36px] bg-lavender/70 border border-lavender-border p-[24px] sm:p-[40px] lg:p-[72px] animate-fade-up">
         <div className="grid grid-cols-1 lg:grid-cols-12 items-center gap-[32px] lg:gap-[56px]">
           <div className="lg:col-span-5 flex flex-col items-center text-center">
             <div className="relative h-[220px] w-[220px] lg:h-[320px] lg:w-[320px] overflow-hidden rounded-full border-[10px] border-cream bg-cream shadow-floating">
@@ -484,16 +335,16 @@ export default async function CoachingPage() {
                 className="h-full w-full object-cover"
               />
             </div>
-            <span className="mt-[18px] rounded-full bg-gold px-[18px] py-[8px] font-inter text-[13px] font-medium text-ink">
+            <span className="mt-[18px] rounded-full bg-beige-card border border-beige-border px-[18px] py-[8px] font-cursive text-[24px] leading-none text-ink">
               Hi, I’m Ambika · fellow seeker
             </span>
           </div>
 
-          <div className="lg:col-span-7 flex flex-col gap-[20px] text-left">
-            <span className="font-inter text-[11px] lg:text-[12px] font-bold uppercase tracking-[0.22em] text-gold-text">
-              ABOUT YOUR COACH
+          <div className="lg:col-span-7 flex flex-col gap-[18px] text-left">
+            <span className="font-cursive text-[32px] leading-none text-lavender-deep">
+              About your coach
             </span>
-            <h2 className="m-0 font-playfair text-[32px] lg:text-[48px] font-normal leading-[1.1] text-ink">
+            <h2 className="m-0 font-playfair text-[32px] lg:text-[46px] font-normal leading-[1.1] text-ink">
               Empowering you to receive{" "}
               <em className="italic text-maroon">your own answers.</em>
             </h2>
@@ -512,14 +363,14 @@ export default async function CoachingPage() {
             </blockquote>
             <div className="pt-[8px] flex flex-col sm:flex-row gap-[14px]">
               <Link
-                href="/book?course=whole"
-                className="inline-flex min-h-[50px] w-full sm:w-auto items-center justify-center rounded-full bg-maroon px-[30px] py-[15px] font-inter text-[13px] font-semibold uppercase tracking-[0.2em] text-white no-underline hover:bg-maroon-dark transition-colors"
+                href="/book"
+                className="btn-3d-maroon animate-gold-shimmer inline-flex min-h-[52px] w-full sm:w-auto items-center justify-center rounded-full px-[30px] py-[15px] font-inter text-[13px] font-semibold uppercase tracking-[0.18em] text-white no-underline"
               >
-                Book my spot
+                Book the 5-Week Course · ₹15,000
               </Link>
               <Link
                 href="/about"
-                className="inline-flex min-h-[50px] w-full sm:w-auto items-center justify-center rounded-full border-[1.5px] border-ink px-[28px] py-[15px] font-inter text-[13px] font-semibold uppercase tracking-[0.2em] text-ink no-underline hover:bg-ink hover:text-cream transition-colors"
+                className="inline-flex min-h-[52px] w-full sm:w-auto items-center justify-center rounded-full border-[1.5px] border-ink bg-white/80 px-[28px] py-[15px] font-inter text-[13px] font-semibold uppercase tracking-[0.18em] text-ink no-underline hover:bg-ink hover:text-cream transition-colors"
               >
                 Read my full story
               </Link>
@@ -529,12 +380,12 @@ export default async function CoachingPage() {
       </section>
 
       {/* ============================================================
-          SECTION 8 — FAQ ACCORDION (5 items, 1 open at a time, 1st open by default)
+          SECTION 7 — FAQ ACCORDION
           ============================================================ */}
-      <section className="mx-auto max-w-[960px] px-[16px] lg:px-[40px] pt-[64px] lg:pt-[120px] animate-fade-up">
-        <div className="flex flex-col items-start lg:items-center text-left lg:text-center gap-[12px] mb-[32px] lg:mb-[48px]">
-          <span className="font-inter text-[11px] lg:text-[12px] font-bold uppercase tracking-[0.22em] text-gold-text">
-            COMMON QUESTIONS
+      <section className="mx-auto max-w-[960px] px-[16px] lg:px-[40px] pt-[64px] lg:pt-[110px] animate-fade-up">
+        <div className="flex flex-col items-start lg:items-center text-left lg:text-center gap-[10px] mb-[32px] lg:mb-[48px]">
+          <span className="font-cursive text-[32px] leading-none text-lavender-deep">
+            Common Questions
           </span>
           <h2 className="m-0 font-playfair text-[32px] lg:text-[48px] font-normal leading-[1.1] text-ink">
             Frequently Asked <em className="italic text-maroon">Questions</em>
@@ -545,14 +396,14 @@ export default async function CoachingPage() {
       </section>
 
       {/* ============================================================
-          SECTION 9 — "VOICES OF TRANSFORMATION"
+          SECTION 8 — "VOICES OF TRANSFORMATION"
           ============================================================ */}
       {showReviews && (
-        <section className="px-[16px] lg:px-[80px] pt-[64px] lg:pt-[120px] animate-fade-up">
+        <section className="px-[16px] lg:px-[80px] pt-[64px] lg:pt-[110px] animate-fade-up">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-[16px] mb-[32px] lg:mb-[48px]">
-            <div className="flex flex-col gap-[10px]">
-              <span className="font-inter text-[11px] lg:text-[12px] font-bold uppercase tracking-[0.22em] text-gold-text">
-                SEEKERS’ WORDS
+            <div className="flex flex-col gap-[8px]">
+              <span className="font-cursive text-[32px] leading-none text-lavender-deep">
+                Seekers’ words
               </span>
               <h2 className="m-0 font-playfair text-[32px] lg:text-[48px] font-normal leading-[1.1] text-ink">
                 Voices of{" "}
@@ -568,25 +419,25 @@ export default async function CoachingPage() {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-[20px] lg:gap-[28px] items-stretch">
-            <div className="lg:col-span-6 flex flex-col justify-between gap-[18px] rounded-[24px] bg-white p-[28px] lg:p-[36px] border border-divider">
+            <div className="lg:col-span-6 flex flex-col justify-between gap-[18px] rounded-[24px] bg-beige-card/75 p-[28px] lg:p-[36px] border border-beige-border">
               <svg
                 width="36"
                 height="28"
                 viewBox="0 0 36 28"
-                fill="#E7B85A"
+                fill="#8E1B25"
                 aria-hidden="true"
               >
                 <path d="M0 28V16C0 7 5 1.5 14 0l1.5 4C10 5.5 7.5 9 7.5 13H14v15H0zm20 0V16c0-9 5-14.5 14-16l1.5 4C30 5.5 27.5 9 27.5 13H34v15H20z" />
               </svg>
-              <p className="m-0 font-playfair text-[22px] lg:text-[26px] leading-[1.38] text-body">
+              <p className="m-0 font-playfair text-[22px] lg:text-[26px] leading-[1.38] text-ink">
                 {firstWritten
                   ? firstWritten.written_review
                   : "[First seeker’s written review goes here — the Reviews page has none yet.]"}
               </p>
               <span className="font-inter text-[14px] text-muted">
                 {firstWritten
-                  ? `${firstWritten.name} · ${firstWritten.course}`
-                  : "[Name] · The Whole Path"}
+                  ? `${firstWritten.name} · 5-Week LOA Course`
+                  : "[Name] · 5-Week LOA Course"}
               </span>
             </div>
 
@@ -603,16 +454,16 @@ export default async function CoachingPage() {
               </span>
             </div>
 
-            <div className="lg:col-span-3 flex flex-col justify-between rounded-[24px] bg-sand p-[28px]">
+            <div className="lg:col-span-3 flex flex-col justify-between rounded-[24px] bg-lavender border border-lavender-border p-[28px]">
               <span className="font-inter text-[16px] leading-[1.6] text-body">
                 {secondWritten
                   ? `“${secondWritten.written_review}”`
                   : "“[Short written review]”"}
               </span>
-              <span className="font-inter text-[14px] text-muted">
+              <span className="font-inter text-[14px] text-lavender-deep">
                 {secondWritten
-                  ? `${secondWritten.name} · ${secondWritten.course}`
-                  : "[Name] · Introduction to LOA"}
+                  ? `${secondWritten.name} · 5-Week LOA Course`
+                  : "[Name] · 5-Week LOA Course"}
               </span>
             </div>
           </div>
@@ -620,9 +471,9 @@ export default async function CoachingPage() {
       )}
 
       {/* ============================================================
-          SECTION 10 — DIYA CLOSING CTA
+          SECTION 9 — DIYA CLOSING CTA
           ============================================================ */}
-      <section className="hidden lg:block relative mx-[40px] mt-[120px] h-[520px] overflow-hidden rounded-[36px] bg-night animate-fade-up">
+      <section className="hidden lg:block relative mx-[40px] mt-[110px] h-[520px] overflow-hidden rounded-[36px] bg-night animate-fade-up">
         <Image
           src="/images/cta-diya.jpg"
           alt="Hands holding a lit diya"
@@ -630,27 +481,27 @@ export default async function CoachingPage() {
           height={520}
           className="absolute right-0 top-0 h-[520px] w-[620px] object-cover"
         />
-        <div className="absolute left-0 top-0 flex h-[520px] w-[900px] flex-col gap-[24px] px-[96px] py-[88px] text-cream box-border">
-          <span className="font-inter text-[12px] font-bold uppercase tracking-[0.25em] text-gold">
-            YOUR JOURNEY BEGINS WITH ONE STEP
+        <div className="absolute left-0 top-0 flex h-[520px] w-[900px] flex-col gap-[20px] px-[96px] py-[80px] text-cream box-border">
+          <span className="font-cursive text-[38px] leading-none text-gold">
+            Your journey begins with one step
           </span>
-          <h2 className="m-0 font-playfair text-[64px] font-normal leading-[1.04]">
+          <h2 className="m-0 font-playfair text-[60px] font-normal leading-[1.04]">
             You are a powerful creator.
             <br />
             <em className="italic text-gold">Come see it for yourself.</em>
           </h2>
           <div className="mt-[8px] flex gap-[14px]">
             <Link
-              href="/book?course=whole"
-              className="inline-flex min-h-[54px] items-center justify-center rounded-full bg-gold px-[32px] py-[18px] font-inter text-[13px] font-semibold uppercase tracking-[0.2em] text-ink no-underline hover:brightness-95 transition-all"
+              href="/book"
+              className="btn-3d-gold inline-flex min-h-[54px] items-center justify-center rounded-full px-[32px] py-[18px] font-inter text-[13px] font-semibold uppercase tracking-[0.18em] text-ink no-underline"
             >
-              Book your path
+              Book the 5-Week Course · ₹15,000
             </Link>
             <a
               href={whatsappGeneralUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex min-h-[54px] items-center justify-center rounded-full border-[1.5px] border-cream px-[28px] py-[17px] font-inter text-[13px] font-semibold uppercase tracking-[0.2em] text-cream no-underline hover:bg-cream hover:text-ink transition-colors"
+              className="inline-flex min-h-[54px] items-center justify-center rounded-full border-[1.5px] border-cream px-[28px] py-[17px] font-inter text-[13px] font-semibold uppercase tracking-[0.18em] text-cream no-underline hover:bg-cream hover:text-ink transition-colors"
             >
               Chat on WhatsApp
             </a>
@@ -658,7 +509,7 @@ export default async function CoachingPage() {
         </div>
       </section>
 
-      <section className="lg:hidden relative mx-[12px] mt-[64px] h-[480px] overflow-hidden rounded-[28px] bg-night animate-fade-up">
+      <section className="lg:hidden relative mx-[12px] mt-[56px] h-[480px] overflow-hidden rounded-[28px] bg-night animate-fade-up">
         <Image
           src="/images/cta-diya.jpg"
           alt="Hands holding a lit diya"
@@ -669,22 +520,22 @@ export default async function CoachingPage() {
         <div
           className="absolute left-0 bottom-0 h-[240px] w-full"
           style={{
-            background: "linear-gradient(#1C1010, rgba(28,16,16,0))",
+            background: "linear-gradient(#2C1D18, rgba(44,29,24,0))",
           }}
         />
-        <div className="absolute left-0 top-0 flex w-full flex-col gap-[16px] px-[22px] py-[36px] text-cream box-border">
-          <span className="font-inter text-[11px] font-bold uppercase tracking-[0.22em] text-gold">
-            BEGIN WITH ONE STEP
+        <div className="absolute left-0 top-0 flex w-full flex-col gap-[14px] px-[22px] py-[32px] text-cream box-border">
+          <span className="font-cursive text-[30px] leading-none text-gold">
+            Begin with one step
           </span>
           <h2 className="m-0 font-playfair text-[34px] font-normal leading-[1.08]">
             You are a powerful creator.{" "}
             <em className="italic text-gold">Come see it for yourself.</em>
           </h2>
           <Link
-            href="/book?course=whole"
-            className="mt-[4px] inline-flex min-h-[50px] w-full items-center justify-center rounded-full bg-gold p-[16px] text-center font-inter text-[13px] font-semibold uppercase tracking-[0.2em] text-ink no-underline"
+            href="/book"
+            className="btn-3d-gold mt-[4px] inline-flex min-h-[52px] w-full items-center justify-center rounded-full p-[16px] text-center font-inter text-[13px] font-semibold uppercase tracking-[0.18em] text-ink no-underline"
           >
-            Book your path
+            Book the 5-Week Course · ₹15,000
           </Link>
         </div>
       </section>

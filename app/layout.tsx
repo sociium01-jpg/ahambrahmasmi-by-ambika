@@ -4,6 +4,7 @@ import {
   Outfit,
   Playfair_Display,
   Cormorant_Garamond,
+  Great_Vibes,
   Inter,
 } from "next/font/google";
 import "./globals.css";
@@ -37,9 +38,16 @@ const playfair = Playfair_Display({
 
 const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
-  weight: ["500"],
-  style: ["italic"],
+  weight: ["500", "600"],
+  style: ["normal", "italic"],
   variable: "--font-cormorant",
+  display: "swap",
+});
+
+const greatVibes = Great_Vibes({
+  subsets: ["latin"],
+  weight: ["400"],
+  variable: "--font-cursive",
   display: "swap",
 });
 
@@ -59,7 +67,7 @@ export const metadata: Metadata = {
     template: "%s — Ahambrahmasmi by Ambika",
   },
   description:
-    "Intimate, one-to-one Law of Attraction coaching with Ambika Mohan. Learn how your thoughts, emotions and beliefs create your everyday life — and how to create it consciously.",
+    "Intimate, one-to-one 5-week Law of Attraction coaching with Ambika Mohan. One path. Paid in full. One to one.",
   openGraph: {
     title: "Ahambrahmasmi by Ambika — 1-to-1 Law of Attraction Coaching",
     description:
@@ -96,7 +104,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${dmSerif.variable} ${outfit.variable} ${playfair.variable} ${cormorant.variable} ${inter.variable}`}
+      className={`${dmSerif.variable} ${outfit.variable} ${playfair.variable} ${cormorant.variable} ${greatVibes.variable} ${inter.variable}`}
     >
       <body className="min-h-screen flex flex-col bg-cream text-ink font-sans antialiased">
         <Navbar />

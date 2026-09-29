@@ -1,15 +1,16 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Script from "next/script";
 import { Logo } from "@/components/ui/Logo";
 import {
   CALL_TIME_SLOTS,
-  COURSE_LIST,
   COURSES,
+  COURSE_SESSIONS_LIST,
+  IMPORTANT_TO_READ,
   CallTimeId,
   CourseId,
   getWhatsAppUrl,
@@ -34,32 +35,23 @@ const PAYMENT_METHODS: { id: PaymentMethodId; label: string }[] = [
 ];
 
 const STEP_LABELS_DESKTOP = [
-  "Choose your path",
+  "Course & guidelines",
   "Your details",
   "Review & pay",
 ];
 
 const STEP_LABELS_MOBILE = [
-  "Step 1 of 3 · Choose your path",
+  "Step 1 of 3 · Course & guidelines",
   "Step 2 of 3 · Your details",
   "Step 3 of 3 · Review & pay",
   "Booked",
 ];
 
-function parseCourseParam(raw: string | null): CourseId {
-  if (raw === "intro" || raw === "introduction") return "intro";
-  if (raw === "tools") return "tools";
-  return "whole";
-}
-
 export function BookingFlow() {
-  const searchParams = useSearchParams();
   const router = useRouter();
 
   const [step, setStep] = useState<1 | 2 | 3 | 4>(1);
-  const [choice, setChoice] = useState<CourseId>(() =>
-    parseCourseParam(searchParams.get("course"))
-  );
+  const choice: CourseId = "whole";
   const [slot, setSlot] = useState<CallTimeId>("evening");
   const [payMethod, setPayMethod] = useState<PaymentMethodId>("upi");
 
@@ -83,19 +75,12 @@ export function BookingFlow() {
     amountInr: number;
   } | null>(null);
 
-  useEffect(() => {
-    const param = searchParams.get("course");
-    if (param) {
-      setChoice(parseCourseParam(param));
-    }
-  }, [searchParams]);
-
   const chosen = COURSES[choice];
   const slotLabel =
     CALL_TIME_SLOTS.find((s) => s.id === slot)?.label + " (IST)";
 
   const whatsappHelpUrl = getWhatsAppUrl(
-    `Hi Ambika, I'm on the booking page looking at "${chosen.name}" (${chosen.priceLabel}) and have a quick question.`
+    `Hi Ambika, I'm on the booking page for "${chosen.name}" (${chosen.priceRsLabel}) and have a quick question.`
   );
 
   const validateStep2 = (): boolean => {
@@ -122,12 +107,14 @@ export function BookingFlow() {
   const handleNextFromStep1 = () => {
     setPaymentError(null);
     setStep(2);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handleNextFromStep2 = () => {
     setPaymentError(null);
     if (validateStep2()) {
       setStep(3);
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
 
@@ -135,11 +122,13 @@ export function BookingFlow() {
     setPaymentError(null);
     if (step === 2) setStep(1);
     if (step === 3) setStep(2);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handleRestart = () => {
     setPaymentError(null);
     setStep(1);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const verifyPaymentOnServer = async (payload: {
@@ -181,6 +170,7 @@ export function BookingFlow() {
       setIsSubmitting(false);
       setSimulatedModalOrder(null);
       setStep(4);
+      window.scrollTo({ top: 0, behavior: "smooth" });
     } catch {
       setPaymentError(
         "Network issue while verifying payment. Please message Ambika on WhatsApp before retrying."
@@ -217,7 +207,6 @@ export function BookingFlow() {
         return;
       }
 
-      // If running with placeholder Razorpay keys in dev/test, open the built-in Razorpay Test Checkout simulator
       if (orderData.simulated || !window.Razorpay) {
         setSimulatedModalOrder({
           bookingId: orderData.bookingId,
@@ -302,9 +291,9 @@ export function BookingFlow() {
 
   const mobilePrimaryLabel =
     step === 1
-      ? "Continue"
+      ? "Continue to your details →"
       : step === 2
-      ? "Review & pay"
+      ? "Review & pay →"
       : step === 3
       ? isSubmitting
         ? "Opening Razorpay…"
@@ -319,11 +308,11 @@ export function BookingFlow() {
       />
 
       {/* ============================================================
-          DESKTOP BOOKING VIEW (>=1024px — matches desktop-booking.html)
+          DESKTOP BOOKING VIEW (>=1024px)
           ============================================================ */}
       <div className="hidden lg:grid min-h-screen w-full max-w-[1440px] mx-auto grid-cols-12 bg-cream font-sans text-ink box-border">
         {/* Left Maroon Sidebar (4 columns) */}
-        <aside className="col-span-4 flex flex-col gap-[40px] bg-maroon px-[48px] py-[56px] text-cream">
+        <aside className="col-span-4 flex flex-col gap-[36px] bg-maroon px-[48px] py-[56px] text-cream">
           <Logo variant="booking-sidebar" href="/" />
 
           {/* 3-Step List */}
@@ -359,14 +348,20 @@ export function BookingFlow() {
 
           <div className="flex-grow" />
 
-          {/* Your Selection Summary */}
-          <div className="flex flex-col gap-[8px] border-t border-[#A8414A] pt-[24px]">
-            <span className="text-[12px] uppercase tracking-[2px] text-gold">
-              Your selection
+          {/* Your Enrolment Summary */}
+          <div className="flex flex-col gap-[6px] border-t border-[#A8414A] pt-[24px]">
+            <span className="font-cursive text-[26px] leading-none text-gold">
+              One path · One to one
             </span>
-            <span className="font-serif text-[26px]">{chosen.name}</span>
-            <span className="font-serif text-[40px] font-semibold">
-              {chosen.priceLabel}
+            <span className="font-serif text-[24px]">{chosen.name}</span>
+            <div className="flex items-baseline gap-[10px]">
+              <span className="font-serif text-[38px] font-semibold">
+                {chosen.priceRsLabel}
+              </span>
+            </div>
+            <span className="text-[13px] italic text-[#F1D9D3]">
+              (only Introductory Price) · All 6 sessions + 1 month WhatsApp
+              support
             </span>
           </div>
 
@@ -395,78 +390,105 @@ export function BookingFlow() {
         </aside>
 
         {/* Right Form Area (8 columns) */}
-        <main className="col-span-8 flex flex-col gap-[28px] px-[72px] py-[56px]">
-          {/* STEP 1 — Choose your path */}
+        <main className="col-span-8 flex flex-col gap-[28px] px-[64px] py-[48px]">
+          {/* STEP 1 — Course Summary + Important to Read */}
           {step === 1 && (
-            <div className="flex flex-col gap-[28px] animate-fade-up">
-              <div className="flex flex-col gap-[8px]">
-                <h1 className="m-0 font-serif text-[48px] font-medium text-ink">
-                  Which path calls you?
+            <div className="flex flex-col gap-[24px] animate-fade-up">
+              <div className="flex flex-col gap-[6px]">
+                <span className="font-cursive text-[34px] leading-none text-lavender-deep">
+                  A journey of self discovery
+                </span>
+                <h1 className="m-0 font-serif text-[44px] font-normal text-ink">
+                  1 to 1 · LOA Coaching Enrolment
                 </h1>
-                <p className="m-0 text-[16px] text-muted">
-                  You can start with Course 1 and add Course 2 later.
+                <p className="m-0 font-cormorant text-[22px] italic text-body">
+                  One path. Paid in full. One to one.
                 </p>
               </div>
 
-              <div
-                role="radiogroup"
-                aria-label="Choose your coaching path"
-                className="flex flex-col gap-[14px]"
-              >
-                {COURSE_LIST.map((o) => {
-                  const isSelected = o.id === choice;
-                  return (
-                    <label
-                      key={o.id}
-                      className={`flex w-full cursor-pointer items-center gap-[20px] rounded-[20px] bg-white px-[28px] py-[24px] border-2 transition-colors focus-within:ring-2 focus-within:ring-maroon ${
-                        isSelected ? "border-maroon" : "border-divider"
-                      }`}
+              {/* Warm Beige Box ("The course") + Soft Lavender Box ("Fee") */}
+              <div className="grid grid-cols-12 gap-[20px] items-stretch">
+                <div className="col-span-7 beige-card-surface rounded-[20px] p-[24px] flex flex-col gap-[12px]">
+                  <h2 className="m-0 font-playfair text-[22px] font-medium text-maroon">
+                    The course
+                  </h2>
+                  <ul className="m-0 flex flex-col gap-[8px] pl-0 list-none">
+                    {COURSE_SESSIONS_LIST.map((item) => (
+                      <li
+                        key={item}
+                        className="flex items-start gap-[10px] font-cormorant text-[19px] font-medium leading-[1.35] text-ink"
+                      >
+                        <span
+                          aria-hidden="true"
+                          className="mt-[8px] h-[5px] w-[5px] shrink-0 rounded-full bg-ink"
+                        />
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div className="col-span-5 lavender-card-surface rounded-[20px] p-[24px] flex flex-col justify-between gap-[14px]">
+                  <div className="flex flex-col gap-[6px]">
+                    <span className="font-playfair text-[22px] font-medium text-maroon">
+                      Fee
+                    </span>
+                    <span className="font-cormorant text-[22px] font-semibold text-ink">
+                      The 5 week course
+                    </span>
+                    <span className="font-cormorant text-[18px] text-body">
+                      All sessions above. One enrolment.
+                    </span>
+                  </div>
+                  <div className="flex flex-col gap-[4px] pt-[8px] border-t border-lavender-border">
+                    <span className="font-playfair text-[34px] font-medium leading-tight text-maroon">
+                      Rs. 15,000/-
+                    </span>
+                    <span className="font-cormorant text-[20px] italic text-maroon">
+                      (only Introductory Price)
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Important to Read Box */}
+              <div className="rounded-[20px] bg-lavender-soft border border-lavender-border p-[24px] flex flex-col gap-[12px]">
+                <div className="flex items-center justify-between">
+                  <h2 className="m-0 font-playfair text-[22px] font-medium text-maroon">
+                    Important to read
+                  </h2>
+                  <span className="text-[12px] font-medium uppercase tracking-[0.16em] text-lavender-deep">
+                    5-Week Programme Guidelines
+                  </span>
+                </div>
+                <p className="m-0 font-cormorant text-[19px] leading-[1.45] text-ink">
+                  {IMPORTANT_TO_READ.intro}
+                </p>
+                <ul className="m-0 flex flex-col gap-[8px] pl-0 list-none">
+                  {IMPORTANT_TO_READ.bullets.map((b) => (
+                    <li
+                      key={b}
+                      className="flex items-start gap-[10px] font-cormorant text-[18px] leading-[1.4] text-body"
                     >
-                      <input
-                        type="radio"
-                        name="course-desktop"
-                        value={o.id}
-                        checked={isSelected}
-                        onChange={() => setChoice(o.id)}
-                        className="sr-only"
-                      />
                       <span
                         aria-hidden="true"
-                        className={`h-[22px] w-[22px] shrink-0 rounded-full box-border ${
-                          isSelected
-                            ? "border-[7px] border-maroon"
-                            : "border-2 border-[#C9B3A5]"
-                        }`}
+                        className="mt-[8px] h-[5px] w-[5px] shrink-0 rounded-full bg-maroon"
                       />
-                      <span className="flex flex-grow flex-col gap-[4px] text-left">
-                        <span className="flex items-center gap-[10px]">
-                          <span className="font-serif text-[26px] font-semibold text-ink">
-                            {o.name}
-                          </span>
-                          {o.best && (
-                            <span className="rounded-full bg-gold px-[10px] py-[4px] text-[12px] font-semibold text-ink">
-                              Save ₹1,000
-                            </span>
-                          )}
-                        </span>
-                        <span className="text-[15px] text-muted">
-                          {o.bookingDescDesktop}
-                        </span>
-                      </span>
-                      <span className="font-serif text-[34px] font-semibold text-ink">
-                        {o.priceLabel}
-                      </span>
-                    </label>
-                  );
-                })}
+                      <span>{b}</span>
+                    </li>
+                  ))}
+                </ul>
+                <p className="m-0 pt-[4px] font-cormorant text-[18px] italic text-lavender-deep">
+                  {IMPORTANT_TO_READ.closing}
+                </p>
               </div>
 
               <button
                 type="button"
                 onClick={handleNextFromStep1}
-                className="min-h-[54px] self-end rounded-full bg-maroon px-[36px] py-[18px] font-sans text-[16px] font-medium text-white hover:bg-maroon-dark cursor-pointer transition-colors"
+                className="btn-3d-maroon animate-gold-shimmer min-h-[54px] self-end rounded-full px-[36px] py-[18px] font-sans text-[16px] font-semibold text-white cursor-pointer"
               >
-                Continue →
+                Continue to your details →
               </button>
             </div>
           )}
@@ -474,12 +496,16 @@ export function BookingFlow() {
           {/* STEP 2 — Your details */}
           {step === 2 && (
             <div className="flex flex-col gap-[24px] animate-fade-up">
-              <div className="flex flex-col gap-[8px]">
-                <h1 className="m-0 font-serif text-[48px] font-medium text-ink">
+              <div className="flex flex-col gap-[6px]">
+                <span className="font-cursive text-[32px] leading-none text-lavender-deep">
+                  Step 2 of 3
+                </span>
+                <h1 className="m-0 font-serif text-[46px] font-normal text-ink">
                   A little about you
                 </h1>
                 <p className="m-0 text-[16px] text-muted">
-                  Ambika will reach you on WhatsApp to fix your first call.
+                  Ambika will reach you on WhatsApp to share{" "}
+                  <em>The Secret</em> and fix your first call.
                 </p>
               </div>
 
@@ -593,7 +619,7 @@ export function BookingFlow() {
                         className={`min-h-[46px] rounded-full px-[22px] py-[12px] text-[15px] cursor-pointer transition-colors ${
                           isOn
                             ? "border-[1.5px] border-maroon bg-maroon text-white"
-                            : "border-[1.5px] border-line bg-white text-ink hover:border-maroon"
+                            : "border-[1.5px] border-lavender-border bg-lavender-soft text-ink hover:border-maroon"
                         }`}
                       >
                         {t.label}
@@ -628,7 +654,7 @@ export function BookingFlow() {
                 <button
                   type="button"
                   onClick={handleNextFromStep2}
-                  className="min-h-[54px] rounded-full bg-maroon px-[36px] py-[18px] font-sans text-[16px] font-medium text-white hover:bg-maroon-dark cursor-pointer transition-colors"
+                  className="btn-3d-maroon animate-gold-shimmer min-h-[54px] rounded-full px-[36px] py-[18px] font-sans text-[16px] font-semibold text-white cursor-pointer"
                 >
                   Review &amp; pay →
                 </button>
@@ -639,26 +665,38 @@ export function BookingFlow() {
           {/* STEP 3 — Review & pay */}
           {step === 3 && (
             <div className="flex flex-col gap-[24px] animate-fade-up">
-              <h1 className="m-0 font-serif text-[48px] font-medium text-ink">
-                Review &amp; pay
-              </h1>
+              <div className="flex flex-col gap-[4px]">
+                <span className="font-cursive text-[32px] leading-none text-lavender-deep">
+                  Step 3 of 3
+                </span>
+                <h1 className="m-0 font-serif text-[46px] font-normal text-ink">
+                  Review &amp; pay
+                </h1>
+              </div>
 
-              <div className="flex flex-col gap-[16px] rounded-[20px] bg-white px-[32px] py-[28px]">
-                <div className="flex justify-between text-[16px]">
+              <div className="flex flex-col gap-[16px] rounded-[22px] bg-lavender border border-lavender-border px-[32px] py-[28px]">
+                <div className="flex justify-between text-[17px] font-semibold text-ink">
                   <span>{chosen.name}</span>
-                  <span>{chosen.priceLabel}</span>
+                  <span className="text-maroon">{chosen.priceRsLabel}</span>
                 </div>
-                <div className="flex justify-between text-[15px] text-muted">
+                <div className="flex justify-between text-[15px] text-body">
                   <span>Preferred call time</span>
                   <span>{slotLabel}</span>
                 </div>
-                <div className="flex justify-between text-[15px] text-muted">
+                <div className="flex justify-between text-[15px] text-body">
                   <span>Includes</span>
                   <span>{chosen.includes}</span>
                 </div>
-                <div className="flex items-baseline justify-between border-t border-divider pt-[16px]">
-                  <span className="font-semibold">Total</span>
-                  <span className="font-serif text-[40px] font-semibold">
+                <div className="flex items-baseline justify-between border-t border-lavender-border pt-[16px]">
+                  <div className="flex flex-col">
+                    <span className="font-semibold text-ink">
+                      Total (Introductory Price)
+                    </span>
+                    <span className="text-[13px] text-lavender-deep">
+                      One path · Paid in full · Non-refundable once started
+                    </span>
+                  </div>
+                  <span className="font-serif text-[40px] font-semibold text-maroon">
                     {chosen.priceLabel}
                   </span>
                 </div>
@@ -717,7 +755,7 @@ export function BookingFlow() {
               {paymentError && (
                 <div
                   role="alert"
-                  className="flex flex-col gap-[10px] rounded-[16px] border border-maroon/30 bg-sand p-[20px] text-[15px] text-ink"
+                  className="flex flex-col gap-[10px] rounded-[16px] border border-maroon/30 bg-beige-card p-[20px] text-[15px] text-ink"
                 >
                   <span className="font-medium text-maroon">
                     {paymentError}
@@ -746,7 +784,7 @@ export function BookingFlow() {
                   type="button"
                   onClick={handlePayNow}
                   disabled={isSubmitting}
-                  className="min-h-[54px] rounded-full bg-maroon px-[36px] py-[18px] font-sans text-[16px] font-medium text-white hover:bg-maroon-dark cursor-pointer transition-colors disabled:opacity-60"
+                  className="btn-3d-maroon animate-gold-shimmer min-h-[54px] rounded-full px-[36px] py-[18px] font-sans text-[16px] font-semibold text-white cursor-pointer disabled:opacity-60"
                 >
                   {isSubmitting
                     ? "Opening Razorpay…"
@@ -758,14 +796,14 @@ export function BookingFlow() {
 
           {/* STEP 4 — Confirmation */}
           {step === 4 && (
-            <div className="flex flex-col items-start gap-[24px] pt-[60px] animate-fade-up">
+            <div className="flex flex-col items-start gap-[24px] pt-[40px] animate-fade-up">
               <span className="flex h-[72px] w-[72px] items-center justify-center rounded-full bg-gold">
                 <svg
                   width="32"
                   height="32"
                   viewBox="0 0 24 24"
                   fill="none"
-                  stroke="#2B1B1B"
+                  stroke="#4E3B2C"
                   strokeWidth="2"
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -774,7 +812,10 @@ export function BookingFlow() {
                   <path d="M5 12l5 5 9-10" />
                 </svg>
               </span>
-              <h1 className="m-0 font-serif text-[56px] font-medium leading-[1.05] text-ink">
+              <span className="font-cursive text-[36px] leading-none text-lavender-deep">
+                Welcome to your journey
+              </span>
+              <h1 className="m-0 font-serif text-[52px] font-normal leading-[1.05] text-ink">
                 You’re on the path.
               </h1>
               <p className="m-0 max-w-[560px] text-[18px] leading-[1.7] text-body">
@@ -783,7 +824,7 @@ export function BookingFlow() {
                 seeker’s space is ready with your first videos.
               </p>
 
-              <div className="flex w-full max-w-[420px] items-center gap-[14px] rounded-[20px] bg-white p-[18px]">
+              <div className="flex w-full max-w-[440px] items-center gap-[14px] rounded-[20px] bg-lavender border border-lavender-border p-[18px]">
                 <Image
                   src="/images/ambika.png"
                   alt="Ambika"
@@ -795,7 +836,7 @@ export function BookingFlow() {
                   <span className="text-[15px] font-semibold text-ink">
                     Next: your first call
                   </span>
-                  <span className="text-[13px] text-muted">
+                  <span className="text-[13px] text-lavender-deep">
                     {chosen.name} · {slotLabel}
                   </span>
                 </span>
@@ -804,7 +845,7 @@ export function BookingFlow() {
               <div className="flex gap-[14px]">
                 <Link
                   href="/space"
-                  className="inline-flex min-h-[52px] items-center justify-center rounded-full bg-maroon px-[28px] py-[16px] font-medium text-white no-underline hover:bg-maroon-dark transition-colors"
+                  className="btn-3d-maroon inline-flex min-h-[52px] items-center justify-center rounded-full px-[28px] py-[16px] font-semibold text-white no-underline"
                 >
                   Open my seeker’s space
                 </Link>
@@ -822,18 +863,18 @@ export function BookingFlow() {
       </div>
 
       {/* ============================================================
-          MOBILE BOOKING VIEW (<1024px — matches mobile-booking.html)
+          MOBILE & TABLET BOOKING VIEW (<1024px — App-Like Experience)
           ============================================================ */}
       <div className="flex lg:hidden min-h-[100dvh] w-full flex-col bg-cream font-sans text-ink box-border">
         {/* Top Header */}
-        <header className="flex flex-col gap-[14px] border-b border-divider bg-cream px-[16px] pt-[14px] pb-[12px]">
+        <header className="flex flex-col gap-[12px] border-b border-lavender-border/80 bg-cream px-[16px] pt-[14px] pb-[12px]">
           <div className="flex items-center justify-between">
             {step === 2 || step === 3 ? (
               <button
                 type="button"
                 onClick={handleBack}
                 aria-label="Back"
-                className="flex h-[44px] w-[44px] items-center justify-center rounded-full border-[1.5px] border-line bg-white text-ink cursor-pointer"
+                className="flex h-[44px] w-[44px] items-center justify-center rounded-full border-[1.5px] border-lavender-border bg-white text-ink cursor-pointer"
               >
                 <svg
                   width="18"
@@ -852,7 +893,7 @@ export function BookingFlow() {
               <Link
                 href="/"
                 aria-label="Close and return home"
-                className="flex h-[44px] w-[44px] items-center justify-center rounded-full border-[1.5px] border-line bg-white text-ink"
+                className="flex h-[44px] w-[44px] items-center justify-center rounded-full border-[1.5px] border-lavender-border bg-white text-ink"
               >
                 <svg
                   width="18"
@@ -888,18 +929,18 @@ export function BookingFlow() {
             </a>
           </div>
 
-          <div className="flex flex-col gap-[8px]">
+          <div className="flex flex-col gap-[6px]">
             <div className="flex gap-[6px]" aria-hidden="true">
               {[1, 2, 3].map((n) => (
                 <span
                   key={n}
-                  className={`h-[5px] flex-grow rounded-full ${
-                    step >= n ? "bg-maroon" : "bg-line"
+                  className={`h-[5px] flex-grow rounded-full transition-colors ${
+                    step >= n ? "bg-maroon" : "bg-lavender-border"
                   }`}
                 />
               ))}
             </div>
-            <span className="text-[12px] text-muted">
+            <span className="text-[12px] font-medium text-lavender-deep">
               {STEP_LABELS_MOBILE[step - 1]}
             </span>
           </div>
@@ -907,67 +948,90 @@ export function BookingFlow() {
 
         {/* Main Step Area */}
         <main className="flex flex-grow flex-col gap-[16px] px-[16px] py-[20px]">
-          {/* Mobile Step 1 */}
+          {/* Mobile Step 1: Unified Course + Fee + Important to Read */}
           {step === 1 && (
-            <div className="flex flex-col gap-[14px] animate-fade-up">
-              <h1 className="m-0 font-serif text-[32px] font-normal leading-[1.1] text-ink">
-                Which path calls you?
-              </h1>
-              <p className="m-0 text-[14px] text-muted">
-                You can start with Course 1 and add Course 2 later.
-              </p>
+            <div className="flex flex-col gap-[16px] animate-fade-up">
+              <div className="flex flex-col gap-[4px]">
+                <span className="font-cursive text-[28px] leading-none text-lavender-deep">
+                  A journey of self discovery
+                </span>
+                <h1 className="m-0 font-serif text-[30px] font-normal leading-[1.1] text-ink">
+                  The 5-Week 1-to-1 Course
+                </h1>
+                <p className="m-0 font-cormorant text-[19px] italic text-body">
+                  One path. Paid in full. One to one.
+                </p>
+              </div>
 
-              <div
-                role="radiogroup"
-                aria-label="Choose your coaching path"
-                className="flex flex-col gap-[14px]"
-              >
-                {COURSE_LIST.map((o) => {
-                  const isSelected = o.id === choice;
-                  return (
-                    <label
-                      key={o.id}
-                      className={`flex w-full cursor-pointer flex-col items-start gap-[6px] rounded-[18px] bg-white px-[16px] py-[18px] border-2 transition-colors ${
-                        isSelected ? "border-maroon" : "border-divider"
-                      }`}
+              {/* Warm Golden Beige Box: "The course" */}
+              <div className="beige-card-surface rounded-[18px] p-[18px] flex flex-col gap-[10px]">
+                <h2 className="m-0 font-playfair text-[20px] font-medium text-maroon">
+                  The course
+                </h2>
+                <ul className="m-0 flex flex-col gap-[8px] pl-0 list-none">
+                  {COURSE_SESSIONS_LIST.map((item) => (
+                    <li
+                      key={item}
+                      className="flex items-start gap-[10px] font-cormorant text-[18px] font-medium leading-[1.35] text-ink"
                     >
-                      <input
-                        type="radio"
-                        name="course-mobile"
-                        value={o.id}
-                        checked={isSelected}
-                        onChange={() => setChoice(o.id)}
-                        className="sr-only"
+                      <span
+                        aria-hidden="true"
+                        className="mt-[8px] h-[5px] w-[5px] shrink-0 rounded-full bg-ink"
                       />
-                      <span className="flex w-full items-center justify-between">
-                        <span className="flex items-center gap-[12px]">
-                          <span
-                            aria-hidden="true"
-                            className={`h-[22px] w-[22px] shrink-0 rounded-full box-border ${
-                              isSelected
-                                ? "border-[7px] border-maroon"
-                                : "border-2 border-[#C9B3A5]"
-                            }`}
-                          />
-                          <span className="text-left font-serif text-[20px] text-ink">
-                            {o.mobileName}
-                          </span>
-                        </span>
-                        <span className="font-serif text-[22px] text-ink">
-                          {o.priceLabel}
-                        </span>
-                      </span>
-                      <span className="pl-[34px] text-left text-[13px] leading-[1.5] text-muted">
-                        {o.bookingDescMobile}
-                      </span>
-                      {o.best && (
-                        <span className="ml-[34px] rounded-full bg-gold px-[10px] py-[4px] text-[12px] font-semibold text-ink">
-                          Save ₹1,000 · includes WhatsApp support
-                        </span>
-                      )}
-                    </label>
-                  );
-                })}
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Soft Lavender Box: "Fee" */}
+              <div className="lavender-card-surface rounded-[18px] p-[18px] flex flex-col gap-[6px]">
+                <div className="flex items-center justify-between">
+                  <span className="font-playfair text-[20px] font-medium text-maroon">
+                    Fee · The 5 week course
+                  </span>
+                  <span className="rounded-full bg-white/80 border border-lavender-border px-[10px] py-[3px] text-[11px] font-semibold text-lavender-deep">
+                    One enrolment
+                  </span>
+                </div>
+                <span className="font-cormorant text-[17px] text-body">
+                  All sessions above. One enrolment.
+                </span>
+                <div className="mt-[4px] flex flex-wrap items-baseline gap-[8px]">
+                  <span className="font-playfair text-[28px] font-medium text-maroon">
+                    Rs. 15,000/-
+                  </span>
+                  <span className="font-cormorant text-[19px] italic text-maroon">
+                    (only Introductory Price)
+                  </span>
+                </div>
+              </div>
+
+              {/* Important to Read Card */}
+              <div className="rounded-[18px] bg-lavender-soft border border-lavender-border p-[18px] flex flex-col gap-[10px]">
+                <h2 className="m-0 font-playfair text-[20px] font-medium text-maroon">
+                  Important to read
+                </h2>
+                <p className="m-0 font-cormorant text-[17px] leading-[1.45] text-ink">
+                  {IMPORTANT_TO_READ.intro}
+                </p>
+                <ul className="m-0 flex flex-col gap-[8px] pl-0 list-none">
+                  {IMPORTANT_TO_READ.bullets.map((b) => (
+                    <li
+                      key={b}
+                      className="flex items-start gap-[8px] font-cormorant text-[16px] leading-[1.4] text-body"
+                    >
+                      <span
+                        aria-hidden="true"
+                        className="mt-[7px] h-[5px] w-[5px] shrink-0 rounded-full bg-maroon"
+                      />
+                      <span>{b}</span>
+                    </li>
+                  ))}
+                </ul>
+                <p className="m-0 pt-[2px] font-cormorant text-[16px] italic text-lavender-deep">
+                  {IMPORTANT_TO_READ.closing}
+                </p>
               </div>
             </div>
           )}
@@ -975,11 +1039,17 @@ export function BookingFlow() {
           {/* Mobile Step 2 */}
           {step === 2 && (
             <div className="flex flex-col gap-[14px] animate-fade-up">
-              <h1 className="m-0 font-serif text-[32px] font-normal leading-[1.1] text-ink">
-                A little about you
-              </h1>
+              <div className="flex flex-col gap-[2px]">
+                <span className="font-cursive text-[26px] leading-none text-lavender-deep">
+                  Your details
+                </span>
+                <h1 className="m-0 font-serif text-[30px] font-normal leading-[1.1] text-ink">
+                  A little about you
+                </h1>
+              </div>
               <p className="m-0 text-[14px] text-muted">
-                Ambika will message you on WhatsApp to fix your first call.
+                Ambika will message you on WhatsApp to share{" "}
+                <em>The Secret</em> and fix your first call.
               </p>
 
               <label className="flex flex-col gap-[6px] text-[13px] font-medium text-ink">
@@ -1081,7 +1151,7 @@ export function BookingFlow() {
                         className={`h-[46px] rounded-[12px] text-[14px] cursor-pointer transition-colors ${
                           isOn
                             ? "border-[1.5px] border-maroon bg-maroon text-white"
-                            : "border-[1.5px] border-line bg-white text-ink"
+                            : "border-[1.5px] border-lavender-border bg-lavender-soft text-ink"
                         }`}
                       >
                         {t.label}
@@ -1110,26 +1180,33 @@ export function BookingFlow() {
           {/* Mobile Step 3 */}
           {step === 3 && (
             <div className="flex flex-col gap-[14px] animate-fade-up">
-              <h1 className="m-0 font-serif text-[32px] font-normal leading-[1.1] text-ink">
-                Review &amp; pay
-              </h1>
+              <div className="flex flex-col gap-[2px]">
+                <span className="font-cursive text-[26px] leading-none text-lavender-deep">
+                  Final step
+                </span>
+                <h1 className="m-0 font-serif text-[30px] font-normal leading-[1.1] text-ink">
+                  Review &amp; pay
+                </h1>
+              </div>
 
-              <div className="flex flex-col gap-[14px] rounded-[20px] bg-white p-[20px]">
-                <div className="flex justify-between text-[15px] font-medium">
-                  <span>{chosen.name}</span>
-                  <span>{chosen.priceLabel}</span>
+              <div className="flex flex-col gap-[12px] rounded-[20px] bg-lavender border border-lavender-border p-[18px]">
+                <div className="flex justify-between text-[15px] font-semibold text-ink">
+                  <span>{chosen.mobileName}</span>
+                  <span className="text-maroon">{chosen.priceRsLabel}</span>
                 </div>
-                <div className="flex justify-between gap-[12px] text-[14px] text-muted">
+                <div className="flex justify-between gap-[12px] text-[13px] text-body">
                   <span>Includes</span>
                   <span className="text-right">{chosen.includes}</span>
                 </div>
-                <div className="flex justify-between text-[14px] text-muted">
+                <div className="flex justify-between text-[13px] text-body">
                   <span>Call time</span>
                   <span>{slotLabel}</span>
                 </div>
-                <div className="flex items-baseline justify-between border-t border-divider pt-[14px]">
-                  <span className="font-semibold">Total</span>
-                  <span className="font-serif text-[32px]">
+                <div className="flex items-baseline justify-between border-t border-lavender-border pt-[12px]">
+                  <span className="font-semibold text-ink">
+                    Total (Introductory Price)
+                  </span>
+                  <span className="font-serif text-[30px] text-maroon">
                     {chosen.priceLabel}
                   </span>
                 </div>
@@ -1177,7 +1254,7 @@ export function BookingFlow() {
               {paymentError && (
                 <div
                   role="alert"
-                  className="flex flex-col gap-[8px] rounded-[16px] border border-maroon/30 bg-sand p-[16px] text-[14px] text-ink"
+                  className="flex flex-col gap-[8px] rounded-[16px] border border-maroon/30 bg-beige-card p-[16px] text-[14px] text-ink"
                 >
                   <span className="font-medium text-maroon">
                     {paymentError}
@@ -1197,14 +1274,14 @@ export function BookingFlow() {
 
           {/* Mobile Step 4 (Confirmation) */}
           {step === 4 && (
-            <div className="flex flex-col items-center gap-[18px] pt-[40px] text-center animate-fade-up">
-              <span className="flex h-[84px] w-[84px] items-center justify-center rounded-full bg-gold">
+            <div className="flex flex-col items-center gap-[16px] pt-[32px] text-center animate-fade-up">
+              <span className="flex h-[80px] w-[80px] items-center justify-center rounded-full bg-gold">
                 <svg
                   width="36"
                   height="36"
                   viewBox="0 0 24 24"
                   fill="none"
-                  stroke="#2B1B1B"
+                  stroke="#4E3B2C"
                   strokeWidth="2"
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -1213,14 +1290,17 @@ export function BookingFlow() {
                   <path d="M5 12l5 5 9-10" />
                 </svg>
               </span>
-              <h1 className="m-0 font-serif text-[36px] font-normal leading-[1.08] text-ink">
+              <span className="font-cursive text-[30px] leading-none text-lavender-deep">
+                Welcome to your journey
+              </span>
+              <h1 className="m-0 font-serif text-[34px] font-normal leading-[1.08] text-ink">
                 You’re on the path.
               </h1>
               <p className="m-0 text-[15px] leading-[1.65] text-body">
                 Ambika will message you on WhatsApp with the link to{" "}
                 <em>The Secret</em> and a time for your first call.
               </p>
-              <div className="flex w-full items-center gap-[12px] rounded-[20px] bg-white p-[16px] text-left box-border">
+              <div className="flex w-full items-center gap-[12px] rounded-[20px] bg-lavender border border-lavender-border p-[16px] text-left box-border">
                 <Image
                   src="/images/ambika.png"
                   alt="Ambika"
@@ -1232,8 +1312,8 @@ export function BookingFlow() {
                   <span className="text-[15px] font-semibold text-ink">
                     Next: your first call
                   </span>
-                  <span className="text-[13px] text-muted">
-                    {chosen.name} · {slotLabel}
+                  <span className="text-[13px] text-lavender-deep">
+                    {chosen.mobileName} · {slotLabel}
                   </span>
                 </span>
               </div>
@@ -1249,11 +1329,13 @@ export function BookingFlow() {
         </main>
 
         {/* Sticky Bottom Footer Bar */}
-        <footer className="sticky bottom-0 flex items-center justify-between gap-[12px] border-t border-divider bg-white px-[16px] pt-[12px] pb-[max(24px,env(safe-area-inset-bottom))]">
+        <footer className="sticky bottom-0 flex items-center justify-between gap-[12px] border-t border-lavender-border bg-white/95 backdrop-blur-md px-[16px] pt-[12px] pb-[max(20px,env(safe-area-inset-bottom))]">
           {step !== 4 && (
             <span className="flex flex-col">
-              <span className="text-[12px] text-muted">{chosen.name}</span>
-              <span className="font-serif text-[24px] leading-tight text-ink">
+              <span className="text-[12px] text-lavender-deep">
+                {chosen.mobileName}
+              </span>
+              <span className="font-serif text-[24px] leading-tight text-maroon">
                 {chosen.priceLabel}
               </span>
             </span>
@@ -1262,7 +1344,7 @@ export function BookingFlow() {
             type="button"
             onClick={handleMobilePrimaryClick}
             disabled={isSubmitting}
-            className={`h-[54px] rounded-full bg-maroon px-[26px] font-sans text-[16px] font-medium text-white cursor-pointer hover:bg-maroon-dark disabled:opacity-60 ${
+            className={`btn-3d-maroon animate-gold-shimmer h-[52px] rounded-full px-[24px] font-sans text-[15px] font-semibold text-white cursor-pointer disabled:opacity-60 ${
               step === 4 ? "flex-grow" : ""
             }`}
           >
@@ -1272,7 +1354,7 @@ export function BookingFlow() {
       </div>
 
       {/* ============================================================
-          RAZORPAY TEST CHECKOUT SIMULATOR MODAL (when test keys are placeholders)
+          RAZORPAY TEST CHECKOUT SIMULATOR MODAL
           ============================================================ */}
       {simulatedModalOrder && (
         <div
@@ -1308,7 +1390,7 @@ export function BookingFlow() {
             </div>
 
             <div className="flex flex-col gap-[16px] p-[24px] text-ink">
-              <div className="rounded-[14px] bg-cream p-[14px] text-[13px] text-body">
+              <div className="rounded-[14px] bg-lavender-soft border border-lavender-border p-[14px] text-[13px] text-body">
                 <p className="m-0 font-medium text-ink">
                   Order: {simulatedModalOrder.orderId}
                 </p>
@@ -1332,7 +1414,7 @@ export function BookingFlow() {
                       simulatedStatus: "paid",
                     })
                   }
-                  className="min-h-[50px] w-full rounded-full bg-maroon px-[20px] py-[14px] text-[15px] font-medium text-white hover:bg-maroon-dark cursor-pointer"
+                  className="btn-3d-maroon min-h-[50px] w-full rounded-full px-[20px] py-[14px] text-[15px] font-semibold text-white cursor-pointer"
                 >
                   Simulate Successful Test Payment
                 </button>

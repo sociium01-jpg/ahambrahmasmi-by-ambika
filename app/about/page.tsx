@@ -48,7 +48,7 @@ export default function AboutPage() {
       {/* ============================================================
           PART 1 — ABOUT ME (Word-for-word from sunny-mist-wood-sky.grok.me/)
           ============================================================ */}
-      <section className="mx-auto max-w-[1120px] rounded-[28px] lg:rounded-[36px] bg-sand p-[24px] sm:p-[40px] lg:p-[72px] animate-fade-up">
+      <section className="mx-auto max-w-[1120px] rounded-[28px] lg:rounded-[36px] bg-gradient-to-br from-beige-card via-sand to-lavender p-[24px] sm:p-[40px] lg:p-[72px] border border-beige-border animate-fade-up">
         <div className="grid grid-cols-1 lg:grid-cols-12 items-center gap-[32px] lg:gap-[56px]">
           <div className="lg:col-span-5 flex flex-col items-center text-center">
             <div className="relative h-[220px] w-[220px] sm:h-[260px] sm:w-[260px] lg:h-[320px] lg:w-[320px] overflow-hidden rounded-full border-[10px] border-cream bg-cream shadow-floating">
@@ -64,7 +64,7 @@ export default function AboutPage() {
             <span className="mt-[20px] rounded-full bg-gold px-[18px] py-[8px] text-[14px] font-medium text-ink">
               Ambika · fellow seeker
             </span>
-            <span className="mt-[8px] font-serif text-[20px] italic text-maroon">
+            <span className="mt-[8px] font-cursive text-[28px] lg:text-[32px] text-maroon">
               A journey of self discovery
             </span>
           </div>
@@ -148,6 +148,9 @@ export default function AboutPage() {
       <section className="mx-auto mt-[64px] lg:mt-[100px] max-w-[920px] flex flex-col gap-[28px] animate-fade-up">
         <div className="flex flex-col gap-[12px]">
           <Eyebrow>Intention with seekers</Eyebrow>
+          <span className="font-cursive text-[28px] lg:text-[34px] leading-none text-maroon">
+            Sacred synchronicity
+          </span>
           <h2 className="m-0 font-serif text-[34px] lg:text-[52px] font-normal leading-[1.08] text-ink">
             Every rendezvous is a{" "}
             <em className="italic text-maroon">perfect match.</em>
@@ -187,7 +190,7 @@ export default function AboutPage() {
           sizes="(max-width: 1024px) 100vw, 1120px"
           className="h-full w-full object-cover"
         />
-        <div className="absolute inset-0 bg-[#2B1B1B]/45 lg:bg-[#2B1B1B]/[0.42]" />
+        <div className="absolute inset-0 bg-[#4E3B2C]/45 lg:bg-[#4E3B2C]/[0.42]" />
         <div className="absolute inset-0 flex flex-col items-center justify-center gap-[16px] px-[24px] lg:px-[120px] text-center text-white">
           <span className="text-[11px] lg:text-[13px] font-medium uppercase tracking-[2px] lg:tracking-[3px] text-[#F2D08A]">
             From the Bhagavad Gita
@@ -208,7 +211,7 @@ export default function AboutPage() {
       {/* ============================================================
           PART 4 — SIX NUMBERED OUTCOMES
           ============================================================ */}
-      <section className="mx-auto mt-[64px] lg:mt-[100px] max-w-[1120px] rounded-[28px] lg:rounded-[36px] bg-white p-[24px] sm:p-[40px] lg:p-[64px] animate-fade-up">
+      <section className="mx-auto mt-[64px] lg:mt-[100px] max-w-[1120px] rounded-[28px] lg:rounded-[36px] bg-lavender-soft/80 border border-lavender-border p-[24px] sm:p-[40px] lg:p-[64px] animate-fade-up">
         <div className="flex flex-col gap-[12px]">
           <Eyebrow>Outcomes</Eyebrow>
           <h2 className="m-0 font-serif text-[32px] lg:text-[48px] font-normal leading-[1.1] text-ink">
@@ -217,10 +220,14 @@ export default function AboutPage() {
         </div>
 
         <ol className="mt-[32px] grid grid-cols-1 md:grid-cols-2 gap-[20px] lg:gap-[24px] list-none p-0 m-0">
-          {SIX_OUTCOMES.map((item) => (
+          {SIX_OUTCOMES.map((item, idx) => (
             <li
               key={item.num}
-              className="flex gap-[18px] rounded-[22px] bg-cream p-[24px] items-start"
+              className={`flex gap-[18px] rounded-[22px] p-[24px] items-start border ${
+                idx % 2 === 0
+                  ? "bg-beige-card border-beige-border"
+                  : "bg-lavender border-lavender-border"
+              }`}
             >
               <span className="font-serif text-[36px] leading-none text-maroon shrink-0">
                 {item.num}
@@ -232,7 +239,7 @@ export default function AboutPage() {
           ))}
         </ol>
 
-        <blockquote className="m-0 mt-[40px] rounded-[24px] bg-sand p-[28px] lg:p-[36px] font-serif text-[20px] lg:text-[24px] italic leading-[1.5] text-ink">
+        <blockquote className="m-0 mt-[40px] rounded-[24px] bg-beige-card border border-beige-border p-[28px] lg:p-[36px] font-serif text-[20px] lg:text-[24px] italic leading-[1.5] text-ink">
           My desire is to teach each and every one of my students to empower
           themselves by learning how to directly establish a connection with the
           Universe — so that you never need to come back to me with questions.
@@ -241,7 +248,7 @@ export default function AboutPage() {
         </blockquote>
 
         <div className="mt-[36px] flex flex-wrap items-center justify-between gap-[16px] border-t border-divider pt-[28px]">
-          <span className="text-[14px] uppercase tracking-[2px] text-gold-text font-medium">
+          <span className="font-cursive text-[26px] text-maroon">
             Everything happens in perfect Divine timing
           </span>
           <div className="flex flex-wrap gap-[12px]">
@@ -249,13 +256,13 @@ export default function AboutPage() {
               href="/course"
               className="inline-flex min-h-[48px] items-center justify-center rounded-full border-[1.5px] border-maroon px-[24px] py-[13px] text-[15px] font-medium text-maroon no-underline hover:bg-maroon hover:text-white transition-colors"
             >
-              Explore the courses
+              Explore the 5-week course
             </Link>
             <Link
               href="/book"
-              className="inline-flex min-h-[48px] items-center justify-center rounded-full bg-maroon px-[28px] py-[14px] text-[15px] font-medium text-white no-underline hover:bg-maroon-dark transition-colors"
+              className="btn-3d-maroon inline-flex min-h-[48px] items-center justify-center rounded-full bg-maroon px-[28px] py-[14px] text-[15px] font-medium text-white no-underline hover:bg-maroon-dark transition-colors"
             >
-              Book your path
+              Book your path · ₹15,000
             </Link>
             <a
               href={whatsappUrl}

@@ -139,12 +139,12 @@ export function MobileBookingBar() {
 
       {/* Tactile 3D Book CTA */}
       <Link
-        href="/book?course=whole"
+        href="/book"
         className="btn-3d-maroon animate-gold-shimmer shrink-0 inline-flex min-h-[46px] items-center justify-center gap-[6px] rounded-[20px] px-[16px] sm:px-[20px] py-[10px] font-inter text-[13px] sm:text-[14px] font-semibold text-white no-underline"
       >
         <span>Book</span>
         <span className="rounded-full bg-gold/25 px-[7px] py-[2px] text-[11px] font-bold text-[#F1DDB0]">
-          ₹12.5k
+          ₹15k
         </span>
       </Link>
     </nav>

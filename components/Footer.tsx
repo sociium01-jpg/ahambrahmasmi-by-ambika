@@ -89,28 +89,28 @@ export function Footer() {
               </Link>
             </div>
 
-            {/* Col 3: Courses */}
+            {/* Col 3: Programme */}
             <div className="lg:col-span-3 flex flex-col gap-[10px]">
               <span className="font-inter text-[11px] font-bold uppercase tracking-[0.22em] text-gold">
-                Programmes
+                The Programme
               </span>
               <Link
-                href="/book?course=whole"
+                href="/book"
                 className="font-inter text-[14px] text-white/80 hover:text-gold no-underline py-[2px]"
               >
-                The Whole Path · ₹12,500
+                The 5-Week Course · Rs. 15,000/-
               </Link>
               <Link
-                href="/book?course=intro"
+                href="/course"
                 className="font-inter text-[14px] text-white/80 hover:text-gold no-underline py-[2px]"
               >
-                Introduction to LOA · ₹8,500
+                Sessions 1–5 Curriculum
               </Link>
               <Link
-                href="/book?course=tools"
+                href="/investment"
                 className="font-inter text-[14px] text-white/80 hover:text-gold no-underline py-[2px]"
               >
-                Tools for Emotional Mastery · ₹5,000
+                Investment &amp; Important to Read
               </Link>
               <Link
                 href="/space"

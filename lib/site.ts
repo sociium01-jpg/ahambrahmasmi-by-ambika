@@ -17,6 +17,7 @@ export interface CourseOption {
   priceInr: number;
   actualPriceInr?: number;
   priceLabel: string;
+  priceRsLabel: string;
   actualPriceLabel?: string;
   badge?: string;
   mobileBadge?: string;
@@ -31,98 +32,81 @@ export interface CourseOption {
   benefits?: string[];
 }
 
-export const COURSES: Record<CourseId, CourseOption> = {
-  whole: {
-    id: "whole",
-    name: "The whole path",
-    mobileName: "The whole path",
-    fullTitle: "Introduction to LOA + Tools for Emotional Mastery",
-    subtitle: "Introduction to LOA + Tools for Emotional Mastery",
-    tag: "Whole path · Phases 1–5",
-    phases: "Phases 1, 2, 3A, 3B, 4 and 5",
-    priceInr: 12500,
-    actualPriceInr: 25000,
-    priceLabel: "₹12,500",
-    actualPriceLabel: "₹25,000",
-    badge: "Save ₹1,000",
-    mobileBadge: "Save ₹1,000 · includes WhatsApp support",
-    best: true,
-    description:
-      "Includes all five phases, WhatsApp support for the month, videos, meditations and the booklet.",
-    mobileDescription:
-      "Includes all five phases, WhatsApp support for the month, videos, meditations and the booklet.",
-    bookingDescDesktop:
-      "Introduction + Tools · all phases · WhatsApp support for the month",
-    bookingDescMobile: "Introduction + Tools · all five phases",
-    includes: "Phases 1–5, support, videos, booklet",
-    image: "/images/hero-sea.jpg",
-    imageAlt: "A woman sitting quietly by the sea at sunrise",
-    benefits: [
-      "All five phases, one-to-one",
-      "WhatsApp support for the month",
-      "Videos, meditations and the booklet",
-      "₹1,000 less than taking both courses separately",
-    ],
-  },
-  intro: {
-    id: "intro",
-    name: "Introduction to LOA",
-    mobileName: "Introduction to LOA",
-    fullTitle: "Introduction to LOA: Creating Faith in the Law",
-    subtitle: "Course 1 · Phases 1, 2, 3A, 3B",
-    tag: "Course 1 · Phases 1–3B",
-    phases: "Phases 1, 2, 3A, 3B",
-    priceInr: 8500,
-    priceLabel: "₹8,500",
-    best: false,
-    description:
-      "Creating faith in the Law — live experiments, a week of DIY observation, your body as an instrument, and the 5-step creative process.",
-    mobileDescription:
-      "Creating faith in the Law — live experiments, DIY observation, your body as an instrument, and the 5-step creative process.",
-    bookingDescDesktop: "Course 1 · Phases 1, 2, 3A, 3B",
-    bookingDescMobile: "Course 1 · Phases 1, 2, 3A, 3B",
-    includes: "Phases 1, 2, 3A, 3B",
-    image: "/images/course1-bench.jpg",
-    imageAlt: "A woman watching a sunset from a hilltop bench",
-  },
-  tools: {
-    id: "tools",
-    name: "Tools for Emotional Mastery",
-    mobileName: "Emotional Mastery",
-    fullTitle: "Tools for Emotional Mastery",
-    subtitle: "Course 2 · Phases 4 and 5",
-    tag: "Course 2 · Phases 4–5",
-    phases: "Phases 4 and 5",
-    priceInr: 5000,
-    priceLabel: "₹5,000",
-    best: false,
-    description:
-      "Pivoting, hourly breathwork, visualisation, gratitude journal, a look at your beliefs — and your vision board.",
-    mobileDescription:
-      "Pivoting, hourly breathwork, visualisation, gratitude journal, beliefs and your vision board.",
-    bookingDescDesktop: "Course 2 · Phases 4 and 5",
-    bookingDescMobile: "Course 2 · Phases 4 and 5",
-    includes: "Phases 4 and 5",
-    image: "/images/course2-journal.jpg",
-    imageAlt: "Hands writing in a journal",
-  },
-};
-
-export const COURSE_LIST: CourseOption[] = [
-  COURSES.whole,
-  COURSES.intro,
-  COURSES.tools,
+export const COURSE_SESSIONS_LIST: string[] = [
+  "Session 1 — watch videos",
+  "Session 2 — live experiment + DIY · 1 to 1 coaching (1hr)",
+  "Phase 3A — 1 to 1 coaching (2hrs)",
+  "Phase 3B — 1 to 1 coaching (2hrs)",
+  "Session 4 — tools · 1 to 1 coaching (2hrs)",
+  "Session 5 — belief, affirmation, vision board · 1 to 1 coaching (1hr)",
+  "WhatsApp support for the month · videos, meditations, booklet",
 ];
 
+export const IMPORTANT_TO_READ = {
+  eyebrow: "1 TO 1 · LOA COACHING",
+  title: "Important to read",
+  intro:
+    "This is a 5-week one-to-one programme. Each session builds on the previous session, so it is important to complete the programme within this time.",
+  bullets: [
+    "The programme should be completed within 5 weeks. A 7-day grace period is allowed for unexpected situations.",
+    "If you need to postpone a session, it must be completed within the programme period and will depend on my available time slots.",
+    "If you stop the programme for a long period, especially for a month or more, we may need a Reorientation & Recap Session before continuing. This will help us go over what we have already covered and prepare for the next session.",
+    "The Reorientation & Recap Session will be charged separately at Rs. 2,000/- per hour.",
+    "Any additional coaching time needed because of a long break or for anything outside the programme will be charged at Rs. 2,000/- per hour.",
+    "The programme fee is non-refundable once the programme has started.",
+  ],
+  closing:
+    "These guidelines help us maintain continuity in your learning while also respecting the time and energy dedicated to your one-to-one journey.",
+};
+
+const SINGLE_COURSE: CourseOption = {
+  id: "whole",
+  name: "The 5-Week 1-to-1 LOA Course",
+  mobileName: "The 5-Week Course",
+  fullTitle: "The 5-Week 1-to-1 Law of Attraction Coaching Programme",
+  subtitle: "One path. Paid in full. One to one.",
+  tag: "5-Week Programme · All Sessions",
+  phases: "Sessions 1, 2, Phase 3A, Phase 3B, Session 4 & Session 5",
+  priceInr: 15000,
+  priceLabel: "₹15,000",
+  priceRsLabel: "Rs. 15,000/-",
+  badge: "Only Introductory Price",
+  mobileBadge: "Only Introductory Price · One enrolment",
+  best: true,
+  description:
+    "All 6 one-to-one sessions across 5 weeks — from creating unshakeable faith in the Law of Attraction to emotional mastery tools, belief alignment, vision board, and a full month of WhatsApp support.",
+  mobileDescription:
+    "All sessions above. One enrolment. Includes 1-to-1 coaching (Sessions 1–5) + WhatsApp support for the month, videos, meditations & booklet.",
+  bookingDescDesktop:
+    "All sessions included · 5-week 1-to-1 coaching · WhatsApp support for the month, videos, meditations & booklet",
+  bookingDescMobile:
+    "All sessions above · One enrolment · 5-week 1-to-1 coaching + WhatsApp support",
+  includes:
+    "Sessions 1, 2 (1hr), 3A (2hrs), 3B (2hrs), 4 (2hrs), 5 (1hr) + 1 month WhatsApp support",
+  image: "/images/hero-sea.jpg",
+  imageAlt: "A woman sitting quietly by the sea at sunrise",
+  benefits: COURSE_SESSIONS_LIST,
+};
+
+export const COURSES: Record<CourseId, CourseOption> = {
+  whole: SINGLE_COURSE,
+  intro: SINGLE_COURSE,
+  tools: SINGLE_COURSE,
+};
+
+export const COURSE_LIST: CourseOption[] = [SINGLE_COURSE];
+
 export const FURTHER_SESSIONS = {
-  title: "Further sessions",
+  title: "Further sessions after the course",
   tag: "After the course",
   description:
-    "Already walked the path? Come back for a one-hour or 30-minute session when you want guidance.",
+    "Already completed the 5-week programme? Come back for a 1-hour or 30-minute one-to-one session whenever you want personal guidance.",
   hourlyInr: 2000,
   hourlyLabel: "₹2,000",
+  hourlyRsLabel: "Rs. 2,000/-",
   halfHourInr: 1000,
   halfHourLabel: "₹1,000",
+  halfHourRsLabel: "Rs. 1,000/-",
   image: "/images/sessions-call.jpg",
   imageAlt: "A woman smiling on a video call at home",
 };

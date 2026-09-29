@@ -19,22 +19,29 @@ export default async function ReviewsPage() {
     <main className="mx-auto w-full max-w-[1440px] px-[16px] lg:px-[80px] pt-[24px] lg:pt-[56px]">
       <section className="mx-auto max-w-[1080px] flex flex-col gap-[14px] animate-fade-up">
         <Eyebrow>Seekers’ words</Eyebrow>
+        <span className="font-cursive text-[30px] lg:text-[36px] leading-none text-maroon">
+          Sacred reflections from the path
+        </span>
         <h1 className="m-0 font-serif text-[38px] lg:text-[56px] font-normal leading-[1.06] text-ink">
           What <em className="italic text-maroon">changed</em> for them
         </h1>
         <p className="m-0 max-w-[600px] text-[16px] lg:text-[18px] font-light leading-[1.65] text-body">
           Every journey is personal. Read reflections from fellow seekers who
-          walked the path, or leave your own words below.
+          walked the 5-week 1-to-1 path, or leave your own words below.
         </p>
       </section>
 
       {/* Approved Reviews Grid */}
       {approvedReviews.length > 0 ? (
         <section className="mx-auto mt-[36px] lg:mt-[56px] max-w-[1080px] grid grid-cols-1 md:grid-cols-2 gap-[24px] animate-fade-up">
-          {approvedReviews.map((review) => (
+          {approvedReviews.map((review, idx) => (
             <article
               key={review.id}
-              className="flex flex-col justify-between gap-[18px] rounded-[24px] bg-white p-[28px] lg:p-[32px] border border-divider"
+              className={`flex flex-col justify-between gap-[18px] rounded-[24px] p-[28px] lg:p-[32px] border shadow-soft ${
+                idx % 2 === 0
+                  ? "bg-lavender border-lavender-border"
+                  : "bg-beige-card border-beige-border"
+              }`}
             >
               <svg
                 width="32"
@@ -50,14 +57,17 @@ export default async function ReviewsPage() {
               </p>
               <div className="flex items-center justify-between gap-[12px] border-t border-divider pt-[14px]">
                 <span className="text-[14px] font-medium text-muted">
-                  {review.name} · {review.course}
+                  {review.name} ·{" "}
+                  {review.course === "The whole path"
+                    ? "The 5-Week 1-to-1 Course"
+                    : review.course}
                 </span>
                 {review.video_url && (
                   <a
                     href={review.video_url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="rounded-full bg-sand px-[12px] py-[6px] text-[12px] font-medium text-maroon no-underline"
+                    className="rounded-full bg-white/80 px-[12px] py-[6px] text-[12px] font-medium text-maroon no-underline"
                   >
                     ▶ Watch video
                   </a>
@@ -68,7 +78,7 @@ export default async function ReviewsPage() {
         </section>
       ) : !isProd ? (
         <section className="mx-auto mt-[36px] lg:mt-[56px] max-w-[1080px] grid grid-cols-1 lg:grid-cols-12 gap-[24px] animate-fade-up">
-          <div className="lg:col-span-7 flex flex-col gap-[18px] rounded-[24px] bg-white p-[32px]">
+          <div className="lg:col-span-7 flex flex-col gap-[18px] rounded-[24px] bg-lavender border border-lavender-border p-[32px]">
             <svg
               width="36"
               height="28"
@@ -83,7 +93,7 @@ export default async function ReviewsPage() {
               none yet.]
             </p>
             <span className="text-[15px] text-muted">
-              [Name] · The whole path
+              [Name] · The 5-Week 1-to-1 Course
             </span>
           </div>
 
@@ -100,12 +110,12 @@ export default async function ReviewsPage() {
                 ▶ [Video review]
               </span>
             </div>
-            <div className="flex flex-col justify-between rounded-[22px] bg-sand p-[24px]">
+            <div className="flex flex-col justify-between rounded-[22px] bg-beige-card border border-beige-border p-[24px]">
               <span className="text-[16px] leading-[1.5] text-body">
                 “[Short written review]”
               </span>
               <span className="text-[14px] text-muted">
-                [Name] · Introduction to LOA
+                [Name] · The 5-Week 1-to-1 Course
               </span>
             </div>
           </div>
@@ -123,8 +133,8 @@ export default async function ReviewsPage() {
             Leave a review
           </h2>
           <p className="m-0 text-[16px] text-body">
-            Walked the path with Ambika? Share your reflection in words or link
-            a short video.
+            Walked the 5-week path with Ambika? Share your reflection in words or
+            link a short video.
           </p>
         </div>
 
