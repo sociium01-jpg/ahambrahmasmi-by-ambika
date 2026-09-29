@@ -249,19 +249,32 @@ export function Footer() {
             aria-labelledby="footer-popup-title"
             className="fixed inset-0 z-[120] flex items-center justify-center p-[12px] sm:p-[24px] lg:p-[40px] animate-fade-up"
           >
-            {/* Translucent Frosted Backdrop */}
+            {/* Deep Frosted Backdrop */}
             <div
               onClick={() => setActivePopup(null)}
               aria-hidden="true"
-              className="fixed inset-0 bg-[#2C1D28]/55 backdrop-blur-md transition-opacity"
+              className="fixed inset-0 transition-opacity"
+              style={{
+                backgroundColor: "rgba(18, 10, 16, 0.80)",
+                backdropFilter: "blur(16px)",
+                WebkitBackdropFilter: "blur(16px)",
+              }}
             />
 
-            {/* Glass Translucent Double-Frame Card */}
-            <div className="relative z-10 w-full max-w-[840px] max-h-[90vh] overflow-y-auto rounded-[28px] sm:rounded-[34px] border-[2px] border-white/80 bg-gradient-to-br from-[#FBF5EE]/90 via-[#F7F2FA]/88 to-[#F3E3C8]/88 p-[22px] sm:p-[42px] lg:p-[54px] shadow-[0_32px_90px_rgba(44,29,40,0.42),inset_0_1px_2px_rgba(255,255,255,0.95)] backdrop-blur-2xl">
-              {/* Inner Sacred Gold & Lavender Frame Line */}
+            {/* Dark Frosted Glass Translucent Card with Crisp White Normal Font */}
+            <div
+              className="relative z-10 w-full max-w-[820px] max-h-[90vh] overflow-y-auto rounded-[28px] sm:rounded-[34px] border-[2px] border-white/35 p-[22px] sm:p-[42px] lg:p-[52px] text-white shadow-[0_32px_90px_rgba(0,0,0,0.65)] font-sans not-italic"
+              style={{
+                background:
+                  "linear-gradient(145deg, rgba(44, 26, 38, 0.94) 0%, rgba(32, 18, 28, 0.96) 100%)",
+                backdropFilter: "blur(28px)",
+                WebkitBackdropFilter: "blur(28px)",
+              }}
+            >
+              {/* Inner Sacred Gold Frame Line */}
               <div
                 aria-hidden="true"
-                className="pointer-events-none absolute inset-[8px] sm:inset-[10px] rounded-[22px] sm:rounded-[26px] border border-[#846B96]/55 shadow-[inset_0_0_0_3px_rgba(255,255,255,0.45),inset_0_0_0_4px_rgba(191,175,117,0.65)]"
+                className="pointer-events-none absolute inset-[8px] sm:inset-[10px] rounded-[22px] sm:rounded-[26px] border border-[#E7B85A]/45"
               />
 
               {/* Top-Right Translucent Glass Close Button */}
@@ -269,7 +282,7 @@ export function Footer() {
                 type="button"
                 onClick={() => setActivePopup(null)}
                 aria-label="Close popup"
-                className="sticky top-[4px] float-right z-20 flex h-[42px] w-[42px] items-center justify-center rounded-full border border-white/90 bg-white/80 text-ink shadow-md backdrop-blur-md hover:bg-maroon hover:text-white cursor-pointer transition-colors"
+                className="sticky top-[4px] float-right z-20 flex h-[42px] w-[42px] items-center justify-center rounded-full border border-white/40 bg-white/15 text-white shadow-md hover:bg-maroon hover:border-white cursor-pointer transition-colors"
               >
                 <svg
                   width="18"
@@ -287,17 +300,17 @@ export function Footer() {
                 </svg>
               </button>
 
-              {/* Header */}
+              {/* Header — Normal upright font in White & Gold */}
               <div className="relative z-10 flex flex-col items-center text-center clear-both sm:clear-none">
-                <div className="mb-[10px] flex h-[64px] w-[64px] items-center justify-center overflow-hidden rounded-full border border-white/90 bg-white/90 shadow-sm">
+                <div className="mb-[12px] flex h-[64px] w-[64px] items-center justify-center overflow-hidden rounded-full border-2 border-[#E7B85A] bg-white shadow-md">
                   <AnimatedLogo variant="circle" size={60} />
                 </div>
 
-                <p className="m-0 font-cursive text-[28px] sm:text-[34px] leading-[1.15] text-lavender-deep">
+                <p className="m-0 font-sans text-[13px] sm:text-[14px] font-medium tracking-[0.08em] text-white/90 not-italic">
                   A journey of self discovery
                 </p>
 
-                <span className="mt-[10px] font-inter text-[11px] sm:text-[12px] font-semibold uppercase tracking-[0.22em] text-lavender-deep">
+                <span className="mt-[8px] font-sans text-[11px] sm:text-[12px] font-bold uppercase tracking-[0.22em] text-[#E7B85A]">
                   {activePopup === "guidelines"
                     ? IMPORTANT_TO_READ.eyebrow
                     : activePopup === "privacy"
@@ -307,7 +320,7 @@ export function Footer() {
 
                 <h2
                   id="footer-popup-title"
-                  className="m-0 mt-[4px] font-playfair text-[32px] sm:text-[42px] lg:text-[46px] font-medium leading-[1.1] text-maroon"
+                  className="m-0 mt-[6px] font-sans text-[28px] sm:text-[36px] lg:text-[40px] font-bold leading-[1.15] text-white not-italic"
                 >
                   {activePopup === "guidelines"
                     ? IMPORTANT_TO_READ.title
@@ -318,33 +331,38 @@ export function Footer() {
 
                 <div
                   aria-hidden="true"
-                  className="mt-[12px] h-[1.5px] w-[200px] sm:w-[260px] bg-[#C8B87A]"
+                  className="mt-[14px] h-[1.5px] w-[200px] sm:w-[260px] bg-[#E7B85A]/70"
                 />
               </div>
 
               {/* Content for Guidelines */}
               {activePopup === "guidelines" && (
                 <div className="relative z-10 mx-auto mt-[22px] sm:mt-[28px] max-w-[720px] flex flex-col gap-[18px]">
-                  <p className="m-0 font-cormorant text-[20px] sm:text-[23px] font-medium leading-[1.5] text-ink">
+                  <p className="m-0 font-sans text-[16px] sm:text-[18px] font-normal leading-[1.65] text-white not-italic">
                     {IMPORTANT_TO_READ.intro}
                   </p>
 
-                  <ul className="m-0 flex flex-col gap-[14px] sm:gap-[16px] rounded-[22px] border border-white/85 bg-white/65 p-[20px] sm:p-[28px] pl-[20px] sm:pl-[28px] list-none shadow-[0_12px_32px_rgba(104,79,122,0.08),inset_0_1px_1px_rgba(255,255,255,0.9)] backdrop-blur-xl">
+                  <ul
+                    className="m-0 flex flex-col gap-[14px] sm:gap-[16px] rounded-[20px] border border-white/25 p-[20px] sm:p-[28px] pl-[20px] sm:pl-[28px] list-none"
+                    style={{
+                      backgroundColor: "rgba(255, 255, 255, 0.08)",
+                    }}
+                  >
                     {IMPORTANT_TO_READ.bullets.map((bullet) => (
                       <li
                         key={bullet}
-                        className="flex items-start gap-[14px] font-cormorant text-[19px] sm:text-[22px] font-medium leading-[1.48] text-ink"
+                        className="flex items-start gap-[14px] font-sans text-[15px] sm:text-[17px] font-normal leading-[1.6] text-white not-italic"
                       >
                         <span
                           aria-hidden="true"
-                          className="mt-[10px] h-[6px] w-[6px] shrink-0 rounded-full bg-maroon"
+                          className="mt-[9px] h-[7px] w-[7px] shrink-0 rounded-full bg-[#E7B85A]"
                         />
                         <span>{bullet}</span>
                       </li>
                     ))}
                   </ul>
 
-                  <p className="m-0 pt-[4px] font-cormorant text-[19px] sm:text-[22px] italic leading-[1.5] text-lavender-deep">
+                  <p className="m-0 pt-[4px] font-sans text-[15px] sm:text-[16px] font-normal leading-[1.6] text-white/90 not-italic">
                     {IMPORTANT_TO_READ.closing}
                   </p>
                 </div>
@@ -353,40 +371,56 @@ export function Footer() {
               {/* Content for Privacy Policy */}
               {activePopup === "privacy" && (
                 <div className="relative z-10 mx-auto mt-[22px] sm:mt-[28px] max-w-[720px] flex flex-col gap-[16px]">
-                  <div className="rounded-[22px] border border-white/85 bg-white/65 p-[22px] sm:p-[30px] flex flex-col gap-[14px] font-cormorant text-[19px] sm:text-[21px] leading-[1.55] text-ink backdrop-blur-xl">
+                  <div
+                    className="rounded-[20px] border border-white/25 p-[22px] sm:p-[30px] flex flex-col gap-[14px] font-sans text-[15px] sm:text-[17px] leading-[1.65] text-white not-italic"
+                    style={{
+                      backgroundColor: "rgba(255, 255, 255, 0.08)",
+                    }}
+                  >
                     <p className="m-0">
-                      <strong>1. Sacred Confidentiality:</strong> Every
-                      one-to-one coaching conversation, personal reflection, and
-                      life circumstance shared with Ambika Mohan during your
-                      5-week journey is held in strict, sacred confidence.
+                      <strong className="text-[#E7B85A]">
+                        1. Sacred Confidentiality:
+                      </strong>{" "}
+                      Every one-to-one coaching conversation, personal
+                      reflection, and life circumstance shared with Ambika Mohan
+                      during your 5-week journey is held in strict, sacred
+                      confidence.
                     </p>
                     <p className="m-0">
-                      <strong>2. Information We Collect:</strong> When you enrol
-                      in the 5-week course or submit a review, we collect only
-                      the details needed to coordinate your 1-to-1 sessions —
-                      your name, email address, contact number, and preferred
-                      session time slot.
+                      <strong className="text-[#E7B85A]">
+                        2. Information We Collect:
+                      </strong>{" "}
+                      When you enrol in the 5-week course or submit a review, we
+                      collect only the details needed to coordinate your 1-to-1
+                      sessions — your name, email address, contact number, and
+                      preferred session time slot.
                     </p>
                     <p className="m-0">
-                      <strong>3. Secure Payments:</strong> All course fee
-                      payments (`Rs. 15,000/-`) are processed securely through{" "}
-                      <strong>Razorpay</strong> using encrypted UPI, card, or
-                      netbanking channels. We never store your card numbers or
-                      banking credentials on our servers.
+                      <strong className="text-[#E7B85A]">
+                        3. Secure Payments:
+                      </strong>{" "}
+                      All course fee payments (`Rs. 15,000/-`) are processed
+                      securely through <strong>Razorpay</strong> using encrypted
+                      UPI, card, or netbanking channels. We never store your
+                      card numbers or banking credentials on our servers.
                     </p>
                     <p className="m-0">
-                      <strong>4. Seekers’ Reviews &amp; Notes:</strong> Reviews
-                      submitted on the site or inside the Seeker Portal are
-                      published only after approval. Personal notes saved in
+                      <strong className="text-[#E7B85A]">
+                        4. Seekers’ Reviews &amp; Notes:
+                      </strong>{" "}
+                      Reviews submitted on the site or inside the Seeker Portal
+                      are published only after approval. Personal notes saved in
                       your Seeker Portal remain private to your browser/account.
                     </p>
                     <p className="m-0">
-                      <strong>5. Contact for Privacy Requests:</strong> For any
-                      questions or data deletion requests, please write directly
-                      to{" "}
+                      <strong className="text-[#E7B85A]">
+                        5. Contact for Privacy Requests:
+                      </strong>{" "}
+                      For any questions or data deletion requests, please write
+                      directly to{" "}
                       <a
                         href={emailHref}
-                        className="text-maroon underline font-semibold"
+                        className="text-[#E7B85A] underline font-semibold hover:text-white"
                       >
                         {EMAIL}
                       </a>
@@ -399,39 +433,55 @@ export function Footer() {
               {/* Content for Accessibility */}
               {activePopup === "accessibility" && (
                 <div className="relative z-10 mx-auto mt-[22px] sm:mt-[28px] max-w-[720px] flex flex-col gap-[16px]">
-                  <div className="rounded-[22px] border border-white/85 bg-white/65 p-[22px] sm:p-[30px] flex flex-col gap-[14px] font-cormorant text-[19px] sm:text-[21px] leading-[1.55] text-ink backdrop-blur-xl">
+                  <div
+                    className="rounded-[20px] border border-white/25 p-[22px] sm:p-[30px] flex flex-col gap-[14px] font-sans text-[15px] sm:text-[17px] leading-[1.65] text-white not-italic"
+                    style={{
+                      backgroundColor: "rgba(255, 255, 255, 0.08)",
+                    }}
+                  >
                     <p className="m-0">
-                      <strong>Our Commitment:</strong> Ahambrahmasmi by Ambika
-                      is committed to ensuring our digital sanctuary is
-                      welcoming, readable, and accessible to every seeker across
-                      desktop, tablet, and mobile devices.
+                      <strong className="text-[#E7B85A]">
+                        Our Commitment:
+                      </strong>{" "}
+                      Ahambrahmasmi by Ambika is committed to ensuring our
+                      digital sanctuary is welcoming, readable, and accessible
+                      to every seeker across desktop, tablet, and mobile
+                      devices.
                     </p>
                     <p className="m-0">
-                      <strong>Visual Contrast &amp; Typography:</strong> We use
-                      high-contrast Warm Dark Beige (`#4E3B2C`) and Deep Maroon
-                      (`#8E1B25`) typography over soft cream, warm beige, and
-                      gentle lavender surfaces, meeting WCAG AA/AAA readability
-                      standards.
+                      <strong className="text-[#E7B85A]">
+                        Visual Contrast &amp; Typography:
+                      </strong>{" "}
+                      We use high-contrast typography and clear visual hierarchy
+                      across all pages and popups, meeting WCAG AA/AAA
+                      readability standards.
                     </p>
                     <p className="m-0">
-                      <strong>Keyboard &amp; Screen Reader Support:</strong> All
-                      interactive buttons, popups, course accordions, and
-                      booking steps support keyboard navigation (`Tab`, `Enter`,
-                      `Escape` to close dialogs), semantic landmarks, and
-                      minimum `48px` touch targets on mobile.
+                      <strong className="text-[#E7B85A]">
+                        Keyboard &amp; Screen Reader Support:
+                      </strong>{" "}
+                      All interactive buttons, popups, course accordions, and
+                      booking steps support keyboard navigation (<code>Tab</code>
+                      , <code>Enter</code>, <code>Escape</code> to close
+                      dialogs), semantic landmarks, and minimum <code>48px</code>{" "}
+                      touch targets on mobile.
                     </p>
                     <p className="m-0">
-                      <strong>Reduced Motion:</strong> Animations and 3D card
-                      transitions automatically respect your device’s{" "}
-                      <code>prefers-reduced-motion</code> setting.
+                      <strong className="text-[#E7B85A]">
+                        Reduced Motion:
+                      </strong>{" "}
+                      Animations and 3D card transitions automatically respect
+                      your device’s <code>prefers-reduced-motion</code> setting.
                     </p>
                     <p className="m-0">
-                      <strong>Need Assistance?</strong> If you experience any
-                      difficulty accessing course materials or booking your
-                      1-to-1 path, please email{" "}
+                      <strong className="text-[#E7B85A]">
+                        Need Assistance?
+                      </strong>{" "}
+                      If you experience any difficulty accessing course
+                      materials or booking your 1-to-1 path, please email{" "}
                       <a
                         href={emailHref}
-                        className="text-maroon underline font-semibold"
+                        className="text-[#E7B85A] underline font-semibold hover:text-white"
                       >
                         {EMAIL}
                       </a>{" "}
@@ -442,14 +492,14 @@ export function Footer() {
               )}
 
               {/* Footer */}
-              <div className="relative z-10 mt-[24px] flex flex-col sm:flex-row items-center justify-between gap-[14px] border-t border-[#C8B87A]/40 pt-[18px]">
-                <span className="font-cormorant text-[19px] italic text-muted">
+              <div className="relative z-10 mt-[24px] flex flex-col sm:flex-row items-center justify-between gap-[14px] border-t border-white/20 pt-[18px]">
+                <span className="font-sans text-[14px] font-medium text-[#E7B85A] not-italic">
                   Aham Brahmasmi · by Ambika
                 </span>
                 <button
                   type="button"
                   onClick={() => setActivePopup(null)}
-                  className="btn-3d-maroon inline-flex min-h-[46px] items-center justify-center rounded-full px-[28px] py-[11px] font-inter text-[14px] font-semibold text-white cursor-pointer"
+                  className="btn-3d-maroon inline-flex min-h-[46px] items-center justify-center rounded-full px-[28px] py-[11px] font-sans text-[14px] font-semibold text-white cursor-pointer"
                 >
                   Close
                 </button>
