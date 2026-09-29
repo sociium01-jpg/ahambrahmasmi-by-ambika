@@ -6,10 +6,17 @@ import Link from "next/link";
 import { AnimatedLogo } from "@/components/ui/AnimatedLogo";
 import { GuidelinesModal } from "@/components/GuidelinesModal";
 import { ReviewForm } from "@/components/ReviewForm";
+import { ScheduleAndRebookCard } from "@/components/portal/ScheduleAndRebookCard";
+import { LiveExperimentTimer } from "@/components/portal/LiveExperimentTimer";
+import { BopaStreakWidget } from "@/components/portal/BopaStreakWidget";
+import { MeditationAndBreathwork } from "@/components/portal/MeditationAndBreathwork";
+import { VisionBoardBuilder } from "@/components/portal/VisionBoardBuilder";
 import { EMAIL, getEmailHref } from "@/lib/site";
 
 type PortalTab =
   | "progress"
+  | "meditation"
+  | "vision"
   | "notes"
   | "materials"
   | "certificate"
@@ -30,6 +37,7 @@ interface SavedNote {
   title: string;
   content: string;
   createdAt: string;
+  sharedWithAmbika?: boolean;
 }
 
 interface CourseMaterialItem {
@@ -265,6 +273,7 @@ export function SeekerPortal() {
   const [noteSessionTag, setNoteSessionTag] = useState<string>("Session 2");
   const [noteTitle, setNoteTitle] = useState("");
   const [noteContent, setNoteContent] = useState("");
+  const [shareNoteWithAmbika, setShareNoteWithAmbika] = useState(true);
   const [noteSavedToast, setNoteSavedToast] = useState(false);
 
   // Certificate preview override so seeker/admin can preview anytime
@@ -305,6 +314,7 @@ export function SeekerPortal() {
               month: "short",
               year: "numeric",
             }),
+            sharedWithAmbika: true,
           },
         ];
         setNotes(starter);
@@ -378,6 +388,32 @@ export function SeekerPortal() {
     });
   };
 
+  const appendNoteFromWidget = (
+    sessionTag: string,
+    title: string,
+    content: string
+  ) => {
+    const newNote: SavedNote = {
+      id: `note-${Date.now()}`,
+      sessionTag,
+      title,
+      content,
+      createdAt: new Date().toLocaleDateString("en-IN", {
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+      }),
+      sharedWithAmbika: true,
+    };
+    const updated = [newNote, ...notes];
+    setNotes(updated);
+    try {
+      localStorage.setItem("aham_seeker_notes", JSON.stringify(updated));
+    } catch {
+      // ignore
+    }
+  };
+
   const handleSaveNote = (e: React.FormEvent) => {
     e.preventDefault();
     if (!noteContent.trim()) return;
@@ -392,6 +428,7 @@ export function SeekerPortal() {
         month: "short",
         year: "numeric",
       }),
+      sharedWithAmbika: shareNoteWithAmbika,
     };
 
     const updated = [newNote, ...notes];
@@ -746,12 +783,20 @@ export function SeekerPortal() {
             </div>
             <div className="flex flex-wrap items-center justify-between gap-[12px] text-[13px] text-muted">
               <span>Haven’t enrolled in the 5-week course yet?</span>
-              <Link
-                href="/book"
-                className="font-semibold text-maroon underline"
-              >
-                Book the 5-Week Course (Rs. 15,000/-) →
-              </Link>
+              <div className="flex flex-wrap items-center gap-[14px]">
+                <Link
+                  href="/book"
+                  className="font-semibold text-maroon underline"
+                >
+                  Book the 5-Week Course (Rs. 15,000/-) →
+                </Link>
+                <Link
+                  href="/admin"
+                  className="font-semibold text-lavender-deep underline"
+                >
+                  Ambika’s Coach Admin ✦
+                </Link>
+              </div>
             </div>
           </div>
         </div>
@@ -784,7 +829,7 @@ export function SeekerPortal() {
         </div>
 
         {/* Live Progress Ring + Quick Actions */}
-        <div className="flex flex-wrap items-center gap-[14px]">
+        <div className="flex flex-wrap items-center gap-[12px]">
           <div className="flex items-center gap-[12px] rounded-[20px] bg-beige-card border border-beige-border px-[18px] py-[10px]">
             <div className="flex flex-col">
               <span className="font-inter text-[11px] font-bold uppercase tracking-[0.14em] text-maroon">
@@ -798,6 +843,13 @@ export function SeekerPortal() {
 
           <GuidelinesModal buttonLabel="Guidelines" variant="inline" />
 
+          <Link
+            href="/admin"
+            className="min-h-[42px] inline-flex items-center rounded-full border border-lavender-frame/60 bg-lavender px-[14px] py-[8px] font-sans text-[12px] font-semibold text-lavender-deep hover:bg-maroon hover:text-white no-underline transition-colors"
+          >
+            Coach Admin
+          </Link>
+
           <button
             type="button"
             onClick={handleLogout}
@@ -808,22 +860,30 @@ export function SeekerPortal() {
         </div>
       </section>
 
+      {/* 1-to-1 Session Schedule, 5-Week + 7-Day Grace Window & 1-Click Alumni Re-Booking */}
+      <ScheduleAndRebookCard
+        seekerName={seekerName}
+        seekerEmail={seekerEmail}
+      />
+
       {/* Portal Navigation Tabs */}
       <nav
         aria-label="Seeker portal sections"
-        className="flex flex-wrap items-center gap-[8px] sm:gap-[10px] rounded-[22px] bg-lavender/85 border border-lavender-border p-[8px]"
+        className="flex flex-wrap items-center gap-[6px] sm:gap-[8px] rounded-[22px] bg-lavender/85 border border-lavender-border p-[8px]"
       >
         {[
-          { id: "progress", label: "1. Witness Progress" },
-          { id: "notes", label: `2. Save Notes (${notes.length})` },
-          { id: "materials", label: "3. Course PDFs & Booklet" },
+          { id: "progress", label: "1. Progress & 48-Hr Experiment" },
+          { id: "meditation", label: "2. Meditation & Breathwork" },
+          { id: "vision", label: "3. Vision Board Builder" },
+          { id: "notes", label: `4. Save Notes (${notes.length})` },
+          { id: "materials", label: "5. Course PDFs & Booklet" },
           {
             id: "certificate",
             label: isCourseCompleted
-              ? "4. Certificate (Unlocked ✦)"
-              : "4. Certificate",
+              ? "6. Certificate (Unlocked ✦)"
+              : "6. Certificate",
           },
-          { id: "review", label: "5. Leave a Review" },
+          { id: "review", label: "7. Leave a Review" },
         ].map((tab) => {
           const active = activeTab === tab.id;
           return (
@@ -831,7 +891,7 @@ export function SeekerPortal() {
               key={tab.id}
               type="button"
               onClick={() => setActiveTab(tab.id as PortalTab)}
-              className={`min-h-[44px] flex-1 sm:flex-initial rounded-[16px] px-[18px] py-[10px] font-inter text-[13px] sm:text-[14px] font-semibold cursor-pointer transition-all ${
+              className={`min-h-[44px] flex-1 sm:flex-initial rounded-[16px] px-[15px] py-[10px] font-inter text-[12px] sm:text-[13px] font-semibold cursor-pointer transition-all ${
                 active
                   ? "bg-maroon text-white shadow-md"
                   : "bg-transparent text-ink hover:bg-white/70"
@@ -844,156 +904,226 @@ export function SeekerPortal() {
       </nav>
 
       {/* ============================================================
-          TAB 1: WITNESS PROGRESS & DAILY ALIGNMENT CHECK-IN
+          TAB 1: WITNESS PROGRESS, 48-HR EXPERIMENT & BOPA GRATITUDE STREAK
           ============================================================ */}
       {activeTab === "progress" && (
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-[24px] items-start">
-          {/* Left 8 Cols: 6 Session Milestones */}
-          <div className="lg:col-span-8 flex flex-col gap-[16px]">
-            <div className="rounded-[24px] bg-beige-card/85 border border-beige-border p-[22px] sm:p-[28px] flex flex-col gap-[12px]">
-              <div className="flex flex-wrap items-center justify-between gap-[10px]">
-                <div>
-                  <span className="font-inter text-[11px] font-bold uppercase tracking-[0.18em] text-maroon">
-                    5-Week 1-to-1 Milestones
-                  </span>
-                  <h2 className="m-0 font-playfair text-[24px] sm:text-[28px] font-medium text-ink">
-                    Witness Your Progress
-                  </h2>
-                </div>
-                <span className="font-playfair text-[28px] font-semibold text-maroon">
-                  {progressPercent}% Complete
-                </span>
-              </div>
+        <div className="flex flex-col gap-[24px]">
+          {/* Session 2: 48-Hour Live Experiment Countdown Timer + Log a Synchronicity */}
+          <LiveExperimentTimer
+            onLogSavedToNotes={(title, content) =>
+              appendNoteFromWidget("Session 2", title, content)
+            }
+          />
 
-              {/* Animated Progress Bar */}
-              <div className="h-[12px] w-full overflow-hidden rounded-full bg-white/80 border border-beige-border">
-                <div
-                  className="h-full rounded-full bg-gradient-to-r from-maroon via-[#B23A48] to-gold transition-all duration-500"
-                  style={{ width: `${progressPercent}%` }}
-                />
-              </div>
-              <p className="m-0 font-cormorant text-[18px] italic text-body">
-                Tick each session below as you complete it with Ambika. Completing
-                all 6 unlocks your sacred Certificate of Completion.
-              </p>
-            </div>
-
-            {SESSION_MILESTONES.map((item, idx) => {
-              const done = completedSessions.includes(item.id);
-              const isLavender = idx % 2 === 1;
-              return (
-                <div
-                  key={item.id}
-                  className={`rounded-[22px] p-[20px] sm:p-[24px] border transition-all ${
-                    done
-                      ? "bg-white border-gold shadow-sm"
-                      : isLavender
-                      ? "bg-lavender/75 border-lavender-border"
-                      : "bg-beige-card/65 border-beige-border"
-                  }`}
-                >
-                  <div className="flex items-start justify-between gap-[14px]">
-                    <label className="flex items-start gap-[14px] cursor-pointer flex-1">
-                      <input
-                        type="checkbox"
-                        checked={done}
-                        onChange={() => toggleSessionComplete(item.id)}
-                        className="mt-[5px] h-[22px] w-[22px] shrink-0 accent-[#8E1B25] cursor-pointer"
-                      />
-                      <div className="flex flex-col gap-[6px]">
-                        <div className="flex flex-wrap items-center gap-[8px]">
-                          <span className="rounded-full bg-white px-[10px] py-[2px] font-inter text-[11px] font-bold uppercase tracking-[0.14em] text-maroon border border-beige-border">
-                            {item.badge}
-                          </span>
-                          <span className="font-inter text-[12px] font-medium text-lavender-deep">
-                            {item.duration}
-                          </span>
-                          {done && (
-                            <span className="rounded-full bg-gold/30 px-[10px] py-[2px] font-inter text-[11px] font-semibold text-ink">
-                              ✓ Completed
-                            </span>
-                          )}
-                        </div>
-                        <h3 className="m-0 font-playfair text-[20px] sm:text-[22px] font-medium text-ink">
-                          {item.title}
-                        </h3>
-                        <p className="m-0 font-cormorant text-[18px] leading-[1.45] text-body">
-                          {item.summary}
-                        </p>
-                      </div>
-                    </label>
-
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setNoteSessionTag(item.badge);
-                        setNoteTitle(`${item.badge} Reflection`);
-                        setActiveTab("notes");
-                      }}
-                      className="shrink-0 rounded-full border border-maroon/40 bg-white px-[14px] py-[7px] font-inter text-[12px] font-semibold text-maroon hover:bg-maroon hover:text-white cursor-pointer transition-colors"
-                    >
-                      + Add Note
-                    </button>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-[24px] items-start">
+            {/* Left 8 Cols: 6 Session Milestones + BOPA Streak Widget */}
+            <div className="lg:col-span-8 flex flex-col gap-[16px]">
+              <div className="rounded-[24px] bg-beige-card/85 border border-beige-border p-[22px] sm:p-[28px] flex flex-col gap-[12px]">
+                <div className="flex flex-wrap items-center justify-between gap-[10px]">
+                  <div>
+                    <span className="font-inter text-[11px] font-bold uppercase tracking-[0.18em] text-maroon">
+                      5-Week 1-to-1 Milestones
+                    </span>
+                    <h2 className="m-0 font-playfair text-[24px] sm:text-[28px] font-medium text-ink">
+                      Witness Your Progress
+                    </h2>
                   </div>
+                  <span className="font-playfair text-[28px] font-semibold text-maroon">
+                    {progressPercent}% Complete
+                  </span>
                 </div>
-              );
-            })}
-          </div>
 
-          {/* Right 4 Cols: Daily Emotional Guidance Check-In + Support */}
-          <div className="lg:col-span-4 flex flex-col gap-[20px]">
-            <div className="rounded-[24px] bg-lavender border border-lavender-border p-[24px] flex flex-col gap-[14px]">
-              <span className="font-cursive text-[28px] leading-none text-lavender-deep">
-                Emotional Guidance System
-              </span>
-              <h3 className="m-0 font-playfair text-[22px] font-medium text-ink">
-                How are you feeling in this moment?
-              </h3>
-              <div className="flex flex-col gap-[8px]">
-                {VIBRATION_STATES.map((vibe, i) => (
-                  <button
-                    key={vibe.label}
-                    type="button"
-                    onClick={() => setSelectedVibeIdx(i)}
-                    className={`rounded-[14px] p-[12px] text-left font-inter text-[13px] font-semibold cursor-pointer transition-all border ${
-                      selectedVibeIdx === i
-                        ? "bg-maroon text-white border-maroon"
-                        : "bg-white/85 text-ink border-lavender-border hover:border-maroon"
+                {/* Animated Progress Bar */}
+                <div className="h-[12px] w-full overflow-hidden rounded-full bg-white/80 border border-beige-border">
+                  <div
+                    className="h-full rounded-full bg-gradient-to-r from-maroon via-[#B23A48] to-gold transition-all duration-500"
+                    style={{ width: `${progressPercent}%` }}
+                  />
+                </div>
+                <p className="m-0 font-cormorant text-[18px] italic text-body">
+                  Tick each session below as you complete it with Ambika.
+                  Completing all 6 unlocks your sacred Certificate of
+                  Completion.
+                </p>
+              </div>
+
+              {SESSION_MILESTONES.map((item, idx) => {
+                const done = completedSessions.includes(item.id);
+                const isLavender = idx % 2 === 1;
+                return (
+                  <div
+                    key={item.id}
+                    className={`rounded-[22px] p-[20px] sm:p-[24px] border transition-all ${
+                      done
+                        ? "bg-white border-gold shadow-sm"
+                        : isLavender
+                        ? "bg-lavender/75 border-lavender-border"
+                        : "bg-beige-card/65 border-beige-border"
                     }`}
                   >
-                    {vibe.label}
-                  </button>
-                ))}
-              </div>
-              <div className="rounded-[16px] bg-white/85 border border-white p-[16px] font-cormorant text-[18px] italic leading-[1.5] text-ink">
-                {VIBRATION_STATES[selectedVibeIdx].advice}
-              </div>
+                    <div className="flex items-start justify-between gap-[14px]">
+                      <label className="flex items-start gap-[14px] cursor-pointer flex-1">
+                        <input
+                          type="checkbox"
+                          checked={done}
+                          onChange={() => toggleSessionComplete(item.id)}
+                          className="mt-[5px] h-[22px] w-[22px] shrink-0 accent-[#8E1B25] cursor-pointer"
+                        />
+                        <div className="flex flex-col gap-[6px]">
+                          <div className="flex flex-wrap items-center gap-[8px]">
+                            <span className="rounded-full bg-white px-[10px] py-[2px] font-inter text-[11px] font-bold uppercase tracking-[0.14em] text-maroon border border-beige-border">
+                              {item.badge}
+                            </span>
+                            <span className="font-inter text-[12px] font-medium text-lavender-deep">
+                              {item.duration}
+                            </span>
+                            {done && (
+                              <span className="rounded-full bg-gold/30 px-[10px] py-[2px] font-inter text-[11px] font-semibold text-ink">
+                                ✓ Completed
+                              </span>
+                            )}
+                          </div>
+                          <h3 className="m-0 font-playfair text-[20px] sm:text-[22px] font-medium text-ink">
+                            {item.title}
+                          </h3>
+                          <p className="m-0 font-cormorant text-[18px] leading-[1.45] text-body">
+                            {item.summary}
+                          </p>
+                        </div>
+                      </label>
+
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setNoteSessionTag(item.badge);
+                          setNoteTitle(`${item.badge} Reflection`);
+                          setActiveTab("notes");
+                        }}
+                        className="shrink-0 rounded-full border border-maroon/40 bg-white px-[14px] py-[7px] font-inter text-[12px] font-semibold text-maroon hover:bg-maroon hover:text-white cursor-pointer transition-colors"
+                      >
+                        + Add Note
+                      </button>
+                    </div>
+                  </div>
+                );
+              })}
+
+              {/* Interactive Book of Positive Aspects (BOPA) & Gratitude Streak */}
+              <BopaStreakWidget
+                onSaveToNotes={(title, content) =>
+                  appendNoteFromWidget("Daily Gratitude", title, content)
+                }
+              />
             </div>
 
-            <div className="rounded-[24px] bg-beige-card border border-beige-border p-[24px] flex flex-col gap-[12px]">
-              <span className="font-inter text-[11px] font-bold uppercase tracking-[0.18em] text-maroon">
-                Monthly Support Included
-              </span>
-              <h3 className="m-0 font-playfair text-[21px] font-medium text-ink">
-                1-to-1 Support &amp; Follow-up
-              </h3>
-              <p className="m-0 font-cormorant text-[18px] leading-[1.45] text-body">
-                Have a question while practising your tools this week, or wish
-                to schedule your next call?
-              </p>
-              <a
-                href={getEmailHref(`Seeker Support — ${seekerName}`)}
-                className="btn-3d-maroon inline-flex min-h-[46px] items-center justify-center rounded-full px-[20px] py-[11px] font-inter text-[13px] font-semibold text-white no-underline text-center"
-              >
-                Email Ambika ({EMAIL})
-              </a>
+            {/* Right 4 Cols: Daily Emotional Guidance Check-In + Quick Tool Shortcuts */}
+            <div className="lg:col-span-4 flex flex-col gap-[20px]">
+              <div className="rounded-[24px] bg-lavender border border-lavender-border p-[24px] flex flex-col gap-[14px]">
+                <span className="font-cursive text-[28px] leading-none text-lavender-deep">
+                  Emotional Guidance System
+                </span>
+                <h3 className="m-0 font-playfair text-[22px] font-medium text-ink">
+                  How are you feeling in this moment?
+                </h3>
+                <div className="flex flex-col gap-[8px]">
+                  {VIBRATION_STATES.map((vibe, i) => (
+                    <button
+                      key={vibe.label}
+                      type="button"
+                      onClick={() => setSelectedVibeIdx(i)}
+                      className={`rounded-[14px] p-[12px] text-left font-inter text-[13px] font-semibold cursor-pointer transition-all border ${
+                        selectedVibeIdx === i
+                          ? "bg-maroon text-white border-maroon"
+                          : "bg-white/85 text-ink border-lavender-border hover:border-maroon"
+                      }`}
+                    >
+                      {vibe.label}
+                    </button>
+                  ))}
+                </div>
+                <div className="rounded-[16px] bg-white/85 border border-white p-[16px] font-cormorant text-[18px] italic leading-[1.5] text-ink">
+                  {VIBRATION_STATES[selectedVibeIdx].advice}
+                </div>
+              </div>
+
+              {/* Quick Launch Cards for Meditation & Vision Board */}
+              <div className="rounded-[24px] bg-white border border-beige-border p-[22px] flex flex-col gap-[12px] shadow-sm">
+                <span className="font-sans text-[11px] font-bold uppercase tracking-[0.18em] text-lavender-deep">
+                  Sacred Practice Sanctuaries
+                </span>
+                <button
+                  type="button"
+                  onClick={() => setActiveTab("meditation")}
+                  className="rounded-[16px] bg-beige-card/80 border border-beige-border p-[14px] text-left hover:border-maroon cursor-pointer transition-all flex items-center justify-between"
+                >
+                  <div>
+                    <div className="font-playfair text-[18px] font-medium text-ink">
+                      15-Min Meditation &amp; Breathwork
+                    </div>
+                    <div className="font-sans text-[12px] text-muted">
+                      432Hz singing bowl + hourly 3-breath bell
+                    </div>
+                  </div>
+                  <span className="text-maroon font-bold">→</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setActiveTab("vision")}
+                  className="rounded-[16px] bg-lavender/75 border border-lavender-border p-[14px] text-left hover:border-maroon cursor-pointer transition-all flex items-center justify-between"
+                >
+                  <div>
+                    <div className="font-playfair text-[18px] font-medium text-ink">
+                      Digital Vision Board Builder
+                    </div>
+                    <div className="font-sans text-[12px] text-muted">
+                      Upload photos + cursive affirmations
+                    </div>
+                  </div>
+                  <span className="text-maroon font-bold">→</span>
+                </button>
+              </div>
+
+              <div className="rounded-[24px] bg-beige-card border border-beige-border p-[24px] flex flex-col gap-[12px]">
+                <span className="font-inter text-[11px] font-bold uppercase tracking-[0.18em] text-maroon">
+                  Monthly Support Included
+                </span>
+                <h3 className="m-0 font-playfair text-[21px] font-medium text-ink">
+                  1-to-1 Support &amp; Follow-up
+                </h3>
+                <p className="m-0 font-cormorant text-[18px] leading-[1.45] text-body">
+                  Have a question while practising your tools this week, or wish
+                  to schedule your next call?
+                </p>
+                <a
+                  href={getEmailHref(`Seeker Support — ${seekerName}`)}
+                  className="btn-3d-maroon inline-flex min-h-[46px] items-center justify-center rounded-full px-[20px] py-[11px] font-inter text-[13px] font-semibold text-white no-underline text-center"
+                >
+                  Email Ambika ({EMAIL})
+                </a>
+              </div>
             </div>
           </div>
         </div>
       )}
 
       {/* ============================================================
-          TAB 2: SAVE NOTES & EXPERIMENT JOURNAL
+          TAB 2: GUIDED AUDIO MEDITATION & BREATHWORK PLAYER (SESSION 4)
+          ============================================================ */}
+      {activeTab === "meditation" && <MeditationAndBreathwork />}
+
+      {/* ============================================================
+          TAB 3: INTERACTIVE DIGITAL VISION BOARD BUILDER (SESSION 5)
+          ============================================================ */}
+      {activeTab === "vision" && (
+        <VisionBoardBuilder
+          seekerName={seekerName}
+          onExportPdf={openPrintablePdfWindow}
+        />
+      )}
+
+      {/* ============================================================
+          TAB 4: SAVE NOTES & EXPERIMENT JOURNAL
           ============================================================ */}
       {activeTab === "notes" && (
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-[24px] items-start">
@@ -1057,9 +1187,19 @@ export function SeekerPortal() {
               />
             </label>
 
+            <label className="flex items-center gap-[10px] font-sans text-[13px] text-ink cursor-pointer">
+              <input
+                type="checkbox"
+                checked={shareNoteWithAmbika}
+                onChange={(e) => setShareNoteWithAmbika(e.target.checked)}
+                className="h-[18px] w-[18px] accent-[#8E1B25]"
+              />
+              <span>Share this reflection with Ambika in Coach Admin</span>
+            </label>
+
             {noteSavedToast && (
               <span className="text-[13px] font-semibold text-maroon">
-                ✓ Saved to your private Seeker Journal!
+                ✓ Saved to your Seeker Journal!
               </span>
             )}
 
@@ -1079,7 +1219,7 @@ export function SeekerPortal() {
                   Your Saved Reflections ({notes.length})
                 </h3>
                 <span className="font-cormorant text-[18px] italic text-body">
-                  Stored privately in your browser · Export anytime as PDF
+                  Stored in your portal · Export anytime as PDF
                 </span>
               </div>
               <button
@@ -1097,9 +1237,16 @@ export function SeekerPortal() {
                 className="rounded-[22px] bg-white border border-beige-border p-[22px] sm:p-[26px] shadow-sm flex flex-col gap-[10px]"
               >
                 <div className="flex items-center justify-between gap-[10px]">
-                  <span className="rounded-full bg-lavender px-[12px] py-[4px] font-inter text-[11px] font-bold uppercase tracking-[0.14em] text-lavender-deep">
-                    {n.sessionTag} · {n.createdAt}
-                  </span>
+                  <div className="flex flex-wrap items-center gap-[8px]">
+                    <span className="rounded-full bg-lavender px-[12px] py-[4px] font-inter text-[11px] font-bold uppercase tracking-[0.14em] text-lavender-deep">
+                      {n.sessionTag} · {n.createdAt}
+                    </span>
+                    {n.sharedWithAmbika && (
+                      <span className="rounded-full bg-gold/25 px-[10px] py-[3px] font-sans text-[10px] font-bold text-ink">
+                        Shared with Ambika
+                      </span>
+                    )}
+                  </div>
                   <button
                     type="button"
                     onClick={() => handleDeleteNote(n.id)}
