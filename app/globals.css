@@ -126,3 +126,134 @@ select:focus-visible {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+/* Native App Frosted-Glass Bottom Dock */
+.app-dock-glass {
+  background: rgba(251, 245, 238, 0.92);
+  border: 1px solid rgba(216, 181, 106, 0.42);
+  box-shadow:
+    0 14px 38px -6px rgba(30, 10, 13, 0.22),
+    0 4px 12px -2px rgba(30, 10, 13, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.85);
+}
+
+@supports ((backdrop-filter: blur(20px)) or (-webkit-backdrop-filter: blur(20px))) {
+  .app-dock-glass {
+    background: rgba(251, 245, 238, 0.78);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    backdrop-filter: blur(20px) saturate(160%);
+  }
+}
+
+/* Tactile 3D Button — Maroon (Mobile & Tablet App CTA) */
+.btn-3d-maroon {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(180deg, #9E2430 0%, #7A1C24 100%);
+  box-shadow:
+    0 4px 0 #4A0D13,
+    0 10px 20px -4px rgba(122, 28, 36, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.32);
+  transition:
+    transform 0.14s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.14s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.2s ease;
+}
+
+.btn-3d-maroon:hover {
+  filter: brightness(1.04);
+}
+
+.btn-3d-maroon:active {
+  transform: translateY(3px);
+  box-shadow:
+    0 1px 0 #4A0D13,
+    0 4px 10px -2px rgba(122, 28, 36, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+/* Tactile 3D Button — Gold */
+.btn-3d-gold {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(180deg, #F0CB75 0%, #D8B56A 100%);
+  box-shadow:
+    0 4px 0 #9E7929,
+    0 10px 20px -4px rgba(216, 181, 106, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.65);
+  transition:
+    transform 0.14s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.14s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.2s ease;
+}
+
+.btn-3d-gold:active {
+  transform: translateY(3px);
+  box-shadow:
+    0 1px 0 #9E7929,
+    0 4px 10px -2px rgba(216, 181, 106, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+/* Tactile 3D Scroll-Up Orb */
+.btn-3d-orb {
+  background: linear-gradient(180deg, #4A141B 0%, #1E0A0D 100%);
+  box-shadow:
+    0 4px 0 #120406,
+    0 12px 24px -4px rgba(30, 10, 13, 0.42),
+    inset 0 1px 0 rgba(255, 255, 255, 0.22);
+  transition:
+    transform 0.16s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.16s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.btn-3d-orb:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 6px 0 #120406,
+    0 16px 28px -4px rgba(30, 10, 13, 0.48),
+    inset 0 1px 0 rgba(255, 255, 255, 0.28);
+}
+
+.btn-3d-orb:active {
+  transform: translateY(3px);
+  box-shadow:
+    0 1px 0 #120406,
+    0 5px 12px -2px rgba(30, 10, 13, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+@keyframes goldShimmer {
+  0% {
+    transform: translateX(-120%) skewX(-18deg);
+  }
+  45%,
+  100% {
+    transform: translateX(220%) skewX(-18deg);
+  }
+}
+
+.animate-gold-shimmer::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 45%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 245, 214, 0.32),
+    transparent
+  );
+  animation: goldShimmer 4.5s infinite ease-in-out;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-gold-shimmer::after {
+    animation: none !important;
+    display: none !important;
+  }
+}
+

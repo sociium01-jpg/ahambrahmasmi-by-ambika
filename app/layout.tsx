@@ -10,6 +10,7 @@ import "./globals.css";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { MobileBookingBar } from "@/components/MobileBookingBar";
+import { ScrollToTopButton } from "@/components/ScrollToTopButton";
 
 const dmSerif = DM_Serif_Display({
   subsets: ["latin"],
@@ -102,6 +103,7 @@ export default function RootLayout({
         <div className="flex-1">{children}</div>
         <Footer />
         <MobileBookingBar />
+        <ScrollToTopButton />
       </body>
     </html>
   );

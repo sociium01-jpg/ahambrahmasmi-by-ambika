@@ -21,6 +21,7 @@ yarn-error.log*
 
 # Local env files
 .env*.local
+.env*
 
 # Vercel
 .vercel
@@ -29,5 +30,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-.vercel
-.env*
+# Local Agent Skills
+.agents
+skills-lock.json
