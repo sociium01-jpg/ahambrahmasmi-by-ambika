@@ -4,7 +4,6 @@ import {
   Outfit,
   Playfair_Display,
   Cormorant_Garamond,
-  Great_Vibes,
   Inter,
 } from "next/font/google";
 import "./globals.css";
@@ -38,16 +37,9 @@ const playfair = Playfair_Display({
 
 const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
-  weight: ["500", "600"],
-  style: ["normal", "italic"],
+  weight: ["500"],
+  style: ["italic"],
   variable: "--font-cormorant",
-  display: "swap",
-});
-
-const greatVibes = Great_Vibes({
-  subsets: ["latin"],
-  weight: ["400"],
-  variable: "--font-cursive",
   display: "swap",
 });
 
@@ -104,8 +96,21 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${dmSerif.variable} ${outfit.variable} ${playfair.variable} ${cormorant.variable} ${greatVibes.variable} ${inter.variable}`}
+      className={`${dmSerif.variable} ${outfit.variable} ${playfair.variable} ${cormorant.variable} ${inter.variable}`}
     >
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
+        {/* eslint-disable-next-line @next/next/no-page-custom-font */}
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap"
+        />
+      </head>
       <body className="min-h-screen flex flex-col bg-cream text-ink font-sans antialiased">
         <Navbar />
         <div className="flex-1">{children}</div>

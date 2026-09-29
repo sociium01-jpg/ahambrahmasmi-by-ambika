@@ -30,6 +30,7 @@
   --color-night: #2C1D18;
   --quote-overlay-desktop: rgba(78, 59, 44, 0.44);
   --quote-overlay-mobile: rgba(78, 59, 44, 0.48);
+  --font-cursive: "Great Vibes", var(--font-cormorant), cursive;
 }
 
 html {
