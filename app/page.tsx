@@ -1,13 +1,8 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { WhatsAppIcon } from "@/components/ui/WhatsAppIcon";
 import { InvestmentAndGuidelines } from "@/components/InvestmentAndGuidelines";
-import {
-  COURSE_SESSIONS_LIST,
-  WHATSAPP_NUMBER,
-  getWhatsAppUrl,
-} from "@/lib/site";
+import { COURSE_SESSIONS_LIST, EMAIL, getEmailHref } from "@/lib/site";
 import { getApprovedReviews } from "@/lib/supabase";
 
 const DESKTOP_JOURNEY_CARDS = [
@@ -102,13 +97,9 @@ export default async function HomePage() {
   const isProd = process.env.NODE_ENV === "production";
   const showReviews = !isProd || approvedReviews.length > 0;
 
-  const whatsappGeneralUrl = getWhatsAppUrl(
-    "Hi Ambika, I'm exploring your 5-week 1-to-1 LOA coaching course and would love your guidance."
+  const emailGeneralUrl = getEmailHref(
+    "Enquiry — Ahambrahmasmi 5-Week 1-to-1 LOA Coaching"
   );
-  const displayPhone =
-    WHATSAPP_NUMBER === "91XXXXXXXXXX"
-      ? "+91 [number]"
-      : `+${WHATSAPP_NUMBER.slice(0, 2)} ${WHATSAPP_NUMBER.slice(2)}`;
 
   const firstWritten = approvedReviews.find((r) => r.written_review);
   const secondWritten = approvedReviews.filter((r) => r.written_review)[1];
@@ -185,27 +176,38 @@ export default async function HomePage() {
           Hi, I’m Ambika · fellow seeker
         </div>
 
-        {/* Floating WhatsApp card bottom-right */}
-        <div className="absolute right-[64px] bottom-[56px] z-20 flex w-[340px] flex-col gap-[14px] rounded-[24px] bg-lavender/95 border border-lavender-border p-[28px] shadow-floating-lg backdrop-blur-md">
+        {/* Floating Email card bottom-right */}
+        <div className="absolute right-[64px] bottom-[56px] z-20 flex w-[350px] flex-col gap-[14px] rounded-[24px] bg-lavender/95 border border-lavender-border p-[28px] shadow-floating-lg backdrop-blur-md">
           <span className="font-serif text-[24px] text-ink">
             Questions before you enrol?
           </span>
           <span className="text-[15px] leading-[1.55] text-body">
-            Ask Ambika anything before you book — she replies personally.
+            Write to Ambika before you book — she replies personally via email.
           </span>
           <a
-            href={whatsappGeneralUrl}
-            target="_blank"
-            rel="noopener noreferrer"
+            href={emailGeneralUrl}
             className="flex items-center gap-[14px] text-ink no-underline group"
           >
             <span className="flex h-[48px] w-[48px] shrink-0 items-center justify-center rounded-[14px] bg-maroon text-white group-hover:bg-maroon-dark transition-colors">
-              <WhatsAppIcon size={22} />
+              <svg
+                width="22"
+                height="22"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.9"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+              >
+                <rect x="2" y="4" width="20" height="16" rx="3" />
+                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+              </svg>
             </span>
             <span className="flex flex-col">
-              <span className="text-[13px] text-lavender-deep">WhatsApp</span>
-              <span className="text-[20px] font-semibold text-ink">
-                {displayPhone}
+              <span className="text-[13px] text-lavender-deep">Email</span>
+              <span className="text-[16px] font-semibold text-ink break-all">
+                {EMAIL}
               </span>
             </span>
           </a>
@@ -288,24 +290,35 @@ export default async function HomePage() {
           </div>
         </section>
 
-        {/* Mobile Lavender WhatsApp Card */}
+        {/* Mobile Lavender Email Card */}
         <section className="mx-[16px] mt-[16px] flex items-center gap-[14px] rounded-[22px] bg-lavender border border-lavender-border p-[18px]">
           <span className="flex h-[46px] w-[46px] shrink-0 items-center justify-center rounded-[14px] bg-maroon text-white">
-            <WhatsAppIcon size={20} />
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.9"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <rect x="2" y="4" width="20" height="16" rx="3" />
+              <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+            </svg>
           </span>
           <span className="flex flex-grow flex-col gap-[2px]">
             <span className="text-[15px] font-semibold text-ink">
               Have a question before booking?
             </span>
-            <span className="text-[13px] text-lavender-deep">
-              Message Ambika personally on WhatsApp
+            <span className="text-[13px] text-lavender-deep break-all">
+              Email Ambika at {EMAIL}
             </span>
           </span>
           <a
-            href={whatsappGeneralUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Open WhatsApp chat"
+            href={emailGeneralUrl}
+            aria-label="Send email to Ambika"
             className="flex h-[44px] w-[44px] items-center justify-center text-maroon hover:text-maroon-dark"
           >
             <svg
@@ -730,18 +743,26 @@ export default async function HomePage() {
       )}
 
       {/* ============================================================
-          SECTION 8 — CLOSING CTA
+          SECTION 8 — CLOSING CTA (Serene Mountain Sunrise)
           ============================================================ */}
       {/* Desktop Closing CTA */}
       <section className="hidden lg:block relative mx-[40px] mt-[110px] h-[520px] overflow-hidden rounded-[36px] bg-night animate-fade-up">
         <Image
-          src="/images/cta-diya.jpg"
-          alt="Hands holding a lit diya"
-          width={620}
+          src="/images/cta-mountain.jpg"
+          alt="Serene Himalayan mountain peaks at golden sunrise"
+          width={680}
           height={520}
-          className="absolute right-0 top-0 h-[520px] w-[620px] object-cover"
+          className="absolute right-0 top-0 h-[520px] w-[680px] object-cover"
         />
-        <div className="absolute left-0 top-0 flex h-[520px] w-[900px] flex-col gap-[20px] px-[96px] py-[80px] text-cream box-border">
+        <div
+          aria-hidden="true"
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(90deg, #2C1D18 0%, #2C1D18 48%, rgba(44,29,24,0.18) 100%)",
+          }}
+        />
+        <div className="relative z-10 flex h-[520px] w-[880px] flex-col justify-center gap-[20px] px-[96px] py-[80px] text-cream box-border">
           <span className="font-cursive text-[38px] leading-none text-gold">
             Your journey begins with one step
           </span>
@@ -758,12 +779,10 @@ export default async function HomePage() {
               Book the 5-Week Course · ₹15,000
             </Link>
             <a
-              href={whatsappGeneralUrl}
-              target="_blank"
-              rel="noopener noreferrer"
+              href={emailGeneralUrl}
               className="inline-flex min-h-[54px] items-center justify-center rounded-full border-[1.5px] border-cream px-[28px] py-[17px] font-medium text-cream no-underline hover:bg-cream hover:text-ink transition-colors"
             >
-              Chat on WhatsApp
+              Email Ambika
             </a>
           </div>
         </div>
@@ -772,19 +791,19 @@ export default async function HomePage() {
       {/* Mobile Closing CTA */}
       <section className="lg:hidden relative mx-[12px] mt-[56px] h-[480px] overflow-hidden rounded-[28px] bg-night animate-fade-up">
         <Image
-          src="/images/cta-diya.jpg"
-          alt="Hands holding a lit diya"
+          src="/images/cta-mountain.jpg"
+          alt="Serene Himalayan mountain peaks at golden sunrise"
           width={600}
-          height={240}
-          className="absolute left-0 bottom-0 h-[240px] w-full object-cover"
+          height={260}
+          className="absolute left-0 bottom-0 h-[260px] w-full object-cover"
         />
         <div
-          className="absolute left-0 bottom-0 h-[240px] w-full"
+          className="absolute left-0 bottom-0 h-[260px] w-full"
           style={{
-            background: "linear-gradient(#2C1D18, rgba(44,29,24,0))",
+            background: "linear-gradient(#2C1D18, rgba(44,29,24,0.1))",
           }}
         />
-        <div className="absolute left-0 top-0 flex w-full flex-col gap-[14px] px-[22px] py-[32px] text-cream box-border">
+        <div className="relative z-10 flex w-full flex-col gap-[14px] px-[22px] py-[32px] text-cream box-border">
           <span className="font-cursive text-[30px] leading-none text-gold">
             Begin with one step
           </span>

@@ -126,7 +126,10 @@ export function getWhatsAppUrl(
   return `https://wa.me/${WHATSAPP_NUMBER}?text=${encoded}`;
 }
 
-export function getEmailHref(): string {
+export function getEmailHref(subject?: string): string {
   const target = EMAIL === "[email]" ? LIVE_EMAIL_FALLBACK : EMAIL;
+  if (subject) {
+    return `mailto:${target}?subject=${encodeURIComponent(subject)}`;
+  }
   return `mailto:${target}`;
 }

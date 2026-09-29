@@ -1,235 +1,463 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Logo } from "@/components/ui/Logo";
 import { AnimatedLogo } from "@/components/ui/AnimatedLogo";
 import {
   EMAIL,
+  IMPORTANT_TO_READ,
   INSTAGRAM,
   INSTAGRAM_HANDLE,
-  WHATSAPP_NUMBER,
   getEmailHref,
-  getWhatsAppUrl,
 } from "@/lib/site";
+
+type PopupType = "guidelines" | "privacy" | "accessibility" | null;
 
 export function Footer() {
   const pathname = usePathname();
+  const [activePopup, setActivePopup] = useState<PopupType>(null);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!activePopup) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setActivePopup(null);
+      }
+    };
+
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.body.style.overflow = prevOverflow;
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [activePopup]);
 
   if (pathname?.startsWith("/book")) {
     return null;
   }
 
-  const isCoachingPage = pathname?.startsWith("/coaching");
-  const whatsappHref = getWhatsAppUrl();
   const emailHref = getEmailHref();
-  const displayPhone = `+${WHATSAPP_NUMBER.slice(0, 2)} ${WHATSAPP_NUMBER.slice(2)}`;
 
-  if (isCoachingPage) {
-    return (
+  return (
+    <>
       <footer
         id="contact"
-        className="mt-[80px] lg:mt-[120px] w-full bg-plum-night text-cream"
+        className="mt-[72px] lg:mt-[110px] w-full bg-plum-night text-cream border-t border-gold/20"
       >
-        <div className="mx-auto max-w-[1440px] px-[16px] pt-[56px] pb-[120px] lg:px-[80px] lg:py-[80px]">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-[36px] lg:gap-[48px]">
-            {/* Col 1: Brand + Animated Logo */}
+        <div className="mx-auto max-w-[1440px] px-[20px] pt-[56px] pb-[128px] lg:px-[80px] lg:pt-[76px] lg:pb-[48px]">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-[36px] lg:gap-[44px]">
+            {/* Column 1: Brand + Animated Logo */}
             <div className="lg:col-span-4 flex flex-col items-start gap-[16px]">
               <Link
                 href="/"
-                className="inline-flex items-center gap-[14px] no-underline"
+                className="inline-flex items-center gap-[14px] no-underline group"
               >
-                <span className="flex h-[56px] w-[56px] items-center justify-center overflow-hidden rounded-full bg-white">
-                  <AnimatedLogo variant="circle" size={56} />
+                <span className="flex h-[62px] w-[62px] shrink-0 items-center justify-center overflow-hidden rounded-full border-2 border-gold/60 bg-white shadow-md">
+                  <AnimatedLogo variant="circle" size={58} />
                 </span>
                 <span className="flex flex-col">
-                  <span className="font-playfair text-[24px] text-white">
+                  <span className="font-playfair text-[24px] text-white group-hover:text-gold transition-colors">
                     Ahambrahmasmi
                   </span>
-                  <span className="font-cormorant text-[18px] italic text-gold">
+                  <span className="font-cursive text-[24px] leading-tight text-gold">
                     by Ambika · A journey of self discovery
                   </span>
                 </span>
               </Link>
-              <p className="m-0 font-inter text-[14px] font-light leading-[1.65] text-white/75 max-w-[320px]">
-                Intimate, one-to-one Law of Attraction coaching. Everything
-                happens in perfect Divine timing.
+              <p className="m-0 font-inter text-[14px] font-light leading-[1.7] text-white/75 max-w-[340px]">
+                Intimate, one-to-one Law of Attraction coaching with Ambika
+                Mohan. One path. Paid in full. One to one. Everything happens in
+                perfect Divine timing.
               </p>
             </div>
 
-            {/* Col 2: Explore */}
+            {/* Column 2: Menu Links */}
             <div className="lg:col-span-3 flex flex-col gap-[10px]">
               <span className="font-inter text-[11px] font-bold uppercase tracking-[0.22em] text-gold">
-                Explore
+                Menu Links
               </span>
               <Link
                 href="/"
-                className="font-inter text-[14px] text-white/80 hover:text-gold no-underline py-[2px]"
+                className="font-inter text-[14px] text-white/80 hover:text-gold no-underline py-[2px] transition-colors"
               >
                 Home
               </Link>
               <Link
                 href="/about"
-                className="font-inter text-[14px] text-white/80 hover:text-gold no-underline py-[2px]"
+                className="font-inter text-[14px] text-white/80 hover:text-gold no-underline py-[2px] transition-colors"
               >
                 About Ambika
               </Link>
               <Link
-                href="/coaching"
-                className="font-inter text-[14px] text-white/80 hover:text-gold no-underline py-[2px]"
-              >
-                1:1 Coaching
-              </Link>
-              <Link
-                href="/reviews"
-                className="font-inter text-[14px] text-white/80 hover:text-gold no-underline py-[2px]"
-              >
-                Seekers’ words
-              </Link>
-            </div>
-
-            {/* Col 3: Programme */}
-            <div className="lg:col-span-3 flex flex-col gap-[10px]">
-              <span className="font-inter text-[11px] font-bold uppercase tracking-[0.22em] text-gold">
-                The Programme
-              </span>
-              <Link
-                href="/book"
-                className="font-inter text-[14px] text-white/80 hover:text-gold no-underline py-[2px]"
-              >
-                The 5-Week Course · Rs. 15,000/-
-              </Link>
-              <Link
                 href="/course"
-                className="font-inter text-[14px] text-white/80 hover:text-gold no-underline py-[2px]"
+                className="font-inter text-[14px] text-white/80 hover:text-gold no-underline py-[2px] transition-colors"
               >
-                Sessions 1–5 Curriculum
+                The 5-Week Course
+              </Link>
+              <Link
+                href="/coaching"
+                className="font-inter text-[14px] text-white/80 hover:text-gold no-underline py-[2px] transition-colors"
+              >
+                1-to-1 Coaching
               </Link>
               <Link
                 href="/investment"
-                className="font-inter text-[14px] text-white/80 hover:text-gold no-underline py-[2px]"
+                className="font-inter text-[14px] text-white/80 hover:text-gold no-underline py-[2px] transition-colors"
               >
-                Investment &amp; Important to Read
+                Investment (Rs. 15,000/-)
+              </Link>
+              <Link
+                href="/reviews"
+                className="font-inter text-[14px] text-white/80 hover:text-gold no-underline py-[2px] transition-colors"
+              >
+                Seekers’ Words (Reviews)
               </Link>
               <Link
                 href="/space"
-                className="font-inter text-[14px] text-white/80 hover:text-gold no-underline py-[2px]"
+                className="font-inter text-[14px] text-white/80 hover:text-gold no-underline py-[2px] transition-colors"
               >
-                Seeker login
+                Seeker / Student Login
+              </Link>
+              <Link
+                href="/book"
+                className="font-inter text-[14px] font-medium text-gold hover:underline no-underline py-[2px]"
+              >
+                Book the Course →
               </Link>
             </div>
 
-            {/* Col 4: Direct Contact */}
-            <div className="lg:col-span-2 flex flex-col gap-[10px]">
+            {/* Column 3: Guidelines, Privacy Policy & Accessibility (All Popup & Close Format) */}
+            <div className="lg:col-span-2 flex flex-col items-start gap-[10px]">
               <span className="font-inter text-[11px] font-bold uppercase tracking-[0.22em] text-gold">
-                Connect
+                Policies &amp; Info
+              </span>
+              <button
+                type="button"
+                onClick={() => setActivePopup("guidelines")}
+                className="bg-transparent border-0 p-0 py-[2px] text-left font-inter text-[14px] text-white/80 hover:text-gold cursor-pointer transition-colors"
+              >
+                Guidelines (Important to read)
+              </button>
+              <button
+                type="button"
+                onClick={() => setActivePopup("privacy")}
+                className="bg-transparent border-0 p-0 py-[2px] text-left font-inter text-[14px] text-white/80 hover:text-gold cursor-pointer transition-colors"
+              >
+                Privacy Policy
+              </button>
+              <button
+                type="button"
+                onClick={() => setActivePopup("accessibility")}
+                className="bg-transparent border-0 p-0 py-[2px] text-left font-inter text-[14px] text-white/80 hover:text-gold cursor-pointer transition-colors"
+              >
+                Accessibility
+              </button>
+            </div>
+
+            {/* Column 4: Contact Details (Email Only — No WhatsApp Number) */}
+            <div className="lg:col-span-3 flex flex-col gap-[12px]">
+              <span className="font-inter text-[11px] font-bold uppercase tracking-[0.22em] text-gold">
+                Contact Details
               </span>
               <a
-                href={whatsappHref}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="font-inter text-[14px] text-white/80 hover:text-gold no-underline py-[2px]"
+                href={emailHref}
+                className="inline-flex items-center gap-[10px] font-inter text-[14px] text-white/85 hover:text-gold no-underline py-[2px] break-all transition-colors"
               >
-                WhatsApp ({displayPhone})
+                <span className="flex h-[32px] w-[32px] shrink-0 items-center justify-center rounded-full bg-white/10 text-gold">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.9"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    aria-hidden="true"
+                  >
+                    <rect x="2" y="4" width="20" height="16" rx="3" />
+                    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+                  </svg>
+                </span>
+                <span>{EMAIL}</span>
               </a>
+
               <a
                 href={INSTAGRAM}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-inter text-[14px] text-white/80 hover:text-gold no-underline py-[2px]"
+                className="inline-flex items-center gap-[10px] font-inter text-[14px] text-white/85 hover:text-gold no-underline py-[2px] transition-colors"
               >
-                {INSTAGRAM_HANDLE}
+                <span className="flex h-[32px] w-[32px] shrink-0 items-center justify-center rounded-full bg-white/10 text-gold">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.9"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    aria-hidden="true"
+                  >
+                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+                  </svg>
+                </span>
+                <span>{INSTAGRAM_HANDLE}</span>
               </a>
-              <a
-                href={emailHref}
-                className="font-inter text-[14px] text-white/80 hover:text-gold no-underline py-[2px] break-all"
-              >
-                {EMAIL}
-              </a>
+
+              <span className="font-inter text-[13px] text-white/60 pt-[4px]">
+                1-to-1 Online Coaching · Worldwide
+              </span>
             </div>
+          </div>
+
+          {/* Bottom Bar: Copyright & Sociium Credit */}
+          <div className="mt-[44px] border-t border-white/15 pt-[24px] flex flex-col sm:flex-row items-center justify-between gap-[12px] text-center sm:text-left">
+            <span className="font-inter text-[13px] text-white/65">
+              © 2026 Ahambrahmasmi by Ambika. All rights reserved.
+            </span>
+            <span className="font-inter text-[13px] font-medium tracking-[0.04em] text-gold">
+              Designed and Developed Sociium. 2026
+            </span>
           </div>
         </div>
       </footer>
-    );
-  }
 
-  return (
-    <footer id="contact" className="mx-auto w-full max-w-[1440px]">
-      {/* Desktop Footer (with resized animated logo) */}
-      <div className="hidden lg:flex items-center justify-between px-[80px] py-[64px]">
-        <Logo variant="footer-desktop" href="/" />
-        <div className="flex items-center gap-[32px] text-[15px]">
-          <a
-            href={INSTAGRAM}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="min-h-[44px] inline-flex items-center text-maroon hover:text-maroon-dark no-underline"
+      {/* ============================================================
+          GLASS TRANSLUCENT POPUP MODALS (GUIDELINES, PRIVACY POLICY, ACCESSIBILITY)
+          ============================================================ */}
+      {mounted &&
+        activePopup &&
+        createPortal(
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="footer-popup-title"
+            className="fixed inset-0 z-[120] flex items-center justify-center p-[12px] sm:p-[24px] lg:p-[40px] animate-fade-up"
           >
-            {INSTAGRAM_HANDLE}
-          </a>
-          <a
-            href={whatsappHref}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="min-h-[44px] inline-flex items-center text-maroon hover:text-maroon-dark no-underline"
-          >
-            WhatsApp
-          </a>
-          <a
-            href={emailHref}
-            className="min-h-[44px] inline-flex items-center text-maroon hover:text-maroon-dark no-underline"
-          >
-            {EMAIL}
-          </a>
-          <Link
-            href="/reviews"
-            className="min-h-[44px] inline-flex items-center text-maroon hover:text-maroon-dark no-underline"
-          >
-            Reviews
-          </Link>
-        </div>
-      </div>
+            {/* Translucent Frosted Backdrop */}
+            <div
+              onClick={() => setActivePopup(null)}
+              aria-hidden="true"
+              className="fixed inset-0 bg-[#2C1D28]/55 backdrop-blur-md transition-opacity"
+            />
 
-      {/* Mobile Footer (with resized animated logo + tagline) */}
-      <div className="flex lg:hidden flex-col items-center gap-[16px] px-[16px] pt-[40px] pb-[120px] text-center">
-        <Link href="/" aria-label="Ahambrahmasmi home" className="inline-block">
-          <AnimatedLogo variant="full" size={140} />
-        </Link>
-        <span className="text-[14px] text-muted">
-          Everything happens in perfect Divine timing.
-        </span>
-        <div className="flex flex-wrap justify-center gap-[20px] text-[14px]">
-          <a
-            href={INSTAGRAM}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="min-h-[44px] inline-flex items-center text-maroon hover:text-maroon-dark no-underline"
-          >
-            Instagram
-          </a>
-          <a
-            href={whatsappHref}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="min-h-[44px] inline-flex items-center text-maroon hover:text-maroon-dark no-underline"
-          >
-            WhatsApp
-          </a>
-          <a
-            href={emailHref}
-            className="min-h-[44px] inline-flex items-center text-maroon hover:text-maroon-dark no-underline"
-          >
-            Email
-          </a>
-          <Link
-            href="/reviews"
-            className="min-h-[44px] inline-flex items-center text-maroon hover:text-maroon-dark no-underline"
-          >
-            Reviews
-          </Link>
-        </div>
-      </div>
-    </footer>
+            {/* Glass Translucent Double-Frame Card */}
+            <div className="relative z-10 w-full max-w-[840px] max-h-[90vh] overflow-y-auto rounded-[28px] sm:rounded-[34px] border-[2px] border-white/80 bg-gradient-to-br from-[#FBF5EE]/90 via-[#F7F2FA]/88 to-[#F3E3C8]/88 p-[22px] sm:p-[42px] lg:p-[54px] shadow-[0_32px_90px_rgba(44,29,40,0.42),inset_0_1px_2px_rgba(255,255,255,0.95)] backdrop-blur-2xl">
+              {/* Inner Sacred Gold & Lavender Frame Line */}
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-[8px] sm:inset-[10px] rounded-[22px] sm:rounded-[26px] border border-[#846B96]/55 shadow-[inset_0_0_0_3px_rgba(255,255,255,0.45),inset_0_0_0_4px_rgba(191,175,117,0.65)]"
+              />
+
+              {/* Top-Right Translucent Glass Close Button */}
+              <button
+                type="button"
+                onClick={() => setActivePopup(null)}
+                aria-label="Close popup"
+                className="sticky top-[4px] float-right z-20 flex h-[42px] w-[42px] items-center justify-center rounded-full border border-white/90 bg-white/80 text-ink shadow-md backdrop-blur-md hover:bg-maroon hover:text-white cursor-pointer transition-colors"
+              >
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
+                >
+                  <line x1="18" y1="6" x2="6" y2="18" />
+                  <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+              </button>
+
+              {/* Header */}
+              <div className="relative z-10 flex flex-col items-center text-center clear-both sm:clear-none">
+                <div className="mb-[10px] flex h-[64px] w-[64px] items-center justify-center overflow-hidden rounded-full border border-white/90 bg-white/90 shadow-sm">
+                  <AnimatedLogo variant="circle" size={60} />
+                </div>
+
+                <p className="m-0 font-cursive text-[28px] sm:text-[34px] leading-[1.15] text-lavender-deep">
+                  A journey of self discovery
+                </p>
+
+                <span className="mt-[10px] font-inter text-[11px] sm:text-[12px] font-semibold uppercase tracking-[0.22em] text-lavender-deep">
+                  {activePopup === "guidelines"
+                    ? IMPORTANT_TO_READ.eyebrow
+                    : activePopup === "privacy"
+                    ? "AHAMBRAHMASMI BY AMBIKA · PRIVACY"
+                    : "AHAMBRAHMASMI BY AMBIKA · INCLUSIVITY"}
+                </span>
+
+                <h2
+                  id="footer-popup-title"
+                  className="m-0 mt-[4px] font-playfair text-[32px] sm:text-[42px] lg:text-[46px] font-medium leading-[1.1] text-maroon"
+                >
+                  {activePopup === "guidelines"
+                    ? IMPORTANT_TO_READ.title
+                    : activePopup === "privacy"
+                    ? "Privacy Policy"
+                    : "Accessibility Statement"}
+                </h2>
+
+                <div
+                  aria-hidden="true"
+                  className="mt-[12px] h-[1.5px] w-[200px] sm:w-[260px] bg-[#C8B87A]"
+                />
+              </div>
+
+              {/* Content for Guidelines */}
+              {activePopup === "guidelines" && (
+                <div className="relative z-10 mx-auto mt-[22px] sm:mt-[28px] max-w-[720px] flex flex-col gap-[18px]">
+                  <p className="m-0 font-cormorant text-[20px] sm:text-[23px] font-medium leading-[1.5] text-ink">
+                    {IMPORTANT_TO_READ.intro}
+                  </p>
+
+                  <ul className="m-0 flex flex-col gap-[14px] sm:gap-[16px] rounded-[22px] border border-white/85 bg-white/65 p-[20px] sm:p-[28px] pl-[20px] sm:pl-[28px] list-none shadow-[0_12px_32px_rgba(104,79,122,0.08),inset_0_1px_1px_rgba(255,255,255,0.9)] backdrop-blur-xl">
+                    {IMPORTANT_TO_READ.bullets.map((bullet) => (
+                      <li
+                        key={bullet}
+                        className="flex items-start gap-[14px] font-cormorant text-[19px] sm:text-[22px] font-medium leading-[1.48] text-ink"
+                      >
+                        <span
+                          aria-hidden="true"
+                          className="mt-[10px] h-[6px] w-[6px] shrink-0 rounded-full bg-maroon"
+                        />
+                        <span>{bullet}</span>
+                      </li>
+                    ))}
+                  </ul>
+
+                  <p className="m-0 pt-[4px] font-cormorant text-[19px] sm:text-[22px] italic leading-[1.5] text-lavender-deep">
+                    {IMPORTANT_TO_READ.closing}
+                  </p>
+                </div>
+              )}
+
+              {/* Content for Privacy Policy */}
+              {activePopup === "privacy" && (
+                <div className="relative z-10 mx-auto mt-[22px] sm:mt-[28px] max-w-[720px] flex flex-col gap-[16px]">
+                  <div className="rounded-[22px] border border-white/85 bg-white/65 p-[22px] sm:p-[30px] flex flex-col gap-[14px] font-cormorant text-[19px] sm:text-[21px] leading-[1.55] text-ink backdrop-blur-xl">
+                    <p className="m-0">
+                      <strong>1. Sacred Confidentiality:</strong> Every
+                      one-to-one coaching conversation, personal reflection, and
+                      life circumstance shared with Ambika Mohan during your
+                      5-week journey is held in strict, sacred confidence.
+                    </p>
+                    <p className="m-0">
+                      <strong>2. Information We Collect:</strong> When you enrol
+                      in the 5-week course or submit a review, we collect only
+                      the details needed to coordinate your 1-to-1 sessions —
+                      your name, email address, contact number, and preferred
+                      session time slot.
+                    </p>
+                    <p className="m-0">
+                      <strong>3. Secure Payments:</strong> All course fee
+                      payments (`Rs. 15,000/-`) are processed securely through{" "}
+                      <strong>Razorpay</strong> using encrypted UPI, card, or
+                      netbanking channels. We never store your card numbers or
+                      banking credentials on our servers.
+                    </p>
+                    <p className="m-0">
+                      <strong>4. Seekers’ Reviews &amp; Notes:</strong> Reviews
+                      submitted on the site or inside the Seeker Portal are
+                      published only after approval. Personal notes saved in
+                      your Seeker Portal remain private to your browser/account.
+                    </p>
+                    <p className="m-0">
+                      <strong>5. Contact for Privacy Requests:</strong> For any
+                      questions or data deletion requests, please write directly
+                      to{" "}
+                      <a
+                        href={emailHref}
+                        className="text-maroon underline font-semibold"
+                      >
+                        {EMAIL}
+                      </a>
+                      .
+                    </p>
+                  </div>
+                </div>
+              )}
+
+              {/* Content for Accessibility */}
+              {activePopup === "accessibility" && (
+                <div className="relative z-10 mx-auto mt-[22px] sm:mt-[28px] max-w-[720px] flex flex-col gap-[16px]">
+                  <div className="rounded-[22px] border border-white/85 bg-white/65 p-[22px] sm:p-[30px] flex flex-col gap-[14px] font-cormorant text-[19px] sm:text-[21px] leading-[1.55] text-ink backdrop-blur-xl">
+                    <p className="m-0">
+                      <strong>Our Commitment:</strong> Ahambrahmasmi by Ambika
+                      is committed to ensuring our digital sanctuary is
+                      welcoming, readable, and accessible to every seeker across
+                      desktop, tablet, and mobile devices.
+                    </p>
+                    <p className="m-0">
+                      <strong>Visual Contrast &amp; Typography:</strong> We use
+                      high-contrast Warm Dark Beige (`#4E3B2C`) and Deep Maroon
+                      (`#8E1B25`) typography over soft cream, warm beige, and
+                      gentle lavender surfaces, meeting WCAG AA/AAA readability
+                      standards.
+                    </p>
+                    <p className="m-0">
+                      <strong>Keyboard &amp; Screen Reader Support:</strong> All
+                      interactive buttons, popups, course accordions, and
+                      booking steps support keyboard navigation (`Tab`, `Enter`,
+                      `Escape` to close dialogs), semantic landmarks, and
+                      minimum `48px` touch targets on mobile.
+                    </p>
+                    <p className="m-0">
+                      <strong>Reduced Motion:</strong> Animations and 3D card
+                      transitions automatically respect your device’s{" "}
+                      <code>prefers-reduced-motion</code> setting.
+                    </p>
+                    <p className="m-0">
+                      <strong>Need Assistance?</strong> If you experience any
+                      difficulty accessing course materials or booking your
+                      1-to-1 path, please email{" "}
+                      <a
+                        href={emailHref}
+                        className="text-maroon underline font-semibold"
+                      >
+                        {EMAIL}
+                      </a>{" "}
+                      and we will assist you personally.
+                    </p>
+                  </div>
+                </div>
+              )}
+
+              {/* Footer */}
+              <div className="relative z-10 mt-[24px] flex flex-col sm:flex-row items-center justify-between gap-[14px] border-t border-[#C8B87A]/40 pt-[18px]">
+                <span className="font-cormorant text-[19px] italic text-muted">
+                  Aham Brahmasmi · by Ambika
+                </span>
+                <button
+                  type="button"
+                  onClick={() => setActivePopup(null)}
+                  className="btn-3d-maroon inline-flex min-h-[46px] items-center justify-center rounded-full px-[28px] py-[11px] font-inter text-[14px] font-semibold text-white cursor-pointer"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>,
+          document.body
+        )}
+    </>
   );
 }

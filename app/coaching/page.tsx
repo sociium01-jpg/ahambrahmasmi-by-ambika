@@ -5,7 +5,6 @@ import Link from "next/link";
 import { GlassCard, GlassPill } from "@/components/ui/Glass";
 import { CoachingFaq } from "@/components/CoachingFaq";
 import { InvestmentAndGuidelines } from "@/components/InvestmentAndGuidelines";
-import { getWhatsAppUrl } from "@/lib/site";
 import { getApprovedReviews } from "@/lib/supabase";
 
 export const metadata: Metadata = {
@@ -81,10 +80,6 @@ export default async function CoachingPage() {
 
   const firstWritten = approvedReviews.find((r) => r.written_review);
   const secondWritten = approvedReviews.filter((r) => r.written_review)[1];
-
-  const whatsappGeneralUrl = getWhatsAppUrl(
-    "Hi Ambika, I'm exploring your 5-week 1:1 Law of Attraction Coaching programme and have a question."
-  );
 
   return (
     <main className="mx-auto w-full max-w-[1440px] overflow-x-hidden">
@@ -471,17 +466,25 @@ export default async function CoachingPage() {
       )}
 
       {/* ============================================================
-          SECTION 9 — DIYA CLOSING CTA
+          SECTION 9 — MOUNTAIN SUNRISE CLOSING CTA
           ============================================================ */}
       <section className="hidden lg:block relative mx-[40px] mt-[110px] h-[520px] overflow-hidden rounded-[36px] bg-night animate-fade-up">
         <Image
-          src="/images/cta-diya.jpg"
-          alt="Hands holding a lit diya"
-          width={620}
+          src="/images/cta-mountain.jpg"
+          alt="Serene Himalayan mountain peaks at golden sunrise"
+          width={680}
           height={520}
-          className="absolute right-0 top-0 h-[520px] w-[620px] object-cover"
+          className="absolute right-0 top-0 h-[520px] w-[680px] object-cover"
         />
-        <div className="absolute left-0 top-0 flex h-[520px] w-[900px] flex-col gap-[20px] px-[96px] py-[80px] text-cream box-border">
+        <div
+          aria-hidden="true"
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(90deg, #2C1D18 0%, #2C1D18 48%, rgba(44,29,24,0.18) 100%)",
+          }}
+        />
+        <div className="relative z-10 flex h-[520px] w-[880px] flex-col justify-center gap-[20px] px-[96px] py-[80px] text-cream box-border">
           <span className="font-cursive text-[38px] leading-none text-gold">
             Your journey begins with one step
           </span>
@@ -498,12 +501,10 @@ export default async function CoachingPage() {
               Book the 5-Week Course · ₹15,000
             </Link>
             <a
-              href={whatsappGeneralUrl}
-              target="_blank"
-              rel="noopener noreferrer"
+              href="mailto:ambikamohan59@gmail.com"
               className="inline-flex min-h-[54px] items-center justify-center rounded-full border-[1.5px] border-cream px-[28px] py-[17px] font-inter text-[13px] font-semibold uppercase tracking-[0.18em] text-cream no-underline hover:bg-cream hover:text-ink transition-colors"
             >
-              Chat on WhatsApp
+              Email Ambika
             </a>
           </div>
         </div>
@@ -511,19 +512,19 @@ export default async function CoachingPage() {
 
       <section className="lg:hidden relative mx-[12px] mt-[56px] h-[480px] overflow-hidden rounded-[28px] bg-night animate-fade-up">
         <Image
-          src="/images/cta-diya.jpg"
-          alt="Hands holding a lit diya"
+          src="/images/cta-mountain.jpg"
+          alt="Serene Himalayan mountain peaks at golden sunrise"
           width={600}
-          height={240}
-          className="absolute left-0 bottom-0 h-[240px] w-full object-cover"
+          height={260}
+          className="absolute left-0 bottom-0 h-[260px] w-full object-cover"
         />
         <div
-          className="absolute left-0 bottom-0 h-[240px] w-full"
+          className="absolute left-0 bottom-0 h-[260px] w-full"
           style={{
-            background: "linear-gradient(#2C1D18, rgba(44,29,24,0))",
+            background: "linear-gradient(#2C1D18, rgba(44,29,24,0.1))",
           }}
         />
-        <div className="absolute left-0 top-0 flex w-full flex-col gap-[14px] px-[22px] py-[32px] text-cream box-border">
+        <div className="relative z-10 flex w-full flex-col gap-[14px] px-[22px] py-[32px] text-cream box-border">
           <span className="font-cursive text-[30px] leading-none text-gold">
             Begin with one step
           </span>

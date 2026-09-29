@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { Eyebrow } from "@/components/ui/Eyebrow";
-import { getWhatsAppUrl } from "@/lib/site";
+import { getEmailHref } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "About me & Intention with seekers",
@@ -39,8 +39,8 @@ const SIX_OUTCOMES = [
 ];
 
 export default function AboutPage() {
-  const whatsappUrl = getWhatsAppUrl(
-    "Hi Ambika, I just read your story on Ahambrahmasmi and would love to connect."
+  const emailUrl = getEmailHref(
+    "Connecting after reading your story — Ahambrahmasmi"
   );
 
   return (
@@ -265,12 +265,10 @@ export default function AboutPage() {
               Book your path · ₹15,000
             </Link>
             <a
-              href={whatsappUrl}
-              target="_blank"
-              rel="noopener noreferrer"
+              href={emailUrl}
               className="inline-flex min-h-[48px] items-center justify-center rounded-full border-[1.5px] border-line bg-cream px-[22px] py-[13px] text-[15px] font-medium text-ink no-underline hover:border-maroon"
             >
-              Chat on WhatsApp
+              Email Ambika
             </a>
           </div>
         </div>

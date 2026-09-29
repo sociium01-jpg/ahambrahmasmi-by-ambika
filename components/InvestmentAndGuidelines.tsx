@@ -1,13 +1,8 @@
 import React from "react";
 import Link from "next/link";
 import { AnimatedLogo } from "@/components/ui/AnimatedLogo";
-import { WhatsAppIcon } from "@/components/ui/WhatsAppIcon";
-import { GuidelinesModal } from "@/components/GuidelinesModal";
-import {
-  COURSE_SESSIONS_LIST,
-  FURTHER_SESSIONS,
-  getWhatsAppUrl,
-} from "@/lib/site";
+import { Course3DCards } from "@/components/Course3DCards";
+import { EMAIL, FURTHER_SESSIONS, getEmailHref } from "@/lib/site";
 
 interface InvestmentAndGuidelinesProps {
   showLogoHeader?: boolean;
@@ -18,18 +13,18 @@ export function InvestmentAndGuidelines({
   showLogoHeader = true,
   compact = false,
 }: InvestmentAndGuidelinesProps) {
-  const whatsappFurtherUrl = getWhatsAppUrl(
-    "Hi Ambika, I'd like to arrange a further 1-to-1 session after the course."
+  const emailFollowUpHref = getEmailHref(
+    "Further 1-to-1 Session After the 5-Week Course"
   );
 
   return (
-    <div className="mx-auto w-full max-w-[960px] flex flex-col">
+    <div className="mx-auto w-full max-w-[1120px] flex flex-col">
       {/* ============================================================
-          INVESTMENT CARD (THE COURSE + FEE + FURTHER SESSIONS + GUIDELINES MODAL BUTTON)
+          INVESTMENT CARD (3D COURSE CARDS + FEE + FURTHER SESSIONS)
           ============================================================ */}
       <section
         aria-labelledby="investment-heading"
-        className={`sacred-double-frame rounded-[24px] lg:rounded-[32px] px-[20px] py-[32px] sm:px-[44px] sm:py-[48px] lg:px-[64px] lg:py-[56px] animate-fade-up ${
+        className={`sacred-double-frame rounded-[24px] lg:rounded-[32px] px-[18px] py-[32px] sm:px-[40px] sm:py-[48px] lg:px-[56px] lg:py-[56px] animate-fade-up ${
           compact ? "mt-0" : ""
         }`}
       >
@@ -67,47 +62,13 @@ export function InvestmentAndGuidelines({
           </p>
         </div>
 
-        {/* Warm Golden Beige Box: "The course" + Guidelines Button */}
-        <div className="mt-[28px] sm:mt-[36px] beige-card-surface rounded-[18px] sm:rounded-[22px] p-[22px] sm:p-[32px] lg:p-[36px]">
-          <div className="flex flex-wrap items-center justify-between gap-[12px]">
-            <h3 className="m-0 font-playfair text-[24px] sm:text-[28px] font-medium text-maroon">
-              The course
-            </h3>
-            <GuidelinesModal
-              buttonLabel="Guidelines"
-              variant="inline"
-            />
-          </div>
-
-          <ul className="m-0 mt-[16px] flex flex-col gap-[10px] sm:gap-[12px] pl-0 list-none">
-            {COURSE_SESSIONS_LIST.map((item) => (
-              <li
-                key={item}
-                className="flex items-start gap-[12px] font-cormorant text-[19px] sm:text-[22px] font-medium leading-[1.4] text-ink"
-              >
-                <span
-                  aria-hidden="true"
-                  className="mt-[9px] h-[6px] w-[6px] shrink-0 rounded-full bg-ink"
-                />
-                <span>{item}</span>
-              </li>
-            ))}
-          </ul>
-
-          <div className="mt-[20px] flex flex-wrap items-center justify-between gap-[12px] border-t border-beige-border/80 pt-[16px]">
-            <span className="font-cormorant text-[18px] sm:text-[19px] italic text-body">
-              5-week one-to-one programme · Please read the programme guidelines
-              before enrolling.
-            </span>
-            <GuidelinesModal
-              buttonLabel="Guidelines · Important to read"
-              variant="pill"
-            />
-          </div>
+        {/* 3D Animated Cards for "The course" + Guidelines Popup Button */}
+        <div className="mt-[28px] sm:mt-[36px]">
+          <Course3DCards />
         </div>
 
         {/* Soft Lavender Box: "Fee" */}
-        <div className="mt-[20px] sm:mt-[26px] lavender-card-surface rounded-[18px] sm:rounded-[22px] p-[22px] sm:p-[32px] lg:p-[36px] flex flex-col lg:flex-row lg:items-center lg:justify-between gap-[22px]">
+        <div className="mt-[24px] sm:mt-[30px] lavender-card-surface rounded-[18px] sm:rounded-[22px] p-[22px] sm:p-[32px] lg:p-[36px] flex flex-col lg:flex-row lg:items-center lg:justify-between gap-[22px]">
           <div className="flex flex-col gap-[8px]">
             <span className="font-playfair text-[22px] sm:text-[26px] font-medium text-maroon">
               Fee
@@ -172,13 +133,24 @@ export function InvestmentAndGuidelines({
               For alumni who have completed the 5-week programme
             </span>
             <a
-              href={whatsappFurtherUrl}
-              target="_blank"
-              rel="noopener noreferrer"
+              href={emailFollowUpHref}
               className="inline-flex min-h-[46px] items-center justify-center gap-[8px] rounded-full border border-maroon/40 bg-white px-[20px] py-[10px] font-inter text-[13px] sm:text-[14px] font-medium text-maroon no-underline hover:bg-maroon hover:text-white transition-colors"
             >
-              <WhatsAppIcon size={16} />
-              <span>Arrange a follow-up session on WhatsApp</span>
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.9"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+              >
+                <rect x="2" y="4" width="20" height="16" rx="3" />
+                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+              </svg>
+              <span>Arrange a follow-up session ({EMAIL})</span>
             </a>
           </div>
         </div>

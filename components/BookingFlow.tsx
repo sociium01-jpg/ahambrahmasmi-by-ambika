@@ -13,7 +13,7 @@ import {
   COURSE_SESSIONS_LIST,
   CallTimeId,
   CourseId,
-  getWhatsAppUrl,
+  getEmailHref,
 } from "@/lib/site";
 
 declare global {
@@ -79,8 +79,8 @@ export function BookingFlow() {
   const slotLabel =
     CALL_TIME_SLOTS.find((s) => s.id === slot)?.label + " (IST)";
 
-  const whatsappHelpUrl = getWhatsAppUrl(
-    `Hi Ambika, I'm on the booking page for "${chosen.name}" (${chosen.priceRsLabel}) and have a quick question.`
+  const whatsappHelpUrl = getEmailHref(
+    `Enquiry — ${chosen.name} (${chosen.priceRsLabel})`
   );
 
   const validateStep2 = (): boolean => {
@@ -379,11 +379,9 @@ export function BookingFlow() {
               <br />
               <a
                 href={whatsappHelpUrl}
-                target="_blank"
-                rel="noopener noreferrer"
                 className="text-gold hover:underline"
               >
-                Ask Ambika on WhatsApp
+                Email Ambika
               </a>
             </span>
           </div>

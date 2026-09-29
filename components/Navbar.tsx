@@ -4,12 +4,12 @@ import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Logo } from "@/components/ui/Logo";
-import { WhatsAppIcon } from "@/components/ui/WhatsAppIcon";
-import { getWhatsAppUrl } from "@/lib/site";
+import { EMAIL, getEmailHref } from "@/lib/site";
 
 const NAV_LINKS = [
   { href: "/", label: "Home" },
   { href: "/about", label: "About" },
+  { href: "/course", label: "The Course" },
   { href: "/coaching", label: "1:1 Coaching" },
   { href: "/reviews", label: "Reviews" },
   { href: "#contact", label: "Contact" },
@@ -52,8 +52,8 @@ export function Navbar() {
   }
 
   const isCoachingPage = pathname?.startsWith("/coaching");
-  const whatsappHref = getWhatsAppUrl(
-    "Hi Ambika, I visited Ahambrahmasmi and have a question before booking."
+  const emailHref = getEmailHref(
+    "Enquiry — Ahambrahmasmi 5-Week 1-to-1 Coaching"
   );
 
   return (
@@ -70,7 +70,7 @@ export function Navbar() {
           <Logo variant="nav" href="/" />
 
           {/* Desktop Links */}
-          <div className="hidden lg:flex items-center gap-[32px] text-[15px]">
+          <div className="hidden lg:flex items-center gap-[26px] text-[15px]">
             {NAV_LINKS.map((link) => {
               const isActive =
                 link.href === "/"
@@ -111,17 +111,29 @@ export function Navbar() {
           {/* Desktop Right Actions */}
           <div className="hidden lg:flex items-center gap-[14px]">
             <a
-              href={whatsappHref}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Chat on WhatsApp"
+              href={emailHref}
+              aria-label={`Email Ambika at ${EMAIL}`}
+              title={EMAIL}
               className="flex h-[48px] w-[48px] items-center justify-center rounded-full border-[1.5px] border-line text-maroon hover:border-maroon hover:text-maroon-dark transition-colors"
             >
-              <WhatsAppIcon size={20} />
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.9"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+              >
+                <rect x="2" y="4" width="20" height="16" rx="3" />
+                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+              </svg>
             </a>
             <Link
               href="/book"
-              className="inline-flex min-h-[48px] items-center justify-center rounded-full bg-maroon px-[26px] py-[14px] text-[15px] font-medium text-white no-underline hover:bg-maroon-dark transition-colors"
+              className="btn-3d-maroon inline-flex min-h-[48px] items-center justify-center rounded-full bg-maroon px-[26px] py-[14px] text-[15px] font-medium text-white no-underline hover:bg-maroon-dark transition-colors"
             >
               Book now
             </Link>
@@ -185,7 +197,7 @@ export function Navbar() {
 
           <nav
             aria-label="Mobile navigation"
-            className="flex flex-col gap-[8px] my-auto py-[24px]"
+            className="flex flex-col gap-[6px] my-auto py-[20px]"
           >
             {NAV_LINKS.map((link) => {
               const isActive =
@@ -201,7 +213,7 @@ export function Navbar() {
                     key={link.href}
                     href={link.href}
                     onClick={() => setDrawerOpen(false)}
-                    className="flex min-h-[52px] items-center border-b border-divider font-serif text-[28px] text-ink no-underline"
+                    className="flex min-h-[48px] items-center border-b border-divider font-serif text-[26px] text-ink no-underline"
                   >
                     {link.label}
                   </a>
@@ -213,7 +225,7 @@ export function Navbar() {
                   key={link.href}
                   href={link.href}
                   onClick={() => setDrawerOpen(false)}
-                  className={`flex min-h-[52px] items-center border-b border-divider font-serif text-[28px] no-underline ${
+                  className={`flex min-h-[48px] items-center border-b border-divider font-serif text-[26px] no-underline ${
                     isActive ? "text-maroon" : "text-ink"
                   }`}
                 >
@@ -227,18 +239,29 @@ export function Navbar() {
             <Link
               href="/book"
               onClick={() => setDrawerOpen(false)}
-              className="flex min-h-[54px] w-full items-center justify-center rounded-full bg-maroon px-[24px] py-[16px] text-center text-[16px] font-medium text-white no-underline hover:bg-maroon-dark"
+              className="btn-3d-maroon flex min-h-[54px] w-full items-center justify-center rounded-full bg-maroon px-[24px] py-[16px] text-center text-[16px] font-medium text-white no-underline hover:bg-maroon-dark"
             >
               Book now
             </Link>
             <a
-              href={whatsappHref}
-              target="_blank"
-              rel="noopener noreferrer"
+              href={emailHref}
               className="flex min-h-[50px] w-full items-center justify-center gap-[10px] rounded-full border-[1.5px] border-line bg-white px-[20px] py-[13px] text-[15px] font-medium text-maroon no-underline"
             >
-              <WhatsAppIcon size={18} />
-              <span>Ask Ambika on WhatsApp</span>
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.9"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+              >
+                <rect x="2" y="4" width="20" height="16" rx="3" />
+                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+              </svg>
+              <span>Email Ambika ({EMAIL})</span>
             </a>
           </div>
         </div>
